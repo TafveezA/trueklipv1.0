@@ -5,6 +5,9 @@ const Product = require('./models/productModel.js')
 
 app.use(express.json())
 
+//setting middleware
+app.use(express.urlencoded({extended:false}))
+
 // routes
 app.get('/', (req,res)=>{
 res.send("Hello Node API")
@@ -22,7 +25,7 @@ const products = await Product.find({})
     
 }
 })
-app.get('products/:id',async(req,res)=>{
+app.get('/products/:id',async(req,res)=>{
     try{
         const {id} = req.params;
         const product = await Product.findById(id)
@@ -46,19 +49,38 @@ app.post('/products',async(req,res) =>{
 })
 
 // update by id
-app.put('products/:id',async(req,res)=>{
+app.put('/products/:id',async(req,res)=>{
     try{
-        const {id} = req.params;
-        const product = await Product.findByIdandUpdate(id,req.body.params)
-        if(product ==nil){
-        res.status(404).json({message:'error in response for findByIdAndUpdate'})
+        const {id} = req.params
+        const product = await Product.findByIdAndUpdate(id,req.body)
+        if(!product){
+        res.status(404).json({message:`can't find any item with give id ${id}`})
         }
+        const updatedProduct = await Product.findById(id)
+        res.status(200).json(updatedProduct)
         }
         catch(error){
         res.status(500).json({message:error.message})
 
     }
 })
+
+//delete product
+app.delete('/products/:id',async(req,res)=>{
+    try{const {id} = req.params
+    const product = await Product.findByIdAndDelete(id,req.body)
+    if(product){
+        res.status(404).json({message:`can't delete the item with given id ${id}`})
+    }
+    const updatedProduct = await Product.findById(id)
+         res.status(200).json({message:`deleted successfully id ${id}`})
+    }catch(error){
+        res.status(500).json({message:error.message})
+    }
+    })
+
+
+
 
 mongoose.set("strictQuery",false)
 mongoose.connect('mongodb+srv://tafveezahmad:z4Y2YeseDNJ1YOR6@cluster0.fqqtjkb.mongodb.net/?retryWrites=true&w=majority').then(
