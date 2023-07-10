@@ -54,7 +54,7 @@ app.put('/products/:id',async(req,res)=>{
         const {id} = req.params
         const product = await Product.findByIdAndUpdate(id,req.body)
         if(!product){
-        res.status(404).json({message:`can't find any item with give id ${id}`})
+       return  res.status(404).json({message:`can't find any item with give id ${id}`})
         }
         const updatedProduct = await Product.findById(id)
         res.status(200).json(updatedProduct)
@@ -69,11 +69,10 @@ app.put('/products/:id',async(req,res)=>{
 app.delete('/products/:id',async(req,res)=>{
     try{const {id} = req.params
     const product = await Product.findByIdAndDelete(id,req.body)
-    if(product){
-        res.status(404).json({message:`can't delete the item with given id ${id}`})
+    if(!product){
+       return  res.status(404).json({message:`can't find the item with given id ${id}`})
     }
-    const updatedProduct = await Product.findById(id)
-         res.status(200).json({message:`deleted successfully id ${id}`})
+     res.status(200).json(product)
     }catch(error){
         res.status(500).json({message:error.message})
     }
