@@ -4,11 +4,12 @@ const dotenv = require('dotenv')
 const morgan = require('morgan')
 const app = express()
 const logger = require('./middleware/logger')
+const connectDB = require('./config/db')
 
-//const Product = require('./models/productModel.js')
 dotenv.config({path:'./config/config.env'})
 const PORT = process.env.PORT ||5000
 const NODE_ENV =process.env.NODE_ENV
+connectDB()
 
 app.use(express.json())
 app.use(logger);
@@ -29,16 +30,14 @@ app.use('/api/v1/products',products)
 
 
 
+const server =app.listen(PORT,
+                console.log(`Node API app is runnning on ${NODE_ENV} enviornment port :${PORT}`)
+)
 
-mongoose.set("strictQuery",false)
-mongoose.connect('mongodb+srv://tafveezahmad:z4Y2YeseDNJ1YOR6@cluster0.fqqtjkb.mongodb.net/?retryWrites=true&w=majority').then(
-    ()=>{
-        console.log('connected to mongodb')
-        app.listen(PORT,()=>{
-            console.log(`Node API app is runnning on ${NODE_ENV} enviornment port :${PORT}`)
-        })
-     
-    }
-).catch((error)=>{
-    console.log(error)
+
+
+//Handle unhandled promise rejections
+process.on('unhandledRejection',(err,promise)=>{
+    console.log(`Error:${err.message}`)
+    server.close(()=>process.exit(1))
 })
