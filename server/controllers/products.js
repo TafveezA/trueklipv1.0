@@ -11,7 +11,7 @@ exports.getProducts = (req,res,next)=>{
 // @route Get /api/v1/products/id
 // @access Public
 exports.getProduct = (req,res,next)=>{
-    res.status(200).json({success:true,msg:`get a product ${req.param}`,hello: req.hello})
+    res.status(200).json({success:true,msg:`get a product ${req.param}`})
 }
 
 // @desc  create  product
