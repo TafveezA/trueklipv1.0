@@ -1,19 +1,29 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
+const morgan = require('morgan')
 const app = express()
-const Product = require('./models/productModel.js')
+const logger = require('./middleware/logger')
+
+//const Product = require('./models/productModel.js')
 dotenv.config({path:'./config/config.env'})
 const PORT = process.env.PORT ||5000
 const NODE_ENV =process.env.NODE_ENV
 
 app.use(express.json())
+app.use(logger);
+
+// morgan logger can be used durinmg development
+if(process.env.NODE_ENV === 'development'){
+    app.use(morgan('dev'))
+}
 
 //setting middleware
 app.use(express.urlencoded({extended:false}))
 
 // route file
 const products = require('./routes/product.js')
+
 // mount routers
 app.use('/api/v1/products',products)
 
