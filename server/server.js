@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
+const errorHandler = require('./middleware/error')
 const app = express()
 const logger = require('./middleware/logger')
 const connectDB = require('./config/db')
@@ -12,7 +13,8 @@ const NODE_ENV =process.env.NODE_ENV
 connectDB()
 
 app.use(express.json())
-app.use(logger);
+app.use(logger)
+app.use(errorHandler)
 
 // morgan logger can be used durinmg development
 if(process.env.NODE_ENV === 'development'){
