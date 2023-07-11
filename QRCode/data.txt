@@ -1,1 +1,1 @@
-reciept data
+"{ "name":"hi", "quantity":3,"price":3,"description":"digitalreciept"}"
