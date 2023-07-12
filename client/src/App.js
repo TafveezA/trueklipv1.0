@@ -1,7 +1,10 @@
-import logo from './logo.svg';
+
 import './App.css';
 import {Html5QrcodeScanner} from "html5-qrcode"
 import{useEffect, useState} from "react";
+import axios from 'axios'
+//import fs from'fs';
+
 
 
 function App() {
@@ -10,8 +13,8 @@ function App() {
   useEffect(() =>{
     const scanner = new Html5QrcodeScanner('reader',{
       qrbox:{
-        width: 250,
-        height:250,
+        width: 400,
+        height:400,
       },
       fps:5,
     })
@@ -25,13 +28,33 @@ function App() {
     }
 
 },[])
+
+function apiCall(data){
+  const jsonData = JSON.parse(data);
+  const apiUrl = 'http://localhost:5000/api/v1/products/'
+  const requestBody = {
+    name: jsonData.name,
+    quantity:jsonData.quantity,
+    price:jsonData.price,
+    description:jsonData.digitalreciept
+  };
+
+  axios.post(apiUrl, requestBody)
+  .then((response) => {
+    console.log('Data successfully inserted into the API:', response.data);
+  })
+  .catch((error) => {
+    console.error('Error inserting data into the API:', error.data);
+  });
+
+}
  
 
   return (
     <div className="App">
      <h1>Klip QR code scanner</h1>
      {scanResult
-     ?<div>success:<a href={"http://"+scanResult}></a></div>
+     ?<div>success:<a href={apiCall(scanResult)}></a></div>
      :<div id ="reader"></div>
      }
     </div>

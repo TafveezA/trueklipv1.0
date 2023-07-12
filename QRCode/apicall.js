@@ -17,7 +17,6 @@ fs.readFile(filePath, 'utf8', (err, data) => {
 
 // API endpoint URL
 const apiUrl = 'http://localhost:5000/api/v1/products/'
-
 // Request body containing the data from the QR code
 const requestBody = {
   name: jsonData.name,

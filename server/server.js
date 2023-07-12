@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
+const cors = require('cors')
 const errorHandler = require('./middleware/error')
 const app = express()
 const logger = require('./middleware/logger')
@@ -15,6 +16,9 @@ connectDB()
 app.use(express.json())
 app.use(logger)
 app.use(errorHandler)
+app.use(cors({
+    origin: 'http://localhost:3000',
+  }));
 
 // morgan logger can be used durinmg development
 if(process.env.NODE_ENV === 'development'){
