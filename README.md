@@ -6,7 +6,6 @@ Try running some of the following tasks:
 
 In the project directory, you can run:
 
-### `cd server`
 ### `npm run dev`
 
 ## useful links:
