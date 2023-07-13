@@ -68,6 +68,14 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Hardhat
+```shell
+npm install --save-dev hardhat
+npm install --save-dev @nomicfoundation/hardhat-toolbox
+npx hardhat compile
+
+
+```
 
 ### Useful Links
 *https://www.npmjs.com/package/html5-qrcode
