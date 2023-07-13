@@ -11,3 +11,5 @@ In the project directory, you can run:
 
 ## useful links:
 * https://nchaulet.github.io/node-geocoder/
+* https://business.mapquest.com/products
+* http://docs.ipfs.tech.ipns.localhost:8080/concepts/ipfs-gateway/#gateway-request-lifecycle
