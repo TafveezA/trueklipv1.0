@@ -78,4 +78,5 @@ npx hardhat compile
 ```
 
 ### Useful Links
-*https://www.npmjs.com/package/html5-qrcode
+* https://www.npmjs.com/package/html5-qrcode
+* http://docs.ipfs.tech.ipns.localhost:8080/quickstart/publish_cli/#cids-explained
