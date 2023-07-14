@@ -1,13 +1,22 @@
 const ErrorResponse = require('../utils/errorResponse')
 const Product = require('../models/productModel.js')
 const asyncHandler = require('../middleware/async')
+const geocoder = require('../utils/geocoder')
 // @desc  get all products
 // @route Get /api/v1/products
 // @access Public
 exports.getProducts = asyncHandler(async(req,res,next)=>{
-    
-            const products = await Product.find({})
-             res.status(200).json(products)
+            let query;
+            let queryStr = JSON.stringify(req.query)
+            queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g,match =>`$${match}`)
+            //console.log(queryStr)
+            query = Product.find(JSON.parse(queryStr))
+            const products = await query
+             res.status(200).json(products).json({
+              success:true,
+              count:products.length,
+              data:products
+             })
             
 })
 
@@ -62,4 +71,23 @@ exports.deleteProduct = asyncHandler(async(req,res,next)=>{
             }
              res.status(200).json(product)
             
+})
+
+// @desc  Get bootcamps within a radius
+// @route GET /api/v1/products/radius/:zipcode/:distance
+// @access Public
+exports.getProductsInRadius = asyncHandler(async(req,res,next)=>{
+  const loc = await geocoder.geocode(zipcode);
+  const lat =loc[0].latitude;
+  const lng = loc[0].longitude;
+  const radius = distance/3963;
+  const products = await Product.find({
+    location:{$geoWithin :{$centerSphere:[[lng,lat],radius]}}
+  })
+  res.status(200).json({
+    success:true,
+    count:products.length,
+    data:products
+  })
+          
 })
