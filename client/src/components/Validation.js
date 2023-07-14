@@ -1,6 +1,6 @@
 import{useEffect, useState} from "react";
 import axios from 'axios'
-import {Html5QrcodeScanner} from "html5-qrcode"
+
 const abiValidation= require( '../abi')
 const Web3 = require("web3");
 const ethers = require("ethers");
@@ -11,39 +11,24 @@ const contractAddressValidation ="0xee48A8762AF6406cB7792D5ef699C9ef555Eef8D"
 
 
 
-function Producer() {
-    const [scanResult,setScanResult]=useState(null)
+function Validation() {
+
     const [klipId, setKlipId] = useState("")
     const [batchNumber, setBatchNumber] = useState("")
     const [mfgDate, setMfgDate] = useState("")
     const [expiryDate, setExpiryDate] = useState("")
     const [description, setDescription] = useState("")
-    const [productAdded, setProductAdded] = useState(false);
+    const [valid, setValid] = useState(false);
     const [kliphash, setKlipHash] = useState("")
     const [arrayData, setArrayData] = useState([]);
    ;
-    const [temp, setTemp] = useState("")
+    
     
     useEffect(() =>{
-      const scanner = new Html5QrcodeScanner('reader',{
-        qrbox:{
-          width: 400,
-          height:400,
-        },
-        fps:5,
-      })
-      scanner.render(success,error);
-      function success(result){
-        scanner.clear()
-        setScanResult(result)
-      }
-      function error(){
-       console.warn(error)
-      }
-
+      
     
       
-  async function addProduct() {
+  async function validateProduct() {
     try {
       if (
         typeof window !== "undefined" &&
@@ -130,36 +115,25 @@ function Producer() {
   
     return (
       <div className="App">
-       <h1>Klip QR Code Scanner</h1>
-       {scanResult
-       ?<div>success:<a href={apiCall(scanResult)}></a></div>
-       :<div id ="reader"></div>
-       }
-       <div>
-        <h1>Testing Blockchain interaction Form</h1>
+      
+       
+        <h1>Validation Logic</h1>
        <form>
        <fieldset>
          <label>
-           <p>Batch Number</p>
+           <p>Valid</p>
            <input name="name" />
          </label>
          <label>
-           <p>MFG Date</p>
+           <p>Invalid</p>
            <input name="name" />
          </label>
-         <label>
-           <p>Expiry Date</p>
-           <input name="name" />
-         </label>
-         <label>
-           <p>Description</p>
-           <input name="name" />
-         </label>
+    
      
        </fieldset>
        <button type="submit">Submit</button>
       </form>
-       </div>
+       
       </div>
 
 
@@ -169,5 +143,5 @@ function Producer() {
     );
   }
   
-  export default Producer;
+  export default Validation;
   

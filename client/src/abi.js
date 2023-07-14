@@ -1460,7 +1460,7 @@ export const ABIEcb = [
 
 export const contractAddressFed = "0xee48A8762AF6406cB7792D5ef699C9ef555Eef8D";
 
-export const ABIFed = [
+export const abiValidation = [
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
