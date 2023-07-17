@@ -73,6 +73,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 npm install --save-dev hardhat
 npm install --save-dev @nomicfoundation/hardhat-toolbox
 npx hardhat compile
+npx hardhat test
 
 
 ```
