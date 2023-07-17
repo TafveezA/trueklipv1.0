@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Producer from './components/Producer';
 import Validation from './components/Validation';
 import IPFS from './components/ipfs';
+import Customer from './components/Customer';
 //import fs from'fs';
 
 
@@ -22,6 +23,7 @@ function App() {
     <Routes>
     <Route path = '/' element ={<Producer />}/>
     <Route path = '/validation' element ={<Validation />}/>
+    <Route path = '/customer' element ={<Customer />}/>
     <Route path = '/ipfs' element ={<IPFS/>}/>
       {/* <Route path = '/branch' element ={<Branch />}/>
       <Route path = '/bankreserve' element ={<BankReserve />}/>
