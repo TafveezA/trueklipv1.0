@@ -9,8 +9,8 @@ const ethers = require("ethers");
 // const dotenv = require('dotenv')
 
 // dotenv.config({path:'../config/config.env'})
-const contractAddress ="0x79588896F2e2Dfa46ed290652513CfDa1aa78bF5"
-const abi= [
+const contractAddress ="0xa055830185C45fCA70A257707d74fC6a3a8e9dA5"
+const abi=[
 	{
 		"inputs": [
 			{
@@ -61,14 +61,28 @@ const abi= [
 				"internalType": "uint256",
 				"name": "_klipId",
 				"type": "uint256"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "_hashed",
-				"type": "bytes32"
 			}
 		],
 		"name": "getHashById",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_klipId",
+				"type": "uint256"
+			}
+		],
+		"name": "Validate",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -106,18 +120,16 @@ const abi= [
 ]
 
 
-
-
 function Validation() {
 
     const [klipId, setKlipId] = useState("")
-    const [batchNumber, setBatchNumber] = useState("")
-    const [mfgDate, setMfgDate] = useState("")
-    const [expiryDate, setExpiryDate] = useState("")
-    const [description, setDescription] = useState("")
+    // const [batchNumber, setBatchNumber] = useState("")
+    // const [mfgDate, setMfgDate] = useState("")
+    // const [expiryDate, setExpiryDate] = useState("")
+    // const [description, setDescription] = useState("")
     const [valid, setValid] = useState(false);
     const [kliphash, setKlipHash] = useState("")
-    const [arrayData, setArrayData] = useState([]);
+    // const [arrayData, setArrayData] = useState([]);
    ;
     
     
@@ -125,6 +137,10 @@ function Validation() {
       
     
       
+  
+  
+  },[])
+
   async function validateProduct() {
     try {
       if (
@@ -144,16 +160,20 @@ function Validation() {
         console.log("MemtaMask Not Installed ");
       }
       const provider = new Web3Provider(window.ethereum);
-      const signer = await provider.getSigner();
+      const signer = await provider.getSigner()
+      console.log(await signer.getAddress())
       const contract = new ethers.Contract(contractAddress, abi);
-      const hash = "xyz"
-      const tx = await contract.connect(signer).hashData(klipId,hash);
-      await tx.wait();
+      const hash = await contract.hashByKlipId(klipId)
+      const result = await contract.Validate(klipId);
+
+      await result.wait();
     
       // const receipt = await provider.getTransactionReceipt(tx.hash);
       // const hash = receipt.logs[0].data;
     
-      console.log("Hash:", tx.success);
+      console.log("Validation Result :", result);
+      setValid(result)
+      setKlipHash(hash)
 
 
      
@@ -162,8 +182,6 @@ function Validation() {
     }
 
   }
-  
-  },[])
 
 
   function apiCall(data){
@@ -196,24 +214,50 @@ function Validation() {
       <div className="App">
       
        
-        <h1>Validation Logic</h1>
+         
+        <h1>Validation from  Blockchain interaction Form</h1>
        <form>
        <fieldset>
-         <label>
-           <p>Valid</p>
-           <input name="name" />
+       <label>
+           <p>KLIP ID</p>
+           <input type="text" value={klipId}
+           onChange={(e)=>setKlipId(e.target.value)} />
+         </label>
+         {/* <label>
+           <p>Batch Number</p>
+           <input type="text" value ={batchNumber} 
+           onChange={(e)=>setBatchNumber(e.target.value)}/>
          </label>
          <label>
-           <p>Invalid</p>
-           <input name="name" />
+           <p>MFG Date</p>
+           <input type="text" value ={mfgDate} 
+           onChange={(e)=>setMfgDate(e.target.value)}/>
          </label>
-    
+         <label>
+           <p>Expiry Date</p>
+           <input type ="text" value ={expiryDate}
+           onChange={(e)=>setExpiryDate(e.target.value)} />
+         </label>
+         <label>
+           <p>warranty</p>
+           <input type="text" value={warranty}
+           onChange={(e)=>setWarranty(e.target.value)} />
+         </label>
+         <label>
+           <p>Description</p>
+           <input type="text" value={description}
+           onChange={(e)=>setDescription(e.target.value)} />
+         </label> */}
      
        </fieldset>
-       <button type="submit">Submit</button>
+       <button type="submit"onClick={validateProduct}>Submit</button>
       </form>
+      {valid
+       ?<div>Valid:</div>
+       :<div>Invalid</div>}
+       </div>
        
-      </div>
+      
 
 
 

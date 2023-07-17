@@ -3,7 +3,7 @@ import axios from 'axios'
 import {Html5QrcodeScanner} from "html5-qrcode"
 //const { JsonRpcProvider } = require("@ethersproject/providers");
 import { Web3Provider } from "@ethersproject/providers";
-import { json } from "react-router-dom";
+
 //import {abiValidation} from "../abi"
 //import dotenv from 'dotenv'
 const Web3 = require("web3");
@@ -365,45 +365,7 @@ function Producer() {
        ?<div>success:<a href={addProduct(scanResult)}></a></div>
        :<div id ="reader"></div>
        }
-       {/* <div>
-        <h1>Testing Blockchain interaction Form</h1>
-       <form>
-       <fieldset>
-       <label>
-           <p>KLIP ID</p>
-           <input type="text" value={klipId}
-           onChange={(e)=>setKlipId(e.target.value)} />
-         </label>
-         <label>
-           <p>Batch Number</p>
-           <input type="text" value ={batchNumber} 
-           onChange={(e)=>setBatchNumber(e.target.value)}/>
-         </label>
-         <label>
-           <p>MFG Date</p>
-           <input type="text" value ={mfgDate} 
-           onChange={(e)=>setMfgDate(e.target.value)}/>
-         </label>
-         <label>
-           <p>Expiry Date</p>
-           <input type ="text" value ={expiryDate}
-           onChange={(e)=>setExpiryDate(e.target.value)} />
-         </label>
-         <label>
-           <p>warranty</p>
-           <input type="text" value={warranty}
-           onChange={(e)=>setWarranty(e.target.value)} />
-         </label>
-         <label>
-           <p>Description</p>
-           <input type="text" value={description}
-           onChange={(e)=>setDescription(e.target.value)} />
-         </label>
-     
-       </fieldset>
-       <button type="submit" onClick={addProduct}>Submit</button>
-      </form>
-       </div> */}
+   
        <div>
         <br></br>
        <button type="submit" onClick={callHashData}>Submit</button>
