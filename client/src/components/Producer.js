@@ -179,7 +179,8 @@ function Producer() {
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi);
 
-      const klipId =jsonData.klipid;
+      setKlipId(jsonData.klipid)
+      setBatchNumber(jsonData.batchnumber)
       const batchNumber=jsonData.batchnumber;
       const mfgDate =jsonData.mfgdate;
       const expiryDate =jsonData.expiryDate;
@@ -205,7 +206,7 @@ function Producer() {
   }
 
   async function callHashData() {
-    // Connect to the Ethereum network
+  try{  // Connect to the Ethereum network
     const provider = new Web3Provider(window.ethereum);
     
     // Specify the contract address and ABI
@@ -326,13 +327,10 @@ function Producer() {
     //const hash = receipt.logs[0].data;
   
     console.log("Hash:", tx);
+  }catch (error) {
+  console.log(error.message);
+}
   }
-  
-  // Call the function
-  callHashData().catch((error) => {
-    console.error("Error:", error);
-  });
- 
 
   function apiCall(data){
     const jsonData = JSON.parse(data);

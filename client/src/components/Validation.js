@@ -1,10 +1,11 @@
 import{useEffect, useState} from "react";
 import axios from 'axios'
+import { Web3Provider } from "@ethersproject/providers";
 
 const abiValidation= require( '../abi')
 const Web3 = require("web3");
 const ethers = require("ethers");
-import { Web3Provider } from "@ethersproject/providers";
+
 // const dotenv = require('dotenv')
 
 // dotenv.config({path:'../config/config.env'})
