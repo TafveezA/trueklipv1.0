@@ -4,10 +4,106 @@ import axios from 'axios'
 const abiValidation= require( '../abi')
 const Web3 = require("web3");
 const ethers = require("ethers");
+import { Web3Provider } from "@ethersproject/providers";
 // const dotenv = require('dotenv')
 
 // dotenv.config({path:'../config/config.env'})
-const contractAddressValidation ="0xee48A8762AF6406cB7792D5ef699C9ef555Eef8D"
+const contractAddress ="0x79588896F2e2Dfa46ed290652513CfDa1aa78bF5"
+const abi= [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_klipId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_batchNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_mfgDate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_expiryDate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_warranty",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_description",
+				"type": "string"
+			}
+		],
+		"name": "hashData",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_klipId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_hashed",
+				"type": "bytes32"
+			}
+		],
+		"name": "getHashById",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"name": "validateHashByKlipId",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+
 
 
 
@@ -46,38 +142,20 @@ function Validation() {
       } else {
         console.log("MemtaMask Not Installed ");
       }
-      const web3eth = new Web3(Web3.givenProvider);
+      const provider = new Web3Provider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(contractAddress, abi);
+      const hash = "xyz"
+      const tx = await contract.connect(signer).hashData(klipId,hash);
+      await tx.wait();
+    
+      // const receipt = await provider.getTransactionReceipt(tx.hash);
+      // const hash = receipt.logs[0].data;
+    
+      console.log("Hash:", tx.success);
+
 
      
-      const validation = new web3eth.eth.Contract(abiValidation, contractAddressValidation);
-
-      if (web3eth.givenProvider) {
-        console.log("Hello Provider Here", web3eth.givenProvider);
-        let address = web3eth.givenProvider.selectedAddress;
-        console.log("address", address);
-
-        
-        
-          let hash = await validation.methods.hashedData(klipId,batchNumber,mfgDate,expiryDate,description).send({ from: address, gas: 1000000 });
-          console.log("Response from add product:", hash)
-    
-
-          let validateHash = await validation.methods
-            .validateHash(klipId,kliphash)
-            .call();
-           console.log("valid ? /:",validateHash)
-          //console.log("call bank:", responseP1)
-
-          let tmp_data = arrayData;
-          tmp_data.push(hash)
-          console.log(tmp_data)
-          setArrayData(tmp_data)
-          window.localStorage.setItem("Data", JSON.stringify(tmp_data))
-          console.log("arrayData:", arrayData);
- 
-         
-        
-      }
     } catch (error) {
       console.log(Error);
     }

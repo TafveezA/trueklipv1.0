@@ -177,7 +177,7 @@ function Producer() {
       }
       const provider = new Web3Provider(window.ethereum);
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(contractAddress, abi, signer);
+      const contract = new ethers.Contract(contractAddress, abi);
 
       const klipId =jsonData.klipid;
       const batchNumber=jsonData.batchnumber;
@@ -190,11 +190,10 @@ function Producer() {
       const tx = await contract.connect(signer).hashData(klipId, batchNumber, mfgDate, expiryDate, warranty, description);
       await tx.wait();
     
-      // Get the transaction receipt to retrieve the hash value
       // const receipt = await provider.getTransactionReceipt(tx.hash);
       // const hash = receipt.logs[0].data;
     
-      console.log("Hash:", hash);
+      console.log("Hash:", tx.success);
 
 
     }
@@ -319,14 +318,14 @@ function Producer() {
     const description='digitalreceipt';
   
     // Call the hashData function
-    const tx = await contract.connect(signer).hashData(klipId, batchNumber, mfgDate, expiryDate, warranty, description);
-    await tx.wait();
+    const tx = await contract.hashData(klipId, batchNumber, mfgDate, expiryDate, warranty, description);
+    //await tx.wait();
   
     // Get the transaction receipt to retrieve the hash value
-    const receipt = await provider.getTransactionReceipt(tx.hash);
-    const hash = receipt.logs[0].data;
+    //const receipt = await provider.getTransactionReceipt(tx.hash);
+    //const hash = receipt.logs[0].data;
   
-    console.log("Hash:", hash);
+    console.log("Hash:", tx);
   }
   
   // Call the function
@@ -365,7 +364,7 @@ function Producer() {
       <div className="App">
        <h1>Klip QR Code Scanner</h1>
        {scanResult
-       ?<div>success:<a href={scanResult}></a></div>
+       ?<div>success:<a href={addProduct(scanResult)}></a></div>
        :<div id ="reader"></div>
        }
        {/* <div>
