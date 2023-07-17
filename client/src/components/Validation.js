@@ -2,8 +2,8 @@ import{useEffect, useState} from "react";
 import axios from 'axios'
 import { Web3Provider } from "@ethersproject/providers";
 
-const abiValidation= require( '../abi')
-const Web3 = require("web3");
+//const abiValidation= require( '../abi')
+//const Web3 = require("web3");
 const ethers = require("ethers");
 
 // const dotenv = require('dotenv')
@@ -147,9 +147,9 @@ function Validation() {
         typeof window !== "undefined" &&
         typeof window.ethereum !== "undefined"
       ) {
-        const accounts = await window.ethereum.enable();
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
         console.log("accounts", accounts);
-        const provider = await new ethers.providers.Web3Provider(
+        const provider = await new Web3Provider(
           window.ethereum
         );
         const signer = await provider.getSigner();
@@ -159,17 +159,21 @@ function Validation() {
       } else {
         console.log("MemtaMask Not Installed ");
       }
+
       const provider = new Web3Provider(window.ethereum);
       const signer = await provider.getSigner()
       console.log(await signer.getAddress())
-      const contract = new ethers.Contract(contractAddress, abi);
-      const hash = await contract.hashByKlipId(klipId)
+      const contract = new ethers.Contract(contractAddress, abi,signer);
+      console.log('klipID: ' ,klipId)
+      const hash = await contract.getHashById(klipId)
+
+      console.log('hash' , hash)
       const result = await contract.Validate(klipId);
 
-      await result.wait();
+      console.log("Valid",result)
     
-      // const receipt = await provider.getTransactionReceipt(tx.hash);
-      // const hash = receipt.logs[0].data;
+      //const receipt = await provider.getTransactionReceipt(result.hash);
+      //const hash = receipt.logs[0].data;
     
       console.log("Validation Result :", result);
       setValid(result)
@@ -178,11 +182,12 @@ function Validation() {
 
      
     } catch (error) {
-      console.log(Error);
+      console.log(error.message)
     }
 
   }
-
+  //setKlipId(0)
+//validateProduct()
 
   function apiCall(data){
     const jsonData = JSON.parse(data);
@@ -250,10 +255,10 @@ function Validation() {
          </label> */}
      
        </fieldset>
-       <button type="submit"onClick={validateProduct}>Submit</button>
+       <button type="button"onClick={validateProduct}>Submit</button>
       </form>
       {valid
-       ?<div>Valid:</div>
+       ?<div>Valid: </div>
        :<div>Invalid</div>}
        </div>
        

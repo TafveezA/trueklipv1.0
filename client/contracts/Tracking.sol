@@ -2,6 +2,16 @@
 pragma solidity ^0.8.18;
 
 contract Tracking {
+    
+    enum Station{
+        Factory,
+        Shipping,
+        RegionalFacility,
+        Retailer,
+        Store,
+        Customer
+    }
+    Station public station;
     // Enum representing shipping status
     enum Status {
         Pending,
@@ -15,21 +25,33 @@ contract Tracking {
     Status public status;
 
 
-    function get() public view returns (Status) {
+    function getStatus() public view returns (Status) {
         return status;
     }
 
+    function getStation() public view returns (Station) {
+        return station;
+    }
 
-    function set(Status _status) public {
+
+    function setStatus(Status _status) public {
         status = _status;
     }
 
+     function setStation(Status _station) public {
+        status = _station;
+    }
 
-    function cancel() public {
+
+    function cancelStatus() public {
         status = Status.Canceled;
     }
 
-    function reset() public {
+    function resetStatus() public {
         delete status;
+    }
+
+    function resetStation() public {
+        delete station;
     }
 }

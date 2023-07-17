@@ -163,7 +163,7 @@ function Producer() {
         typeof window !== "undefined" &&
         typeof window.ethereum !== "undefined"
       ) {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
         console.log("accounts", accounts);
         const provider = await new ethers.providers.Web3Provider(
           window.ethereum
