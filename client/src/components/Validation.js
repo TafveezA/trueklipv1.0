@@ -2,6 +2,10 @@ import{useEffect, useState} from "react";
 import axios from 'axios'
 import { Web3Provider } from "@ethersproject/providers";
 import { Link } from "react-router-dom";
+//import { AbiCoder } from "@ethersproject/abi";
+//import{ethers} from 'ethers'
+
+
 //import Web3 from 'web3';
 
 //const { keccak256, toHexString } = require('ethereum-cryptography/keccak')
@@ -15,7 +19,7 @@ const ethers = require("ethers");
 // const dotenv = require('dotenv')
 
 // dotenv.config({path:'../config/config.env'})
-const contractAddress ="0xa055830185C45fCA70A257707d74fC6a3a8e9dA5"
+const contractAddress ="0x4F430c214DFc1cF6ace4050025177cB30f129431"
 const abi=[
 	{
 		"inputs": [
@@ -186,30 +190,36 @@ function Validation() {
       console.log("Validation Result :", result);
    
       setKlipHash(hash)
-const fetchedData =fetchData()
+// const fetchedData =fetchData()
 
-const _klipId = fetchedData.klipid
-const _batchNumber = fetchedData.batchnumber
-const _mfgDate =  fetchedData.mfgdate 
-const _expiryDate =   fetchedData.expirydate; 
-const _warranty = fetchedData.warranty; 
-const _description = fetchedData.description
+// const _klipId = ethers.BigNumber.form(fetchedData.klipid, 0);
+// const _batchNumber = fetchedData.batchnumber;
+// const _mfgDate = ethers.BigNumber(fetchedData.mfgdate, 0);
+// const _expiryDate = ethers.BigNumber(fetchedData.expirydate, 0);
+// const _warranty = ethers.BigNumber(fetchedData.warranty, 0);
+// const _description = fetchedData.description;
+// const _klipId = 10;
+// const _batchNumber ="XYZ";
+// const _mfgDate =1;
+// const _expiryDate = 3;
+// const _warranty = 2;
+// const _description ="digitalreciept" ;
+// //const abiCoder = new ethers.utils.AbiCoder();
+// const abiCoder = new ethers.utils.AbiCoder();
+// const encodedData = abiCoder.encode(
+//   ['uint256', 'string', 'uint256', 'uint256', 'uint256', 'string'],
+//   [_klipId,_batchNumber, _mfgDate, _expiryDate, _warranty, _description]
+// );
 
-const abiCoder = new ethers.utils.AbiCoder();
-const encodedData = abiCoder.encode(
-  ['uint256', 'string', 'uint256', 'uint256', 'uint256', 'string'],
-  [_klipId,_batchNumber, _mfgDate, _expiryDate, _warranty, _description]
-);
+// const _hash = ethers.utils.keccak256(encodedData);
 
-const _hash = ethers.utils.keccak256(encodedData);
-
-console.log("Hash From DB:", _hash);
+// console.log("Hash From DB:", _hash);
   
  
 
-     if(hash == _hash && result){
+    
         setValid(result)
-     }
+     
      
     } catch (error) {
       console.log(error.message)
@@ -247,7 +257,7 @@ console.log("Hash From DB:", _hash);
     try {
         const response = await axios.get('http://localhost:5000/api/v1/products/', {
           params: {
-            klipid: '2',
+            klipid:klipId,
           },
         });
     

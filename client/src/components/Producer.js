@@ -14,7 +14,7 @@ console.log(process.env.ALCHEMY_API_KEY)
 const ethers = require("ethers");
 const CryptoJS = require("crypto-js");
 
-const contractAddress ="0x79588896F2e2Dfa46ed290652513CfDa1aa78bF5"
+const contractAddress ="0x4F430c214DFc1cF6ace4050025177cB30f129431"
 const abi= [
 	{
 		"inputs": [
@@ -66,14 +66,28 @@ const abi= [
 				"internalType": "uint256",
 				"name": "_klipId",
 				"type": "uint256"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "_hashed",
-				"type": "bytes32"
 			}
 		],
 		"name": "getHashById",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_klipId",
+				"type": "uint256"
+			}
+		],
+		"name": "Validate",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -369,7 +383,7 @@ function Producer(){
   //callHashData()
 
   function apiCall(data){
-    setIsLoading(true)
+  
     const jsonData = JSON.parse(data);
     const apiUrl = 'http://localhost:5000/api/v1/products/'
     const requestBody = {
@@ -390,6 +404,7 @@ function Producer(){
       console.error('Error inserting data into the API:', error.data);
     });
     addProduct(data)
+    setIsLoading(true)
    
   }
 
