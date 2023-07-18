@@ -134,6 +134,8 @@ const decrypted = CryptoJS.AES.decrypt(encrypted, key);
 console.log("decrypted data",decrypted)
 
 function Producer(){
+
+  
     const [scanResult,setScanResult]=useState(null)
     // const [klipId, setKlipId] = useState("")
     // const [batchNumber, setBatchNumber] = useState("")

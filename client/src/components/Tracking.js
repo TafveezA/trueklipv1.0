@@ -1,6 +1,7 @@
 import{useEffect, useState} from "react";
 import axios from 'axios'
 import { Web3Provider } from "@ethersproject/providers";
+import '../App.css';
 
 //const abiValidation= require( '../abi')
 //const Web3 = require("web3");
@@ -119,11 +120,11 @@ const abi=[
 	}
 ]
 const data = [
-    { station: "Factory", status: 19, klipid: "a1" },
-    { station: "Shipping", status: 19, klipid: "bhaq21" },
-    { station: "RegionalFacility", status: 25, klipid: "daa1@" },
-    { station: "Retailer", status: 25, klipid: "zinsgh#1" },
-    { station: "Customer", status: 27, klipid: "alp2" }
+    { station: "Factory", status: "Packing", klipid: "a1" },
+    { station: "Shipping", status: "Pending", klipid: "bhaq21" },
+    { station: "RegionalFacility", status: "Onsale", klipid: "daa1@" },
+    { station: "Retailer", status: "In Stock", klipid: "zinsgh#1" },
+    { station: "Customer", status:"Consumed", klipid: "alp2" }
 ]
 
 function Tracking() {
@@ -142,30 +143,36 @@ function Tracking() {
     
     useEffect(() =>{
       
-    
+       
+      
       
   
   
   },[])
 
+//   async function requestAccount(){
+    
+//   }
+ 
+
   async function trackProduct() {
     try {
-      if (
-        typeof window !== "undefined" &&
-        typeof window.ethereum !== "undefined"
-      ) {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
-        console.log("accounts", accounts);
-        const provider = await new Web3Provider(
-          window.ethereum
-        );
-        const signer = await provider.getSigner();
-        console.log("Signer", signer);
-        const address = await signer.getAddress();
-        console.log(address);
-      } else {
-        console.log("MemtaMask Not Installed ");
-      }
+        if (
+          typeof window !== "undefined" &&
+          typeof window.ethereum !== "undefined"
+        ) {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
+          console.log("accounts", accounts);
+          const provider = await new Web3Provider(
+            window.ethereum
+          );
+          const signer = await provider.getSigner();
+          console.log("Signer", signer);
+          const address = await signer.getAddress();
+          console.log(address);
+        } else {
+          console.log("MemtaMask Not Installed ");
+        }
 
       const provider = new Web3Provider(window.ethereum);
       const signer = await provider.getSigner()
@@ -223,7 +230,7 @@ function Tracking() {
    
   
     return (
-      <div className="App">
+      <div className="Table">
       
        
          
