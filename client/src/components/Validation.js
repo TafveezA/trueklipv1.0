@@ -2,12 +2,16 @@ import{useEffect, useState} from "react";
 import axios from 'axios'
 import { Web3Provider } from "@ethersproject/providers";
 import { Link } from "react-router-dom";
+//import Web3 from 'web3';
+
+//const { keccak256, toHexString } = require('ethereum-cryptography/keccak')
 
 
 //const abiValidation= require( '../abi')
-//const Web3 = require("web3");
+//const Web3 = require('web3');
 const ethers = require("ethers");
-const keccak256 = require('keccak256')
+//const web3 = new window.Web3()
+//const keccak256 = require('keccak256')
 // const dotenv = require('dotenv')
 
 // dotenv.config({path:'../config/config.env'})
@@ -180,10 +184,32 @@ function Validation() {
       //const hash = receipt.logs[0].data;
     
       console.log("Validation Result :", result);
-      setValid(result)
+   
       setKlipHash(hash)
+const fetchedData =fetchData()
 
+const _klipId = fetchedData.klipid
+const _batchNumber = fetchedData.batchnumber
+const _mfgDate =  fetchedData.mfgdate 
+const _expiryDate =   fetchedData.expirydate; 
+const _warranty = fetchedData.warranty; 
+const _description = fetchedData.description
 
+const abiCoder = new ethers.utils.AbiCoder();
+const encodedData = abiCoder.encode(
+  ['uint256', 'string', 'uint256', 'uint256', 'uint256', 'string'],
+  [_klipId,_batchNumber, _mfgDate, _expiryDate, _warranty, _description]
+);
+
+const _hash = ethers.utils.keccak256(encodedData);
+
+console.log("Hash From DB:", _hash);
+  
+ 
+
+     if(hash == _hash && result){
+        setValid(result)
+     }
      
     } catch (error) {
       console.log(error.message)
@@ -217,7 +243,7 @@ function Validation() {
   
   }
 
-  async function fetchData(){
+  async function fetchData() {
     try {
         const response = await axios.get('http://localhost:5000/api/v1/products/', {
           params: {
@@ -226,6 +252,7 @@ function Validation() {
         });
     
         console.log(response.data);
+        return response.data
       } catch (error) {
         console.error(error);
       }
@@ -276,7 +303,7 @@ function Validation() {
          </label> */}
      
        </fieldset>
-       <button type="button"onClick={fetchData}>Validate Product</button>
+       <button type="button"onClick={validateProduct}>Validate Product</button>
       </form>
       {valid
        ?  <div>
