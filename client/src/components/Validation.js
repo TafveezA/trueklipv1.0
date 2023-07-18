@@ -3,10 +3,11 @@ import axios from 'axios'
 import { Web3Provider } from "@ethersproject/providers";
 import { Link } from "react-router-dom";
 
+
 //const abiValidation= require( '../abi')
 //const Web3 = require("web3");
 const ethers = require("ethers");
-
+const keccak256 = require('keccak256')
 // const dotenv = require('dotenv')
 
 // dotenv.config({path:'../config/config.env'})
@@ -145,6 +146,7 @@ function Validation() {
 
   async function validateProduct() {
     try {
+        setIsLoading(true)
       if (
         typeof window !== "undefined" &&
         typeof window.ethereum !== "undefined"
@@ -195,11 +197,15 @@ function Validation() {
     const jsonData = JSON.parse(data);
     const apiUrl = 'http://localhost:5000/api/v1/products/'
     const requestBody = {
-      klipid: jsonData.name,
-      batchnumber:jsonData.quantity,
-      price:jsonData.price,
-      description:jsonData.digitalreciept
-    };
+        klipid: jsonData.klipid,
+        batchnumber:jsonData.batchnumber,
+        mfgdate:jsonData.mfgdate,
+        expirydate:jsonData.expirydate,
+        mfgdate:jsonData.mfgdate,
+        warranty:jsonData.warranty,
+        description:jsonData.description
+      };
+    
   
     axios.post(apiUrl, requestBody)
     .then((response) => {
@@ -211,6 +217,19 @@ function Validation() {
   
   }
 
+  async function fetchData(){
+    try {
+        const response = await axios.get('http://localhost:5000/api/v1/products/', {
+          params: {
+            klipid: '2',
+          },
+        });
+    
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+  }
   
   
 
@@ -257,19 +276,22 @@ function Validation() {
          </label> */}
      
        </fieldset>
-       <button type="button"onClick={validateProduct}>Validate Product</button>
+       <button type="button"onClick={fetchData}>Validate Product</button>
       </form>
       {valid
        ?  <div>
        {isLoading ? (
-         <p><Link to="/tracking"> Track Product</Link></p>
+         <div><h1>
+         Valid Product
+       </h1>
+            <p><Link to="/tracking"> Track Product</Link></p> </div>
        ) : (
-         <button type="submit" onClick={() => apiCall("")}>
-           Validate Product
-         </button>
+         <h1>
+           Valid Product
+         </h1>
        )}
         </div>
-       :<div >Invalid Product</div>
+       :<div ><h1>Invalid Product</h1></div>
       }
        </div>
        

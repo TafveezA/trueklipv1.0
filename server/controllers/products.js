@@ -32,6 +32,12 @@ exports.getProduct = asyncHandler(async(req,res,next)=>{
                
 })
 
+
+
+
+
+
+
 // @desc  create  product
 // @route Post /api/v1/products
 // @access Private
