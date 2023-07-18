@@ -3,14 +3,17 @@ import axios from 'axios'
 import {Html5QrcodeScanner} from "html5-qrcode"
 //const { JsonRpcProvider } = require("@ethersproject/providers");
 import { Web3Provider } from "@ethersproject/providers";
+import { Link } from "react-router-dom";
+
 
 //import {abiValidation} from "../abi"
-//import dotenv from 'dotenv'
-const Web3 = require("web3");
+// const dotenv =require('dotenv')
+// //const Web3 = require("web3");
+// require('dotenv').config({path:'../../.env'})
+console.log(process.env.ALCHEMY_API_KEY)
 const ethers = require("ethers");
-// const dotenv = require('dotenv')
+const CryptoJS = require("crypto-js");
 
-//dotenv.config({path:'/env'})
 const contractAddress ="0x79588896F2e2Dfa46ed290652513CfDa1aa78bF5"
 const abi= [
 	{
@@ -107,20 +110,26 @@ const abi= [
 	}
 ]
 
-//const contractAddressValidation =process.env
 
+//console.log(process.env.CONTRACT_VALIDATION_ADDRESS)
+const key = "12345";
+const plainText = "Hello, world!";
+const encrypted = CryptoJS.AES.encrypt(plainText, key);
+console.log("encrypted data",encrypted)
+const decrypted = CryptoJS.AES.decrypt(encrypted, key);
+console.log("decrypted data",decrypted)
 
-function Producer() {
+function Producer(){
     const [scanResult,setScanResult]=useState(null)
-    const [klipId, setKlipId] = useState("")
-    const [batchNumber, setBatchNumber] = useState("")
-    const [mfgDate, setMfgDate] = useState("")
-    const [expiryDate, setExpiryDate] = useState("")
-    const [description, setDescription] = useState("")
-    const [warranty, setWarranty] = useState("")
-    const [productAdded, setProductAdded] = useState(false);
-    const [kliphash, setKlipHash] = useState("")
-    const [arrayData, setArrayData] = useState([]);
+    // const [klipId, setKlipId] = useState("")
+    // const [batchNumber, setBatchNumber] = useState("")
+    // const [mfgDate, setMfgDate] = useState("")
+    // const [expiryDate, setExpiryDate] = useState("")
+    // const [description, setDescription] = useState("")
+    // const [warranty, setWarranty] = useState("")
+     const [isLoading, setIsLoading] = useState(false);
+    // const [kliphash, setKlipHash] = useState("")
+    // const [arrayData, setArrayData] = useState([]);
    ;
     const [temp, setTemp] = useState("")
     
@@ -141,12 +150,30 @@ function Producer() {
       function error(){
        console.warn(error)
       }
-
-    
-      
+     
 
   },[])
+
+  async function requestAccount(){
+    if (
+      typeof window !== "undefined" &&
+      typeof window.ethereum !== "undefined"
+    ) {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
+      console.log("accounts", accounts);
+      // const provider = await new ethers.providers.Web3Provider(
+      //   window.ethereum
+      // );
+      // const signer = await provider.getSigner();
+      // console.log("Signer", signer);
+      // const address = await signer.getAddress();
+      // console.log(address);
+    } else {
+      console.log("MemtaMask Not Installed ");
+    }
   
+  }
+  requestAccount()
   async function addProduct(_dataToBlockchain) {
 
     try {
@@ -158,43 +185,51 @@ function Producer() {
       console.log('expirydate',jsonData.expirydate)
       console.log('warranty',jsonData.warranty)
       console.log('description',jsonData.description)
+      //apiCall(_data)
       
-      if (
-        typeof window !== "undefined" &&
-        typeof window.ethereum !== "undefined"
-      ) {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
-        console.log("accounts", accounts);
-        const provider = await new ethers.providers.Web3Provider(
-          window.ethereum
-        );
-        const signer = await provider.getSigner();
-        console.log("Signer", signer);
-        const address = await signer.getAddress();
-        console.log(address);
-      } else {
-        console.log("MemtaMask Not Installed ");
-      }
+
+     
+     
       const provider = new Web3Provider(window.ethereum);
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(contractAddress, abi);
+      const contract = new ethers.Contract(contractAddress, abi,signer);
 
-      setKlipId(jsonData.klipid)
-      setBatchNumber(jsonData.batchnumber)
+      // setKlipId(jsonData.klipid)
+      // setBatchNumber(jsonData.batchnumber)
+      // // const batchNumber=jsonData.batchnumber;
+      // // const mfgDate =jsonData.mfgdate;
+      // setMfgDate(jsonData.mfgdate)
+    
+      // setExpiryDate(jsonData.expiryDate)
+      // setWarranty(jsonData.warranty)
+      // setDescription(jsonData.description)
+      const klipId =jsonData.klipid;
       const batchNumber=jsonData.batchnumber;
       const mfgDate =jsonData.mfgdate;
-      const expiryDate =jsonData.expiryDate;
+      const expiryDate =jsonData.expirydate;
       const warranty=jsonData.warranty;
       const description=jsonData.description;
+   
 
 
       const tx = await contract.connect(signer).hashData(klipId, batchNumber, mfgDate, expiryDate, warranty, description);
-      await tx.wait();
+//       await tx.wait();
     
-      // const receipt = await provider.getTransactionReceipt(tx.hash);
-      // const hash = receipt.logs[0].data;
+//       const receipt = await provider.getTransactionReceipt(tx.hash);
+//     // const hash = receipt.logs[0].data;
+
+
+   
+
+// if (typeof receipt.confirmations !== 'undefined') {
+//   // Access the confirmations property
+//   const confirmations = receipt.confirmations;
+//   console.log("Confirmations:", confirmations);
+// } else {
+//   console.log("Confirmations not available");
+// }
     
-      console.log("Hash:", tx.success);
+      console.log("TX Response:", tx.hash);
 
 
     }
@@ -320,26 +355,31 @@ function Producer() {
   
     // Call the hashData function
     const tx = await contract.hashData(klipId, batchNumber, mfgDate, expiryDate, warranty, description);
-    //await tx.wait();
+    await tx.wait();
   
     // Get the transaction receipt to retrieve the hash value
-    //const receipt = await provider.getTransactionReceipt(tx.hash);
+    const receipt = await provider.getTransactionReceipt(tx.hash);
     //const hash = receipt.logs[0].data;
   
-    console.log("Hash:", tx);
+    console.log("Reciept:", receipt);
   }catch (error) {
   console.log(error.message);
 }
   }
+  //callHashData()
 
   function apiCall(data){
+    setIsLoading(true)
     const jsonData = JSON.parse(data);
     const apiUrl = 'http://localhost:5000/api/v1/products/'
     const requestBody = {
-      name: jsonData.name,
-      quantity:jsonData.quantity,
-      price:jsonData.price,
-      description:jsonData.digitalreciept
+      klipid: jsonData.klipid,
+      batchnumber:jsonData.batchnumber,
+      mfgdate:jsonData.mfgdate,
+      expirydate:jsonData.expirydate,
+      mfgdate:jsonData.mfgdate,
+      warranty:jsonData.warranty,
+      description:jsonData.description
     };
   
     axios.post(apiUrl, requestBody)
@@ -349,7 +389,8 @@ function Producer() {
     .catch((error) => {
       console.error('Error inserting data into the API:', error.data);
     });
-  
+    addProduct(data)
+   
   }
 
   
@@ -360,9 +401,17 @@ function Producer() {
   
     return (
       <div className="App">
-       <h1>Klip QR Code Scanner</h1>
+       <h1> True Klip QR Code Scanner</h1>
        {scanResult
-       ?<div>success:<a href={addProduct(scanResult)}></a></div>
+       ?  <div>
+       {isLoading ? (
+         <p><Link to="/tracking"> Track Product</Link></p>
+       ) : (
+         <button type="submit" onClick={() => apiCall(scanResult)}>
+           Add Product
+         </button>
+       )}
+     </div>
        :<div id ="reader"></div>
        }
    

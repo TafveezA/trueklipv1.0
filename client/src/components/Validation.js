@@ -1,6 +1,7 @@
 import{useEffect, useState} from "react";
 import axios from 'axios'
 import { Web3Provider } from "@ethersproject/providers";
+import { Link } from "react-router-dom";
 
 //const abiValidation= require( '../abi')
 //const Web3 = require("web3");
@@ -128,6 +129,7 @@ function Validation() {
     // const [expiryDate, setExpiryDate] = useState("")
     // const [description, setDescription] = useState("")
     const [valid, setValid] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [kliphash, setKlipHash] = useState("")
     // const [arrayData, setArrayData] = useState([]);
    ;
@@ -193,8 +195,8 @@ function Validation() {
     const jsonData = JSON.parse(data);
     const apiUrl = 'http://localhost:5000/api/v1/products/'
     const requestBody = {
-      name: jsonData.name,
-      quantity:jsonData.quantity,
+      klipid: jsonData.name,
+      batchnumber:jsonData.quantity,
       price:jsonData.price,
       description:jsonData.digitalreciept
     };
@@ -255,11 +257,20 @@ function Validation() {
          </label> */}
      
        </fieldset>
-       <button type="button"onClick={validateProduct}>Submit</button>
+       <button type="button"onClick={validateProduct}>Validate Product</button>
       </form>
       {valid
-       ?<div>Valid: </div>
-       :<div>Invalid</div>}
+       ?  <div>
+       {isLoading ? (
+         <p><Link to="/tracking"> Track Product</Link></p>
+       ) : (
+         <button type="submit" onClick={() => apiCall("")}>
+           Validate Product
+         </button>
+       )}
+        </div>
+       :<div >Invalid Product</div>
+      }
        </div>
        
       

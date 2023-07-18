@@ -13,6 +13,7 @@ import Tracking from './components/Tracking';
 //import fs from'fs';
 
 
+//console.log(process.env)
 
 function App() {
 
