@@ -2,34 +2,44 @@ const mongoose = require('mongoose')
 const slugify = require('slugify')
 const geocoder = require('../utils/geocoder')
 const productSchema =mongoose.Schema({
-    name:{
-        type :String,
-        required:[true,'please enter the product name']
+    klipid:{
+        type :Number,
+        required:[true,'please enter the valid in integer klipid']
     },
-    quantity:{
-        type:Number,
+    batchnumber:{
+        type:String,
         required:true,
-        default:0
+        default:""
     },
-    price:{
+    mfgdate:{
     type:Number,
-    required:true
+    required:Date.now()
+    },
+    expirydate:{
+        type:Number,
+        required:false,
+        default: Date(2025,11,17)
+    },
+    warranty:{
+        type:Number,
+        required:false,
+        default:Date(2025,11,17)
     },
     description:{
         type:String,
         required:false,
         default:""
-    },
-    location:{
-        type:String,
-        enum:['Point'],
-        required:false
-    },
-    coordinates :{
-        type: [Number],
-        index:'2dsphere',
-        required:false
     }
+    // location:{
+    //     type:String,
+    //     enum:['Point'],
+    //     required:false
+    // },
+    // coordinates :{
+    //     type: [Number],
+    //     index:'2dsphere',
+    //     required:false
+    // }
 },
     {
         timestamps:true

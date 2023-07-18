@@ -118,15 +118,15 @@ const abi=[
 		"type": "function"
 	}
 ]
-// const data = [
-//     { station: "Factory", status: 19, klipid: "a1" },
-//     { station: "Shipping", status: 19, klipid: "bhaq21" },
-//     { station: "RegionalFacility", status: 25, klipid: "daa1@" },
-//     { station: "Retailer", status: 25, klipid: "zinsgh#1" },
-//     { station: "Customer", status: 27, klipid: "alp2" }
-// ]
+const data = [
+    { station: "Factory", status: 19, klipid: "a1" },
+    { station: "Shipping", status: 19, klipid: "bhaq21" },
+    { station: "RegionalFacility", status: 25, klipid: "daa1@" },
+    { station: "Retailer", status: 25, klipid: "zinsgh#1" },
+    { station: "Customer", status: 27, klipid: "alp2" }
+]
 
-function Customer() {
+function Tracking() {
 
     const [klipId, setKlipId] = useState("")
     // const [batchNumber, setBatchNumber] = useState("")
@@ -225,9 +225,9 @@ function Customer() {
     return (
       <div className="App">
       
-       <h1>customer page</h1>
+       
          
-      {/* <table>
+      <table>
                 <tr>
                     <th>Station</th>
                     <th>Status</th>
@@ -242,7 +242,7 @@ function Customer() {
                         </tr>
                     )
                 })}
-            </table> */}
+            </table>
        </div>
        
       
@@ -254,5 +254,5 @@ function Customer() {
     );
   }
   
-  export default Customer;
+  export default Tracking;
   
