@@ -255,6 +255,12 @@ function Customer() {
      </div>
        :<div id ="reader"></div>
        }
+	   <div>
+		<h2> Or </h2>
+		<h3>Validate Using Klip ID</h3>
+		<Link to="/validation"> validate by klip id</Link>
+		</div>
+
        </div>
        
       

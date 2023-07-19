@@ -141,6 +141,8 @@ function Validation() {
     const [valid, setValid] = useState(null);
     const [isLoading, setIsLoading] = useState(null);
     const [kliphash, setKlipHash] = useState("")
+    const [check, setCheck] = useState(null);
+    
     // const [arrayData, setArrayData] = useState([]);
    ;
     
@@ -220,6 +222,7 @@ function Validation() {
 
     
         setValid(result)
+        setCheck(true)
      
      
     } catch (error) {
@@ -279,7 +282,7 @@ function Validation() {
       
        
          
-        <h1>Validation from  Blockchain interaction Form</h1>
+        <h1>Validation from  Blockchain</h1>
         <img src={logo} alt="Logo" />
        <form>
        <fieldset>
@@ -330,7 +333,16 @@ function Validation() {
          </h1>
        )}
         </div>
-       :<div ><h1>Invalid Product</h1></div>
+       :<div >  {check ? (
+        <div><h1>
+        Invalid Product
+      </h1>
+            </div>
+      ) : (
+        <h1>
+          
+        </h1>
+      )}</div>
       }
        </div>
        

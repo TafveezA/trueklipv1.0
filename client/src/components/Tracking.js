@@ -2,6 +2,7 @@ import{useEffect, useState} from "react";
 import axios from 'axios'
 import { Web3Provider } from "@ethersproject/providers";
 import '../App.css';
+import logo from '../logo.svg';
 
 //const abiValidation= require( '../abi')
 //const Web3 = require("web3");
@@ -230,10 +231,16 @@ function Tracking() {
    
   
     return (
-      <div className="Table">
-      
-       
-         
+	
+      <div className="App">
+		<div>
+		<h1>Track the Product</h1>
+		<img src={logo} alt="Logo" />
+        </div>
+	 
+		
+	
+         <div className="Table">
       <table>
                 <tr>
                     <th>Station</th>
@@ -250,6 +257,7 @@ function Tracking() {
                     )
                 })}
             </table>
+			</div>
        </div>
        
       
