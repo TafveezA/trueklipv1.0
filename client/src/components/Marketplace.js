@@ -1,8 +1,9 @@
 import React from 'react';
-import NFTListing from './NFTListing.js'
+import NFTListing from './NFTlisting';
+
 
 const NFTMarketplace = () => {
-  const nftListings = [
+  const nfts = [
     {
       name: 'Certificate 1',
       image: 'https://ipfs.io/ipfs/QmV2yxSnDXJYh3JPyxUo7z543VdkX1RwZvBaB5Estn8mVZ?filename=certificate1.jpg',
@@ -34,12 +35,12 @@ const NFTMarketplace = () => {
     <div className="bg-gray-100 min-h-screen">
       <header className="bg-white shadow-md">
         <div className="container mx-auto py-4 px-8">
-          <h1 className="text-2xl font-bold text-gray-800">Ownership NFTs</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Ownership NFT</h1>
         </div>
       </header>
       <main className="container mx-auto py-8 px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {nftListings.map((nft, index) => (
+          {nfts.map((nft, index) => (
             <NFTListing key={index} nft={nft} />
           ))}
         </div>
