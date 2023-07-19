@@ -10,6 +10,7 @@ import Validation from './components/Validation';
 import IPFS from './components/ipfs';
 import Customer from './components/Customer';
 import Tracking from './components/Tracking';
+import Marketplace from './components/Marketplace';
 //import fs from'fs';
 
 
@@ -36,6 +37,7 @@ function App() {
     <Route path = '/validation' element ={<Validation />}/>
     <Route path = '/customer' element ={<Customer />}/>
     <Route path = '/tracking' element ={<Tracking />}/>
+    <Route path = '/marketplace' element ={<Marketplace />}/>
     <Route path = '/ipfs' element ={<IPFS/>}/>
       {/* <Route path = '/branch' element ={<Branch />}/>
       <Route path = '/bankreserve' element ={<BankReserve />}/>

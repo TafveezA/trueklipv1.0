@@ -138,6 +138,7 @@ function Validation() {
     // const [mfgDate, setMfgDate] = useState("")
     // const [expiryDate, setExpiryDate] = useState("")
     // const [description, setDescription] = useState("")
+    const [isButtonVisible, setIsButtonVisible] = useState(true);
     const [valid, setValid] = useState(null);
     const [isLoading, setIsLoading] = useState(null);
     const [kliphash, setKlipHash] = useState("")
@@ -223,6 +224,7 @@ function Validation() {
     
         setValid(result)
         setCheck(true)
+        setIsButtonVisible(false);
      
      
     } catch (error) {
@@ -313,20 +315,22 @@ function Validation() {
       {valid
        ?  <div>
        {isLoading ? (
-         <div><h1>
-         Valid Product
+         <div><h1 className="text-green-500 text-2xl font-semibold">
+         Yes Valid Product
        </h1>
-            <p><Link to="/tracking"> Track Product</Link></p> </div>
+            <p> Track the product jouney by visiting<Link to="/tracking"  className="text-blue-500"> Track</Link></p> </div>
        ) : (
-         <h1>
-           Valid Product
+        <h1 className="text-green-500 text-2xl font-semibold">
+         Valid Product
          </h1>
+
        )}
         </div>
        :<div >  {check ? (
-        <div><h1>
-        Invalid Product
+        <div><h1 className="text-red-500 text-2xl font-semibold">
+        oh No Invalid Product
       </h1>
+      
             </div>
       ) : (
         <h1>
