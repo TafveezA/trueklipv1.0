@@ -241,19 +241,22 @@ function Customer() {
   
     return (
       <div className="App">
-       <h1> True Klip QR Code Scanner</h1>
-	   <img src={logo} alt="Logo" />
+       <h1 className="text-3xl font-bold underline"> True Klip QR Code Scanner</h1>
+	   <img className="mx-auto p-4" src={logo} alt="Logo" />
        {scanResult
        ?  <div>
        {isLoading ? (
          <p><Link to="/tracking"> Track Product</Link></p>
        ) : (
-         <button type="submit" onClick={() => apiCall(scanResult)}>
-           Validate Product
-         </button>
+        <button type="submit" onClick={() => apiCall(scanResult)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+  Validate Product
+</button>
        )}
      </div>
-       :<div id ="reader"></div>
+       : 
+	   <div id="reader"></div>
+	 
+	 
        }
 	   <div>
 		<h2> Or </h2>
