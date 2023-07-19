@@ -1,6 +1,9 @@
 import{useEffect, useState} from "react";
 import axios from 'axios'
 import { Web3Provider } from "@ethersproject/providers";
+import {Html5QrcodeScanner} from "html5-qrcode"
+import { Link } from "react-router-dom";
+import logo from '../logo.svg';
 
 //const abiValidation= require( '../abi')
 //const Web3 = require("web3");
@@ -129,6 +132,7 @@ const abi=[
 function Customer() {
 
     const [klipId, setKlipId] = useState("")
+	const [scanResult,setScanResult]=useState(null)
     // const [batchNumber, setBatchNumber] = useState("")
     // const [mfgDate, setMfgDate] = useState("")
     // const [expiryDate, setExpiryDate] = useState("")
@@ -136,17 +140,30 @@ function Customer() {
     const [valid, setValid] = useState(false);
     const [kliphash, setKlipHash] = useState("")
     // const [arrayData, setArrayData] = useState([]);
+	const [isLoading, setIsLoading] = useState(null);
 
     const [tracking, setTracking] = useState("")
     
-    
     useEffect(() =>{
-      
-    
-      
+		const scanner = new Html5QrcodeScanner('reader',{
+		  qrbox:{
+			width: 400,
+			height:400,
+		  },
+		  fps:5,
+		})
+		scanner.render(success,error);
+		function success(result){
+		  scanner.clear()
+		  setScanResult(result)
+		  //addProduct(scanResult)
+		}
+		function error(){
+		 console.warn(error)
+		}
+	   
   
-  
-  },[])
+	},[])
 
   async function trackProduct() {
     try {
@@ -224,25 +241,20 @@ function Customer() {
   
     return (
       <div className="App">
-      
-       <h1>customer page</h1>
-         
-      {/* <table>
-                <tr>
-                    <th>Station</th>
-                    <th>Status</th>
-                    <th>Result</th>
-                </tr>
-                {data.map((val, key) => {
-                    return (
-                        <tr key={key}>
-                            <td>{val.station}</td>
-                            <td>{val.status}</td>
-                            <td>{val.klipid}</td>
-                        </tr>
-                    )
-                })}
-            </table> */}
+       <h1> True Klip QR Code Scanner</h1>
+	   <img src={logo} alt="Logo" />
+       {scanResult
+       ?  <div>
+       {isLoading ? (
+         <p><Link to="/tracking"> Track Product</Link></p>
+       ) : (
+         <button type="submit" onClick={() => apiCall(scanResult)}>
+           Validate Product
+         </button>
+       )}
+     </div>
+       :<div id ="reader"></div>
+       }
        </div>
        
       

@@ -4,6 +4,7 @@ import {Html5QrcodeScanner} from "html5-qrcode"
 //const { JsonRpcProvider } = require("@ethersproject/providers");
 import { Web3Provider } from "@ethersproject/providers";
 import { Link } from "react-router-dom";
+import logo from '../logo.svg';
 
 
 //import {abiValidation} from "../abi"
@@ -419,6 +420,7 @@ function Producer(){
     return (
       <div className="App">
        <h1> True Klip QR Code Scanner</h1>
+       <img src={logo} alt="Logo" />
        {scanResult
        ?  <div>
        {isLoading ? (

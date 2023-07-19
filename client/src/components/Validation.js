@@ -2,6 +2,7 @@ import{useEffect, useState} from "react";
 import axios from 'axios'
 import { Web3Provider } from "@ethersproject/providers";
 import { Link } from "react-router-dom";
+import logo from '../logo.svg';
 //import { AbiCoder } from "@ethersproject/abi";
 //import{ethers} from 'ethers'
 
@@ -137,8 +138,8 @@ function Validation() {
     // const [mfgDate, setMfgDate] = useState("")
     // const [expiryDate, setExpiryDate] = useState("")
     // const [description, setDescription] = useState("")
-    const [valid, setValid] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [valid, setValid] = useState(null);
+    const [isLoading, setIsLoading] = useState(null);
     const [kliphash, setKlipHash] = useState("")
     // const [arrayData, setArrayData] = useState([]);
    ;
@@ -279,6 +280,7 @@ function Validation() {
        
          
         <h1>Validation from  Blockchain interaction Form</h1>
+        <img src={logo} alt="Logo" />
        <form>
        <fieldset>
        <label>
