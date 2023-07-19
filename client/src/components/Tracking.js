@@ -234,30 +234,36 @@ function Tracking() {
 	
       <div className="App">
 		<div>
-		<h1>Track the Product</h1>
-		<img src={logo} alt="Logo" />
+		<h1 className="text-3xl font-bold underline">Track the Product</h1>
+		<img  className="mx-auto p-4" src={logo} alt="Logo" />
         </div>
 	 
 		
 	
-         <div className="Table">
-      <table>
-                <tr>
-                    <th>Station</th>
-                    <th>Status</th>
-                    <th>Result</th>
-                </tr>
-                {data.map((val, key) => {
-                    return (
-                        <tr key={key}>
-                            <td>{val.station}</td>
-                            <td>{val.status}</td>
-                            <td>{val.klipid}</td>
-                        </tr>
-                    )
-                })}
-            </table>
-			</div>
+		<div className="Table overflow-x-auto">
+  <table className="min-w-full divide-y divide-gray-200">
+    <thead>
+      <tr>
+        <th className="py-3 px-6 text-left">Station</th>
+        <th className="py-3 px-6 text-left">Status</th>
+        <th className="py-3 px-6 text-left">Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      {data.map((val, key) => {
+        return (
+          <tr key={key}>
+            <td className="py-4 px-6">{val.station}</td>
+            <td className="py-4 px-6">{val.status}</td>
+            <td className="py-4 px-6">{val.klipid}</td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
+
+
        </div>
        
       

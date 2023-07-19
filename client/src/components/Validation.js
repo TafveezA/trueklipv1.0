@@ -282,44 +282,34 @@ function Validation() {
       
        
          
-        <h1>Validation from  Blockchain</h1>
-        <img src={logo} alt="Logo" />
-       <form>
-       <fieldset>
-       <label>
-           <p>KLIP ID</p>
-           <input type="text" value={klipId}
-           onChange={(e)=>setKlipId(e.target.value)} />
-         </label>
-         {/* <label>
-           <p>Batch Number</p>
-           <input type="text" value ={batchNumber} 
-           onChange={(e)=>setBatchNumber(e.target.value)}/>
-         </label>
-         <label>
-           <p>MFG Date</p>
-           <input type="text" value ={mfgDate} 
-           onChange={(e)=>setMfgDate(e.target.value)}/>
-         </label>
-         <label>
-           <p>Expiry Date</p>
-           <input type ="text" value ={expiryDate}
-           onChange={(e)=>setExpiryDate(e.target.value)} />
-         </label>
-         <label>
-           <p>warranty</p>
-           <input type="text" value={warranty}
-           onChange={(e)=>setWarranty(e.target.value)} />
-         </label>
-         <label>
-           <p>Description</p>
-           <input type="text" value={description}
-           onChange={(e)=>setDescription(e.target.value)} />
-         </label> */}
-     
-       </fieldset>
-       <button type="button"onClick={validateProduct}>Validate Product</button>
-      </form>
+        <h1 className="text-3xl font-bold underline">Validation from  Blockchain</h1>
+        <img className="mx-auto p-4" src={logo} alt="Logo" />
+      
+
+<form className="max-w-lg mx-auto">
+  <fieldset>
+    <div className="mb-4">
+      <label htmlFor="klipId" className="text-gray-700 text-lg font-medium">
+        KLIP ID
+      </label>
+      <input
+        type="text"
+        id="klipId"
+        value={klipId}
+        onChange={(e) => setKlipId(e.target.value)}
+        className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
+      />
+    </div>
+    {/* Rest of the fields... */}
+  </fieldset>
+  <button
+    type="button"
+    onClick={validateProduct}
+    className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4"
+  >
+    Validate Product
+  </button>
+</form>
       {valid
        ?  <div>
        {isLoading ? (

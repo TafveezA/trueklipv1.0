@@ -4,6 +4,7 @@ import { Web3Provider } from "@ethersproject/providers";
 import {Html5QrcodeScanner} from "html5-qrcode"
 import { Link } from "react-router-dom";
 import logo from '../logo.svg';
+import '../App.css'
 
 //const abiValidation= require( '../abi')
 //const Web3 = require("web3");
@@ -146,12 +147,12 @@ function Customer() {
     
     useEffect(() =>{
 		const scanner = new Html5QrcodeScanner('reader',{
-		  qrbox:{
-			width: 400,
-			height:400,
-		  },
-		  fps:5,
-		})
+			qrbox: {
+				width: '400',
+				height: '400',
+			  },
+			  fps: 5,
+			})
 		scanner.render(success,error);
 		function success(result){
 		  scanner.clear()
@@ -255,13 +256,12 @@ function Customer() {
      </div>
        : 
 	   <div id="reader"></div>
-	 
-	 
-       }
+	}
+
 	   <div>
-		<h2> Or </h2>
-		<h3>Validate Using Klip ID</h3>
-		<Link to="/validation"> validate by klip id</Link>
+		<h2 className="text-2xl font-bold mb-2">Or</h2>
+        <h3 className="text-xl font-bold">Validate Using Klip ID</h3>
+		<Link to="/validation"  className="text-blue-500"> enter klip id</Link>
 		</div>
 
        </div>
