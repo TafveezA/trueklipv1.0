@@ -29,8 +29,7 @@ const NFTMarketplace = () => {
         price: '0.1',
       },
     // Add more NFTs
-  ];
-
+  ]
   return (
     <div className="bg-gray-100 min-h-screen">
       <header className="bg-white shadow-md">

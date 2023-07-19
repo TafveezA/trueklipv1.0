@@ -179,10 +179,19 @@ function Customer() {
 	   <div id="reader"></div>
 	}
 
-	   <div>
-		<h2 className="text-2xl font-bold mb-2">Or</h2>
+	   <div>{isButtonVisible && (<div><h2 className="text-2xl font-bold mb-2">Or</h2>
         <h3 className="text-xl font-bold">Validate Using Klip ID</h3>
 		<Link to="/validation"  className="text-blue-500"> Enter Klip ID</Link>
+	     </div>)}
+		</div>
+		<div>{valid ? (<div><h1 className="text-green-500 text-2xl font-semibold">
+         Yes Valid Product</h1>
+            <p className="text-black-600"> Track the product journey by visiting<Link to="/tracking"  className="text-blue-500"> Track</Link></p>
+	     </div>)
+		 :(isButtonVisible === false) &&(<div><h1 className="text-red-500 text-2xl font-semibold">
+		 oh No Invalid Product
+	   </h1> </div>)
+	   }
 		</div>
 
        </div>
