@@ -5,125 +5,19 @@ import {Html5QrcodeScanner} from "html5-qrcode"
 import { Web3Provider } from "@ethersproject/providers";
 import { Link } from "react-router-dom";
 import logo from '../logo.svg';
+import { abiValidation, contractAddressValidation } from "../constants";
 
 
 //import {abiValidation} from "../abi"
 // const dotenv =require('dotenv')
 // //const Web3 = require("web3");
 // require('dotenv').config({path:'../../.env'})
-console.log(process.env.ALCHEMY_API_KEY)
+//console.log(process.env.ALCHEMY_API_KEY)
 const ethers = require("ethers");
 const CryptoJS = require("crypto-js");
 
-const contractAddress ="0x4F430c214DFc1cF6ace4050025177cB30f129431"
-const abi= [
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_klipId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_batchNumber",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_mfgDate",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_expiryDate",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_warranty",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_description",
-				"type": "string"
-			}
-		],
-		"name": "hashData",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_klipId",
-				"type": "uint256"
-			}
-		],
-		"name": "getHashById",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_klipId",
-				"type": "uint256"
-			}
-		],
-		"name": "Validate",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"name": "validateHashByKlipId",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-]
+const contractAddress =contractAddressValidation
+const abi= abiValidation
 
 
 //console.log(process.env.CONTRACT_VALIDATION_ADDRESS)

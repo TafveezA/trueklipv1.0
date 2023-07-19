@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Web3Provider } from "@ethersproject/providers";
 import '../App.css';
 import logo from '../logo.svg';
+import { abiValidation,contractAddressValidation } from "../constants";
 
 //const abiValidation= require( '../abi')
 //const Web3 = require("web3");
@@ -11,115 +12,8 @@ const ethers = require("ethers");
 // const dotenv = require('dotenv')
 
 // dotenv.config({path:'../config/config.env'})
-const contractAddress ="0xa055830185C45fCA70A257707d74fC6a3a8e9dA5"
-const abi=[
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_klipId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_batchNumber",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_mfgDate",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_expiryDate",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_warranty",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_description",
-				"type": "string"
-			}
-		],
-		"name": "hashData",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_klipId",
-				"type": "uint256"
-			}
-		],
-		"name": "getHashById",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_klipId",
-				"type": "uint256"
-			}
-		],
-		"name": "Validate",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"name": "validateHashByKlipId",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-]
+const contractAddress = contractAddressValidation
+const abi=abiValidation
 const data = [
     { station: "Factory", status: "Packing", klipid: "a1" },
     { station: "Shipping", status: "Pending", klipid: "bhaq21" },
@@ -246,7 +140,7 @@ function Tracking() {
       <tr>
         <th className="py-3 px-6 text-left">Station</th>
         <th className="py-3 px-6 text-left">Status</th>
-        <th className="py-3 px-6 text-left">Result</th>
+        <th className="py-3 px-6 text-left">KlipID</th>
       </tr>
     </thead>
     <tbody>

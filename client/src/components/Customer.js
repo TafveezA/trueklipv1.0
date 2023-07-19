@@ -5,6 +5,7 @@ import {Html5QrcodeScanner} from "html5-qrcode"
 import { Link } from "react-router-dom";
 import logo from '../logo.svg';
 import '../App.css'
+import { abiValidation, contractAddressValidation } from "../constants";
 
 //const abiValidation= require( '../abi')
 //const Web3 = require("web3");
@@ -13,122 +14,9 @@ const ethers = require("ethers");
 // const dotenv = require('dotenv')
 
 // dotenv.config({path:'../config/config.env'})
-const contractAddress ="0xa055830185C45fCA70A257707d74fC6a3a8e9dA5"
-const abi=[
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_klipId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_batchNumber",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_mfgDate",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_expiryDate",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_warranty",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_description",
-				"type": "string"
-			}
-		],
-		"name": "hashData",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_klipId",
-				"type": "uint256"
-			}
-		],
-		"name": "getHashById",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_klipId",
-				"type": "uint256"
-			}
-		],
-		"name": "Validate",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"name": "validateHashByKlipId",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-]
-// const data = [
-//     { station: "Factory", status: 19, klipid: "a1" },
-//     { station: "Shipping", status: 19, klipid: "bhaq21" },
-//     { station: "RegionalFacility", status: 25, klipid: "daa1@" },
-//     { station: "Retailer", status: 25, klipid: "zinsgh#1" },
-//     { station: "Customer", status: 27, klipid: "alp2" }
-// ]
+const contractAddress = contractAddressValidation
+const abi=abiValidation
+
 
 function Customer() {
 
@@ -140,6 +28,7 @@ function Customer() {
     // const [description, setDescription] = useState("")
     const [valid, setValid] = useState(false);
     const [kliphash, setKlipHash] = useState("")
+	const [isButtonVisible, setIsButtonVisible] = useState(true);
     // const [arrayData, setArrayData] = useState([]);
 	const [isLoading, setIsLoading] = useState(null);
 
@@ -166,7 +55,7 @@ function Customer() {
   
 	},[])
 
-  async function trackProduct() {
+  async function validateByQR(data) {
     try {
       if (
         typeof window !== "undefined" &&
@@ -189,11 +78,14 @@ function Customer() {
       const signer = await provider.getSigner()
       console.log(await signer.getAddress())
       const contract = new ethers.Contract(contractAddress, abi,signer);
-      console.log('klipID: ' ,klipId)
-      const hash = await contract.getHashById(klipId)
+	  const fetcheddata =fetchData(data)
+	  const jsonData = JSON.parse(data);
+      console.log('klipID: ' ,jsonData.klipid)
+	  console.log('klipID: ' ,fetcheddata.klipid)
+      const hash = await contract.getHashById(jsonData.klipid)
 
       console.log('hash' , hash)
-      const result = await contract.Validate(klipId);
+      const result = await contract.Validate(jsonData.klipid);
 
       console.log("Valid",result)
     
@@ -203,6 +95,7 @@ function Customer() {
       console.log("Validation Result :", result);
       setValid(result)
       setKlipHash(hash)
+	  setIsButtonVisible(false);
 
 
      
@@ -214,27 +107,43 @@ function Customer() {
   //setKlipId(0)
 //validateProduct()
 
-  function apiCall(data){
-    const jsonData = JSON.parse(data);
-    const apiUrl = 'http://localhost:5000/api/v1/products/'
-    const requestBody = {
-      name: jsonData.name,
-      quantity:jsonData.quantity,
-      price:jsonData.price,
-      description:jsonData.digitalreciept
-    };
+//   function apiCall(data){
+//     const jsonData = JSON.parse(data);
+//     const apiUrl = 'http://localhost:5000/api/v1/products/'
+//     const requestBody = {
+// 		klipid: jsonData.klipid,
+// 		batchnumber:jsonData.batchnumber,
+// 		mfgdate:jsonData.mfgdate,
+// 		expirydate:jsonData.expirydate,
+// 		mfgdate:jsonData.mfgdate,
+// 		warranty:jsonData.warranty,
+// 		description:jsonData.description
+// 	  };
   
-    axios.post(apiUrl, requestBody)
-    .then((response) => {
-      console.log('Data successfully inserted into the API:', response.data);
-    })
-    .catch((error) => {
-      console.error('Error inserting data into the API:', error.data);
-    });
+//     axios.post(apiUrl, requestBody)
+//     .then((response) => {
+//       console.log('Data successfully inserted into the API:', response.data);
+//     })
+//     .catch((error) => {
+//       console.error('Error inserting data into the API:', error.data);
+//     });
   
-  }
+//   }
 
-  
+  async function fetchData(data) {
+    try { const jsonData = JSON.parse(data);
+        const response = await axios.get('http://localhost:5000/api/v1/products/', {
+          params: {
+            klipid:jsonData.klipid,
+          },
+        });
+    
+        console.log(response.data);
+        return response.data
+      } catch (error) {
+        console.error(error);
+      }
+  }
   
 
 
@@ -242,16 +151,28 @@ function Customer() {
   
     return (
       <div className="App">
-       <h1 className="text-3xl font-bold underline"> True Klip QR Code Scanner</h1>
+   
+	   <div> <header className="bg-white shadow-md">
+        <div className="container mx-auto py-4 px-8">
+          <h1 className="text-2xl font-bold text-gray-800">True Klip QR Code Scanner</h1>
+        </div>
+      </header></div>
 	   <img className="mx-auto p-4" src={logo} alt="Logo" />
        {scanResult
        ?  <div>
        {isLoading ? (
          <p><Link to="/tracking"> Track Product</Link></p>
        ) : (
-        <button type="submit" onClick={() => apiCall(scanResult)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-  Validate Product
-</button>
+		<div>{isButtonVisible && (
+			<button
+			  type="button"
+			  onClick={validateByQR(scanResult)}
+			  className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4"
+			>
+			  Validate Product
+			</button>
+		  )}
+		  </div>
        )}
      </div>
        : 
@@ -261,7 +182,7 @@ function Customer() {
 	   <div>
 		<h2 className="text-2xl font-bold mb-2">Or</h2>
         <h3 className="text-xl font-bold">Validate Using Klip ID</h3>
-		<Link to="/validation"  className="text-blue-500"> enter klip id</Link>
+		<Link to="/validation"  className="text-blue-500"> Enter Klip ID</Link>
 		</div>
 
        </div>

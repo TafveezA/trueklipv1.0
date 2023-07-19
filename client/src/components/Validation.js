@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Web3Provider } from "@ethersproject/providers";
 import { Link } from "react-router-dom";
 import logo from '../logo.svg';
+import { abiValidation, contractAddressValidation } from "../constants";
 //import { AbiCoder } from "@ethersproject/abi";
 //import{ethers} from 'ethers'
 
@@ -20,116 +21,8 @@ const ethers = require("ethers");
 // const dotenv = require('dotenv')
 
 // dotenv.config({path:'../config/config.env'})
-const contractAddress ="0x4F430c214DFc1cF6ace4050025177cB30f129431"
-const abi=[
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_klipId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_batchNumber",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_mfgDate",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_expiryDate",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_warranty",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_description",
-				"type": "string"
-			}
-		],
-		"name": "hashData",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_klipId",
-				"type": "uint256"
-			}
-		],
-		"name": "getHashById",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_klipId",
-				"type": "uint256"
-			}
-		],
-		"name": "Validate",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"name": "validateHashByKlipId",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-]
-
+const contractAddress =contractAddressValidation
+const abi= abiValidation
 
 function Validation() {
 
@@ -235,29 +128,29 @@ function Validation() {
   //setKlipId(0)
 //validateProduct()
 
-  function apiCall(data){
-    const jsonData = JSON.parse(data);
-    const apiUrl = 'http://localhost:5000/api/v1/products/'
-    const requestBody = {
-        klipid: jsonData.klipid,
-        batchnumber:jsonData.batchnumber,
-        mfgdate:jsonData.mfgdate,
-        expirydate:jsonData.expirydate,
-        mfgdate:jsonData.mfgdate,
-        warranty:jsonData.warranty,
-        description:jsonData.description
-      };
+  // function apiCall(data){
+  //   const jsonData = JSON.parse(data);
+  //   const apiUrl = 'http://localhost:5000/api/v1/products/'
+  //   const requestBody = {
+  //       klipid: jsonData.klipid,
+  //       batchnumber:jsonData.batchnumber,
+  //       mfgdate:jsonData.mfgdate,
+  //       expirydate:jsonData.expirydate,
+  //       mfgdate:jsonData.mfgdate,
+  //       warranty:jsonData.warranty,
+  //       description:jsonData.description
+  //     };
     
   
-    axios.post(apiUrl, requestBody)
-    .then((response) => {
-      console.log('Data successfully inserted into the API:', response.data);
-    })
-    .catch((error) => {
-      console.error('Error inserting data into the API:', error.data);
-    });
+  //   axios.post(apiUrl, requestBody)
+  //   .then((response) => {
+  //     console.log('Data successfully inserted into the API:', response.data);
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error inserting data into the API:', error.data);
+  //   });
   
-  }
+  // }
 
   async function fetchData() {
     try {
@@ -284,8 +177,12 @@ function Validation() {
       
        
          
-        <h1 className="text-3xl font-bold underline">Validation from  Blockchain</h1>
-        <img className="mx-auto p-4" src={logo} alt="Logo" />
+      <div> <header className="bg-white shadow-md">
+        <div className="container mx-auto py-4 px-8">
+          <h1 className="text-2xl font-bold text-gray-800">True Klip Blockchain Validation</h1>
+        </div>
+      </header></div>
+	   <img className="mx-auto p-4" src={logo} alt="Logo" />
       
 
 <form className="max-w-lg mx-auto">
@@ -304,13 +201,15 @@ function Validation() {
     </div>
     {/* Rest of the fields... */}
   </fieldset>
-  <button
-    type="button"
-    onClick={validateProduct}
-    className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4"
-  >
-    Validate Product
-  </button>
+  {isButtonVisible && (
+        <button
+          type="button"
+          onClick={validateProduct}
+          className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4"
+        >
+          Validate Product
+        </button>
+      )}
 </form>
       {valid
        ?  <div>
@@ -318,7 +217,7 @@ function Validation() {
          <div><h1 className="text-green-500 text-2xl font-semibold">
          Yes Valid Product
        </h1>
-            <p> Track the product jouney by visiting<Link to="/tracking"  className="text-blue-500"> Track</Link></p> </div>
+            <p className="text-black-600"> Track the product journey by visiting<Link to="/tracking"  className="text-blue-500"> Track</Link></p> </div>
        ) : (
         <h1 className="text-green-500 text-2xl font-semibold">
          Valid Product
