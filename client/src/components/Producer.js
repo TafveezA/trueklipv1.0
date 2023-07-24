@@ -32,11 +32,11 @@ function Producer(){
 
   
     const [scanResult,setScanResult]=useState(null)
-    // const [klipId, setKlipId] = useState("")
-    // const [batchNumber, setBatchNumber] = useState("")
-    // const [mfgDate, setMfgDate] = useState("")
-    // const [expiryDate, setExpiryDate] = useState("")
-    // const [description, setDescription] = useState("")
+     const [klipId, setKlipId] = useState("")
+     const [batchNumber, setBatchNumber] = useState("")
+     const [mfgDate, setMfgDate] = useState("")
+     const [expiryDate, setExpiryDate] = useState("")
+     const [description, setDescription] = useState("")
     // const [warranty, setWarranty] = useState("")
      const [isLoading, setIsLoading] = useState(false);
     // const [kliphash, setKlipHash] = useState("")
@@ -327,6 +327,44 @@ function Producer(){
      </div>
        :<div id ="reader"></div>
        }
+      <br></br>
+       <div><form className="max-w-lg mx-auto">
+  <fieldset>
+    <div className="mb-4">
+      <label htmlFor="klipId" className="text-gray-700 text-lg font-medium">
+        Tru KLIP ID
+      </label>
+      <input
+        type="text"
+        id="klipId"
+        value={klipId}
+        onChange={(e) => setKlipId(e.target.value)}
+        className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
+      />
+    </div>
+    <div className="mb-4">
+      <label htmlFor="klipId" className="text-gray-700 text-lg font-medium">
+        Batch Number
+      </label>
+      <input
+        type="text"
+        id="klipId"
+        value={batchNumber}
+        onChange={(e) => setBatchNumber(e.target.value)}
+        className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
+      />
+    </div>
+  </fieldset>
+  {isButtonVisible && (
+        <button
+          type="button"
+          onClick={validateProduct}
+          className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4"
+        >
+          Validate Product
+        </button>
+      )}
+</form></div>
    
        <div>
         <br></br>

@@ -154,7 +154,7 @@ function Customer() {
    
 	   <div> <header className="bg-white shadow-md">
         <div className="container mx-auto py-4 px-8">
-          <h1 className="text-2xl font-bold text-gray-800">True Klip QR Code Scanner</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Tru Klip QR Code Scanner</h1>
         </div>
       </header></div>
 	   <img className="mx-auto p-4" src={logo} alt="Logo" />

@@ -189,7 +189,7 @@ function Validation() {
   <fieldset>
     <div className="mb-4">
       <label htmlFor="klipId" className="text-gray-700 text-lg font-medium">
-        KLIP ID
+        Tru KLIP ID
       </label>
       <input
         type="text"
