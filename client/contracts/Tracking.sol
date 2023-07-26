@@ -10,8 +10,9 @@ contract Tracking {
         Retailer,
         Customer
     }
-   // Station public productStation;
+   
     mapping(uint256=>Station) public trackProductStation;
+    mapping(uint256=>mapping (Station =>bool)) public traceProductStation;
 
     enum Status {
         Pending,
@@ -22,7 +23,7 @@ contract Tracking {
     }
 
 
-   // Status public shippingStatus;
+ 
     mapping(uint256=>Status) public trackShippingStatus;
 
 
@@ -35,7 +36,7 @@ contract Tracking {
     }
 
 
-    function setStatus(uint256 _truKlipId,Status _shippingStatus) public {
+    function setStatus(uint256 _truKlipId,Status _shippingStatus)onlyFactory(_truKlipId) public {
         trackShippingStatus[_truKlipId] = _shippingStatus;
     }
 
@@ -44,15 +45,20 @@ contract Tracking {
     }
 
 
-    function cancelStatus(uint256 _truKlipId) public {
+    function cancelStatus(uint256 _truKlipId)onlyFactory(_truKlipId) public {
         trackShippingStatus[_truKlipId] = Status.Canceled;
     }
 
-    function resetStatus(uint256 _truKlipId) public {
+    function resetStatus(uint256 _truKlipId)onlyFactory(_truKlipId) public {
         delete trackShippingStatus[_truKlipId];
     }
 
     function resetStation(uint256 _truKlipId) public {
         delete trackProductStation[_truKlipId];
     }
+    modifier onlyFactory(uint256 _truKlipId){
+        require(trackProductStation[_truKlipId] == Station.Shipping,"Product is not at Factory Bluff You");
+        _;
+    }
+  
 }
