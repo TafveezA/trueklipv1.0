@@ -13,19 +13,42 @@ function hashData( uint256 _klipId,string memory _batchNumber,uint256 _mfgDate, 
 }
 
 mapping(uint256=>string) public certificationHash;
+mapping(uint256=>string) public productHash;
+function hashProductData(uint256 _truKlipId,string memory _hash) public{
+    productHash[_truKlipId]=_hash;
+}
 
 function hashCertificationData(uint256 _truKlipId,string memory _certificationHash) public {
  certificationHash[_truKlipId]=_certificationHash;
 }
 
-
-
-
-function getHashById(uint256 _klipId) public view returns (bytes32)
-{
-return hashByKlipId[_klipId];
+function getProductHash(uint256 _truKlipId) public view returns (string memory){
+    return productHash[_truKlipId];
 }
-function validate(uint256 _klipId) public view returns (bool){
-    return validateHashByKlipId[_klipId][hashByKlipId[_klipId]];
+
+function getCertificationHash(uint256 _truKlipId) public view returns(string memory){
+    return certificationHash[_truKlipId];
+}
+
+
+function getHashById(uint256 _truKlipId) public view returns (bytes32)
+{
+return hashByKlipId[_truKlipId];
+}
+
+function validateProduct(uint256 _truKlipId ,string calldata _productHash) public view returns(bool){
+   bool  result;
+    if(keccak256(abi.encode(productHash[_truKlipId])) != keccak256(abi.encode(_productHash))){
+        result;
+     }
+     else{
+        result =true;
+     }
+     return result;
+
+}
+
+function validate(uint256 _truKlipId) public view returns (bool){
+    return validateHashByKlipId[_truKlipId][hashByKlipId[_truKlipId]];
 }
 }
