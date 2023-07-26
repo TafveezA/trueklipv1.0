@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.18;
 contract Validation{
 
 mapping(uint256 =>mapping(bytes32=>bool)) public validateHashByKlipId;

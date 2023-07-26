@@ -41,6 +41,7 @@ function Producer(){
      const [isLoading, setIsLoading] = useState(false);
     // const [kliphash, setKlipHash] = useState("")
     // const [arrayData, setArrayData] = useState([]);
+    const [isButtonVisible, setIsB] = useState(false);
    ;
     const [temp, setTemp] = useState("")
     
@@ -328,6 +329,8 @@ function Producer(){
        :<div id ="reader"></div>
        }
       <br></br>
+      <h2 class="text-3xl font-bold mt-6">Add Product</h2>
+      <br></br>
        <div><form className="max-w-lg mx-auto">
   <fieldset>
     <div className="mb-4">
@@ -358,7 +361,7 @@ function Producer(){
   {isButtonVisible && (
         <button
           type="button"
-          onClick={validateProduct}
+          onClick={callHashData}
           className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4"
         >
           Validate Product
