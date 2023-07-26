@@ -12,11 +12,20 @@ function hashData( uint256 _klipId,string memory _batchNumber,uint256 _mfgDate, 
     return _hash;
 }
 
+mapping(uint256=>string) public certificationHash;
+
+function hashCertificationData(uint256 _truKlipId,string memory _certificationHash) public {
+ certificationHash[_truKlipId]=_certificationHash;
+}
+
+
+
+
 function getHashById(uint256 _klipId) public view returns (bytes32)
 {
 return hashByKlipId[_klipId];
 }
-function Validate(uint256 _klipId) public view returns (bool){
+function validate(uint256 _klipId) public view returns (bool){
     return validateHashByKlipId[_klipId][hashByKlipId[_klipId]];
 }
 }
