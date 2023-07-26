@@ -4,15 +4,15 @@ pragma solidity ^0.8.18;
 contract Tracking {
     
     enum Station{
-        Factory,
+        Manufacturer,
         Shipping,
         RegionalFacility,
         Retailer,
-        Store,
         Customer
     }
-    Station public station;
-    // Enum representing shipping status
+   // Station public productStation;
+    mapping(uint256=>Station) public trackProductStation;
+
     enum Status {
         Pending,
         Shipped,
@@ -22,36 +22,37 @@ contract Tracking {
     }
 
 
-    Status public status;
+   // Status public shippingStatus;
+    mapping(uint256=>Status) public trackShippingStatus;
 
 
-    function getStatus() public view returns (Status) {
-        return status;
+    function getStatus(uint256 _truKlipId) public view returns (Status) {
+        return trackShippingStatus[_truKlipId];
     }
 
-    function getStation() public view returns (Station) {
-        return station;
-    }
-
-
-    function setStatus(Status _status) public {
-        status = _status;
-    }
-
-     function setStation(Status _station) public {
-        status = _station;
+    function getStation(uint256 _truKlipId) public view returns (Station) {
+        return trackProductStation[_truKlipId];
     }
 
 
-    function cancelStatus() public {
-        status = Status.Canceled;
+    function setStatus(uint256 _truKlipId,Status _shippingStatus) public {
+        trackShippingStatus[_truKlipId] = _shippingStatus;
     }
 
-    function resetStatus() public {
-        delete status;
+     function setStation(uint256 _truKlipId,Station _productStation) public {
+        trackProductStation[_truKlipId]= _productStation;
     }
 
-    function resetStation() public {
-        delete station;
+
+    function cancelStatus(uint256 _truKlipId) public {
+        trackShippingStatus[_truKlipId] = Status.Canceled;
+    }
+
+    function resetStatus(uint256 _truKlipId) public {
+        delete trackShippingStatus[_truKlipId];
+    }
+
+    function resetStation(uint256 _truKlipId) public {
+        delete trackProductStation[_truKlipId];
     }
 }
