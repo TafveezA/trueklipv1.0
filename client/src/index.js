@@ -5,6 +5,7 @@ import App from './App';
 import Navbar from './components/Navbar';
 import reportWebVitals from './reportWebVitals';
 import Footer from './components/Footer';
+import IPFS from './components/ipfs';
 //import Header from './components/Header';
 
 
@@ -15,6 +16,7 @@ root.render(
     <Navbar/>
     <App />
     <Footer/>
+   
   
   </React.StrictMode>
 );
