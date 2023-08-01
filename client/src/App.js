@@ -11,6 +11,8 @@ import IPFS from './components/ipfs';
 import Customer from './components/Customer';
 import Tracking from './components/Tracking';
 import Marketplace from './components/Marketplace';
+import NFTMinting from './components/NFTMinting';
+
 //import fs from'fs';
 
 
@@ -39,6 +41,7 @@ function App() {
     <Route path = '/tracking' element ={<Tracking />}/>
     <Route path = '/marketplace' element ={<Marketplace />}/>
     <Route path = '/ipfs' element ={<IPFS/>}/>
+    <Route path = '/minting' element ={<NFTMinting/>}/>
       {/* <Route path = '/branch' element ={<Branch />}/>
       <Route path = '/bankreserve' element ={<BankReserve />}/>
       <Route path = '/banking' element ={<Banking />}/> */}
