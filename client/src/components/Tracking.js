@@ -33,7 +33,7 @@ function Tracking() {
     const [kliphash, setKlipHash] = useState("")
     // const [arrayData, setArrayData] = useState([]);
 
-    const [tracking, setTracking] = useState("")
+    // const [tracking, setTracking] = useState("")
     
     
     useEffect(() =>{
@@ -85,8 +85,8 @@ function Tracking() {
       //const hash = receipt.logs[0].data;
     
       console.log("Validation Result :", result);
-      setValid(result)
-      setKlipHash(hash)
+      
+      //setKlipHash(hash)
 
 
      

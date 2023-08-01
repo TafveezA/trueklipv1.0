@@ -27,7 +27,7 @@ const client = create({
 
 function NFTMinting(){
     const [metadata, setMetadata] = useState({
-        name: '',
+        productname: '',
         trueklipid:'',
         description: '',
         image: null,
@@ -35,13 +35,13 @@ function NFTMinting(){
       })
    
       const handleChange = (e) => {
-        const { name, value } = e.target;
-        setMetadata((prevMetadata) => ({ ...prevMetadata, [name]: value }))
+        const { productname, value } = e.target;
+        setMetadata((prevMetadata) => ({ ...prevMetadata, [productname]: value }))
       }
-      const handleIdChange = (e) => {
-        const { trueklipid, value } = e.target;
-        setMetadata((prevMetadata) => ({ ...prevMetadata, [trueklipid]: value }))
-      }
+    //   const handleIdChange = (e) => {
+    //     const { trueklipid, value } = e.target;
+    //     setMetadata((prevMetadata) => ({ ...prevMetadata, [trueklipid]: value }))
+    //   }
     
       const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -52,8 +52,9 @@ function NFTMinting(){
       const handleSubmit = async(e) => {
         e.preventDefault();
         
-        if (window.ethereum != "undefined"){
+        if (window.ethereum !== "undefined"){
             const accounts = await window.ethereum.request({method:'request_Accounts'})
+            console.log("accounts",accounts[0])
         }
       const provider = new Web3Provider(window.ethereum)|| new ethers.JsonRpcProvider("")
       const signer = await provider.getSigner()
@@ -70,11 +71,9 @@ function NFTMinting(){
       } 
      
       const hash = await contract.mint(address,metadata)
-
-     
-        
-        console.log('Minting NFT with metadata:', metadata)
-        setMetadata({ name: '',trueklipid:'', description: '', image: null, });
+      console.log("minting NFT with hash",hash)
+      console.log('Minting NFT with metadata:', metadata)
+      setMetadata({ name: '',trueklipid:'', description: '', image: null, });
       }
     
 
@@ -88,21 +87,21 @@ function NFTMinting(){
         <div className="p-8 bg-white shadow-md rounded-lg">
       <h1 className="text-2xl font-semibold mb-4">Mint an NFT Certificate</h1>
       <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+      <div className="mb-4">
+          <label htmlFor="productname" className="block text-gray-700 font-medium mb-2">
             Name
           </label>
           <input
             type="text"
-            id="name"
-            name="name"
-            value={metadata.name}
+            id="productname"
+            name="productname"
+            value={metadata.productname}
             onChange={handleChange}
             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
             required
           />
         </div>
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label htmlFor="trueklipid" className="block text-gray-700 font-medium mb-2">
             TruKlipId
           </label>
@@ -115,7 +114,7 @@ function NFTMinting(){
             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
             required
           />
-        </div>
+        </div> */}
         <div className="mb-4">
           <label htmlFor="description" className="block text-gray-700 font-medium mb-2">
             Description

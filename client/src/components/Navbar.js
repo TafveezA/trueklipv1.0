@@ -35,6 +35,7 @@ const Navbar = () => {
               <a href="/customer" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Customer</a>
               <a href="/validation" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Validation</a>
               <a href="/marketplace" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Marketplace</a>
+              <a href="/minting" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">MintNFT</a>
             </div>
           </div>
         </div>
@@ -46,6 +47,7 @@ const Navbar = () => {
           <a href="/customer" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Customer</a>
           <a href="/validation" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Validation</a>
           <a href="/marketplace" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Marketplace</a>
+          <a href="/minting" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">MintNFT</a>
         </div>
       </div>
     </nav>

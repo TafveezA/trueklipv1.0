@@ -20,19 +20,16 @@ const abi=abiValidation
 
 function Customer() {
 
-    const [klipId, setKlipId] = useState("")
+    //const [klipId, setKlipId] = useState("")
 	const [scanResult,setScanResult]=useState(null)
-    // const [batchNumber, setBatchNumber] = useState("")
-    // const [mfgDate, setMfgDate] = useState("")
-    // const [expiryDate, setExpiryDate] = useState("")
-    // const [description, setDescription] = useState("")
+  
     const [valid, setValid] = useState(false);
     const [kliphash, setKlipHash] = useState("")
 	const [isButtonVisible, setIsButtonVisible] = useState(true);
     // const [arrayData, setArrayData] = useState([]);
 	const [isLoading, setIsLoading] = useState(null);
 
-    const [tracking, setTracking] = useState("")
+   
     
     useEffect(() =>{
 		const scanner = new Html5QrcodeScanner('reader',{
@@ -89,9 +86,7 @@ function Customer() {
 
       console.log("Valid",result)
     
-      //const receipt = await provider.getTransactionReceipt(result.hash);
-      //const hash = receipt.logs[0].data;
-    
+     
       console.log("Validation Result :", result);
       setValid(result)
       setKlipHash(hash)
@@ -104,31 +99,7 @@ function Customer() {
     }
 
   }
-  //setKlipId(0)
-//validateProduct()
 
-//   function apiCall(data){
-//     const jsonData = JSON.parse(data);
-//     const apiUrl = 'http://localhost:5000/api/v1/products/'
-//     const requestBody = {
-// 		klipid: jsonData.klipid,
-// 		batchnumber:jsonData.batchnumber,
-// 		mfgdate:jsonData.mfgdate,
-// 		expirydate:jsonData.expirydate,
-// 		mfgdate:jsonData.mfgdate,
-// 		warranty:jsonData.warranty,
-// 		description:jsonData.description
-// 	  };
-  
-//     axios.post(apiUrl, requestBody)
-//     .then((response) => {
-//       console.log('Data successfully inserted into the API:', response.data);
-//     })
-//     .catch((error) => {
-//       console.error('Error inserting data into the API:', error.data);
-//     });
-  
-//   }
 
   async function fetchData(data) {
     try { const jsonData = JSON.parse(data);

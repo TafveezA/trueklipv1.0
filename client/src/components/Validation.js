@@ -87,6 +87,7 @@ function Validation() {
       console.log("Validation Result :", result);
    
       setKlipHash(hash)
+      console.log(kliphash)
 // const fetchedData =fetchData()
 
 // const _klipId = ethers.BigNumber.form(fetchedData.klipid, 0);
@@ -167,6 +168,7 @@ function Validation() {
       }
   }
   
+  console.log(fetchData())
   
 
 

@@ -34,16 +34,16 @@ function Producer(){
     const [scanResult,setScanResult]=useState(null)
      const [klipId, setKlipId] = useState("")
      const [batchNumber, setBatchNumber] = useState("")
-     const [mfgDate, setMfgDate] = useState("")
-     const [expiryDate, setExpiryDate] = useState("")
-     const [description, setDescription] = useState("")
+    //  const [mfgDate, setMfgDate] = useState("")
+    //  const [expiryDate, setExpiryDate] = useState("")
+    //  const [description, setDescription] = useState("")
     // const [warranty, setWarranty] = useState("")
      const [isLoading, setIsLoading] = useState(false);
     // const [kliphash, setKlipHash] = useState("")
     // const [arrayData, setArrayData] = useState([]);
-    const [isButtonVisible, setIsB] = useState(false);
+    const [isButtonVisible, setIsButtonVisible] = useState(false);
    ;
-    const [temp, setTemp] = useState("")
+    //const [temp, setTemp] = useState("")
     
     useEffect(() =>{
       const scanner = new Html5QrcodeScanner('reader',{
