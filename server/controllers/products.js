@@ -79,7 +79,7 @@ exports.deleteProduct = asyncHandler(async(req,res,next)=>{
             
 })
 
-// @desc  Get bootcamps within a radius
+// @desc  Get products within a radius
 // @route GET /api/v1/products/radius/:zipcode/:distance
 // @access Public
 exports.getProductsInRadius = asyncHandler(async(req,res,next)=>{
