@@ -52,10 +52,10 @@ function NFTMinting(){
       const handleSubmit = async(e) => {
         e.preventDefault();
         
-        if (window.ethereum !== "undefined"){
+        // if (window.ethereum !== "undefined"){
             const accounts = await window.ethereum.request({method:'request_Accounts'})
-            console.log("accounts",accounts[0])
-        }
+        //     console.log("accounts",accounts[0])
+        // }
       const provider = new Web3Provider(window.ethereum)|| new ethers.JsonRpcProvider("")
       const signer = await provider.getSigner()
       const address=await signer.getAddress()
@@ -69,8 +69,8 @@ function NFTMinting(){
       } catch (error) {
         console.log('Error uploading file: ', error)
       } 
-     
-      const hash = await contract.mint(address,metadata)
+      const  nfturl = JSON.stringify(metadata)
+      const hash = await contract.safeMint(address,nfturl)
       console.log("minting NFT with hash",hash)
       console.log('Minting NFT with metadata:', metadata)
       setMetadata({ name: '',trueklipid:'', description: '', image: null, });
@@ -84,10 +84,10 @@ function NFTMinting(){
 
 
     return(
-        <div className="p-8 bg-white shadow-md rounded-lg">
+      <div className="p-8 bg-white shadow-md rounded-lg">
       <h1 className="text-2xl font-semibold mb-4">Mint an NFT Certificate</h1>
-      <form onSubmit={handleSubmit}>
-      <div className="mb-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="mb-4">
           <label htmlFor="productname" className="block text-gray-700 font-medium mb-2">
             Name
           </label>
@@ -98,23 +98,9 @@ function NFTMinting(){
             value={metadata.productname}
             onChange={handleChange}
             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
-            required
+            
           />
         </div>
-        {/* <div className="mb-4">
-          <label htmlFor="trueklipid" className="block text-gray-700 font-medium mb-2">
-            TruKlipId
-          </label>
-          <input
-            type="text"
-            id="trueklipid"
-            name="trueklipid"
-            value={metadata.trueklipid}
-            onChange={handleIdChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
-            required
-          />
-        </div> */}
         <div className="mb-4">
           <label htmlFor="description" className="block text-gray-700 font-medium mb-2">
             Description
@@ -126,7 +112,7 @@ function NFTMinting(){
             onChange={handleChange}
             className="border border-gray-300 rounded-lg px-4 py-2 w-full resize-none focus:outline-none focus:ring focus:border-blue-300"
             rows="4"
-            required
+            
           />
         </div>
         <div className="mb-4">
@@ -145,7 +131,7 @@ function NFTMinting(){
         </div>
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg"
+          className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg w-full sm:w-auto"
         >
           Mint NFT
         </button>

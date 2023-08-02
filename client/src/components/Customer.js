@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import logo from '../logo.svg';
 import '../App.css'
 import { abiValidation, contractAddressValidation } from "../constants";
+// import { useNavigate } from "react-router-dom";
+// const navigateTo=useNavigate
 
 //const abiValidation= require( '../abi')
 //const Web3 = require("web3");

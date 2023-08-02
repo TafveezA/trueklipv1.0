@@ -1033,6 +1033,100 @@ export const abiValidation =[
 		"inputs": [
 			{
 				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "certificationHash",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			}
+		],
+		"name": "getCertificationHash",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			}
+		],
+		"name": "getHashById",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			}
+		],
+		"name": "getProductHash",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_certificationHash",
+				"type": "string"
+			}
+		],
+		"name": "hashCertificationData",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
 				"name": "_klipId",
 				"type": "uint256"
 			},
@@ -1077,16 +1171,34 @@ export const abiValidation =[
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_klipId",
+				"name": "_truKlipId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_hash",
+				"type": "string"
+			}
+		],
+		"name": "hashProductData",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "getHashById",
+		"name": "productHash",
 		"outputs": [
 			{
-				"internalType": "bytes32",
+				"internalType": "string",
 				"name": "",
-				"type": "bytes32"
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -1096,11 +1208,11 @@ export const abiValidation =[
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_klipId",
+				"name": "_truKlipId",
 				"type": "uint256"
 			}
 		],
-		"name": "Validate",
+		"name": "validate",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -1134,9 +1246,32 @@ export const abiValidation =[
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_productHash",
+				"type": "string"
+			}
+		],
+		"name": "validateProduct",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
 	}
 ]
-
 	
 	
 
@@ -1151,6 +1286,6 @@ export const SEPOLIA_PRIVATE_KEY="de4b0fad5b2956afa383903e4ebcd407d1d6417fdfb977
 export const IPFS_INFURAPROJECT_ID="2SVWWrhQ3SgcSyOW8qroLdETZf2"
 export const IPFS_PRIVATE_KEY="76cc620d93837d2f1171082c5a44e82f"
 
-export const VALIDATION_CONTRACT_ADDRESS="3eE0df02F253e64beB4cf1a29E9543c1fEa5526B"
+export const VALIDATION_CONTRACT_ADDRESS="0xdeFd0014ead1D3aC3f172c27fb59c13609a8cED8"
 export const GANACHE_URL="http://localhost:7545"
 
