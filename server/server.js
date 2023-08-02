@@ -7,7 +7,7 @@ const errorHandler = require('./middleware/error')
 const app = express()
 const logger = require('./middleware/logger')
 const connectDB = require('./config/db')
-const ethers = require('ethers')
+//const ethers = require('ethers')
 
 dotenv.config({path:'./config/config.env'})
 const PORT = process.env.PORT ||5000
@@ -38,7 +38,7 @@ app.use('/api/v1/products',products)
 const smartcontract = require('./routes/smartcontract')
 app.use('/api/ethv1/validate',smartcontract)
 
-
+//const provider = new ethers.providers.JsonRpcProvider('http://localhost:8545')
 
 
 
