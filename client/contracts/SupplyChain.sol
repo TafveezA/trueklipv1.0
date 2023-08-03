@@ -31,7 +31,7 @@ struct Product{
     string batchNumber;
     string productionData;
     string truklipId;
-    string uriInfo;
+    bytes32 uriInfo;
     address producerAddress;
     uint256 producerId;
    }
@@ -45,7 +45,7 @@ string memory _batchNumber,
 string memory _productionData,
 uint256 _producerId,
 string memory _truklipId,
-string memory uriInfo,
+bytes32  uriInfo,
 address _producerAddress) onlyProducer(_producerId) public {
     productsMapping[_producerId] = Product({
     certificate:_certificate,
@@ -60,10 +60,20 @@ truklipId++;
 
 }
 
+function addRetailerDetails(uint256 _productId,uint256 _recievedate,uint256 _pickdate,uint256 _packingSpecification,string memory _packingbarcode) public {
+productsMapping[_productId].uriInfo =keccak256(abi.encode(_productId,_recievedate,_pickdate,_packingSpecification,_packingbarcode));
+}
 
-
+struct Customer{
+    uint256 klipId;
+    address customerAddress; 
+}
+mapping(uint256=>Customer) customersMapping;
     
- 
+function addCustomer(uint256 _klipId,address _customerAddress)onlyAdmin public {
+
+
+} 
 
 
 
