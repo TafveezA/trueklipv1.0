@@ -7,12 +7,14 @@ const errorHandler = require('./middleware/error')
 const app = express()
 const logger = require('./middleware/logger')
 const connectDB = require('./config/db')
-//const ethers = require('ethers')
+
+
 
 dotenv.config({path:'./config/config.env'})
 const PORT = process.env.PORT ||5000
 const NODE_ENV =process.env.NODE_ENV
 connectDB()
+
 
 app.use(express.json())
 app.use(logger)
@@ -28,6 +30,12 @@ if(process.env.NODE_ENV === 'development'){
 
 //setting middleware
 app.use(express.urlencoded({extended:false}))
+
+
+
+
+
+
 
 // route file
 const products = require('./routes/product.js')
@@ -53,3 +61,4 @@ process.on('unhandledRejection',(err,promise)=>{
     console.log(`Error:${err.message}`)
     server.close(()=>process.exit(1))
 })
+

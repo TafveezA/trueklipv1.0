@@ -13,6 +13,8 @@ import Tracking from './components/Tracking';
 import Marketplace from './components/Marketplace';
 import NFTMinting from './components/NFTMinting';
 
+
+
 //import fs from'fs';
 
 
@@ -23,16 +25,7 @@ function App() {
 
   return (
     <div className="App">
-      {/* <>
-      <nav>
-        <ul>
-          <li><Link to="/">Producer</Link></li>
-          <li><Link to="/customer">Customer</Link></li>
-          <li><Link to="/tracking">Tracking</Link></li>
-          <li><Link to="/validation">Validation</Link></li>
-        </ul>
-      </nav>
-      </> */}
+   
     <BrowserRouter>
     <Routes>
     <Route path = '/' element ={<Producer />}/>
@@ -42,9 +35,9 @@ function App() {
     <Route path = '/marketplace' element ={<Marketplace />}/>
     <Route path = '/ipfs' element ={<IPFS/>}/>
     <Route path = '/minting' element ={<NFTMinting/>}/>
-      {/* <Route path = '/branch' element ={<Branch />}/>
-      <Route path = '/bankreserve' element ={<BankReserve />}/>
-      <Route path = '/banking' element ={<Banking />}/> */}
+
+
+    
     </Routes>
     </BrowserRouter>
 

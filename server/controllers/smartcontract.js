@@ -1,7 +1,7 @@
 
 const asyncHandler = require('../middleware/async')
-const{Web3}=require("web3")
 
+const{Web3}=require("web3")
 const ABI= require("../config/validationABI.json")
 const ALCHEMY_RPC_URL_SEPOLIA="https://eth-sepolia.g.alchemy.com/v2/FOxH7918EsvBRVwTUVGk5gzhgE2UFoxJ"
 const CONTRACT_VALIDATION_ADDRESS="0xdeFd0014ead1D3aC3f172c27fb59c13609a8cED8"
