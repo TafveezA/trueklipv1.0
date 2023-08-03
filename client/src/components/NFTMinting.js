@@ -26,54 +26,75 @@ const client = create({
   
 
 function NFTMinting(){
-    const [metadata, setMetadata] = useState({
-        productname: '',
-        trueklipid:'',
-        description: '',
-        image: null,
-        url:'',
-      })
+  
+      const [productName,setProductName] = useState('')
+      const [truklipId,setTruklipId] = useState('')
+      const [description,setDescription] = useState('')
+      const [imageUrl,setImageUrl] = useState('')
+      const[image,setImage] = useState(null)
+      const [uri,setUri]=useState('')
+
+
    
       const handleChange = (e) => {
-        const { productname, value } = e.target;
-        setMetadata((prevMetadata) => ({ ...prevMetadata, [productname]: value }))
+       setProductName(e.target.value)
       }
-    //   const handleIdChange = (e) => {
-    //     const { trueklipid, value } = e.target;
-    //     setMetadata((prevMetadata) => ({ ...prevMetadata, [trueklipid]: value }))
-    //   }
+      const handleIdChange = (e) => {
+       setTruklipId(e.target.value)
+      }
+      const handleDescriptionChange = (e) => {
+        setDescription(e.target.value)
+       }
     
-      const handleImageChange = (e) => {
+      const handleImageChange = async(e) => {
         const file = e.target.files[0];
-        
-        setMetadata((prevMetadata) => ({ ...prevMetadata, image: file }))
+        const added = await client.add(file)
+        setImage(file)
+        const fileurl = `https://infura-ipfs.io/ipfs/${added.path}`
+      
+        console.log("IPFS URI: ", fileurl)
+        setImageUrl(fileurl)
       }
     
       const handleSubmit = async(e) => {
         e.preventDefault();
         
-        // if (window.ethereum !== "undefined"){
-            const accounts = await window.ethereum.request({method:'request_Accounts'})
-        //     console.log("accounts",accounts[0])
-        // }
-      const provider = new Web3Provider(window.ethereum)|| new ethers.JsonRpcProvider("")
-      const signer = await provider.getSigner()
-      const address=await signer.getAddress()
-      console.log(await signer.getAddress())
-      const contract = new ethers.Contract(CONTRACT_ADDRESS, CERTIFICATION_ABI,signer)
+        if (window.ethereum !== "undefined"){
+            const accounts = await window.ethereum.request({method:'eth_requestAccounts'})
+            console.log("accounts",accounts[0])
+        }
+
+       
+     
       try {
-        const added = await client.add(metadata.image)
-        const fileurl = `https://infura-ipfs.io/ipfs/${added.path}`
-        setMetadata((prevMetadata) => ({ ...prevMetadata, [metadata.url]:fileurl }))
-        console.log("IPFS URI: ", fileurl)
+        const provider = new Web3Provider(window.ethereum)
+        const signer = await provider.getSigner()
+        const address=await signer.getAddress()
+        console.log(await signer.getAddress())
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, CERTIFICATION_ABI,signer)
+      const metadata= {
+        productname:productName,
+        truklipid:truklipId,
+        description:description,
+        image:image,
+        url:imageUrl,
+      }
+        console.log('Minting NFT with metadata before mint:', metadata)
+        const  nfturi = JSON.stringify(metadata)
+        setUri(nfturi)
+        const hash = await contract.safeMint(address,nfturi)
+        console.log("minting NFT with hash",hash)
+        console.log('Minting NFT with metadata:', metadata)
+       setProductName('')
+       setTruklipId('')
+       setDescription('')
+       setImageUrl('')
+       setImage('')
+ 
       } catch (error) {
         console.log('Error uploading file: ', error)
       } 
-      const  nfturl = JSON.stringify(metadata)
-      const hash = await contract.safeMint(address,nfturl)
-      console.log("minting NFT with hash",hash)
-      console.log('Minting NFT with metadata:', metadata)
-      setMetadata({ name: '',trueklipid:'', description: '', image: null, });
+   
       }
     
 
@@ -89,18 +110,33 @@ function NFTMinting(){
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="mb-4">
           <label htmlFor="productname" className="block text-gray-700 font-medium mb-2">
-            Name
+            Product Name
           </label>
           <input
             type="text"
             id="productname"
             name="productname"
-            value={metadata.productname}
+            value={productName}
             onChange={handleChange}
             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
             
           />
         </div>
+        <div className="mb-4">
+          <label htmlFor="truklipid" className="block text-gray-700 font-medium mb-2">
+            TruKlipId
+          </label>
+          <input
+            type="text"
+            id="trueklipid"
+            name="trueklipid"
+            value={truklipId}
+            onChange={handleIdChange}
+            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
+            
+          />
+        </div>
+      
         <div className="mb-4">
           <label htmlFor="description" className="block text-gray-700 font-medium mb-2">
             Description
@@ -108,8 +144,8 @@ function NFTMinting(){
           <textarea
             id="description"
             name="description"
-            value={metadata.description}
-            onChange={handleChange}
+            value={description}
+            onChange={handleDescriptionChange}
             className="border border-gray-300 rounded-lg px-4 py-2 w-full resize-none focus:outline-none focus:ring focus:border-blue-300"
             rows="4"
             
