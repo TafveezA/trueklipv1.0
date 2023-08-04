@@ -34,10 +34,11 @@ struct Product{
     string certificate;
     string batchNumber;
     string productionData;
+    string otherDetails;
     uint256 truklipId;
-    string uriInfo;
-    address producerAddress;
     uint256 producerId;
+    address producerAddress;
+    bool isConsumable;
     Distributor distributorDetails;
     Retailer retailerDetail;
     Customer customerDetails;
@@ -47,21 +48,24 @@ struct Product{
 uint256 public truklipId;
 mapping(uint256 => Product) public productsMapping;
 
-function addProduct(string memory _certificate,
+function addProduct(
+string memory _certificate,
 string memory _batchNumber,
 string memory _productionData,
+string memory  _otherDetails,
 uint256 _producerId,
 uint256 _truklipId,
-string memory  uriInfo,
-address _producerAddress) onlyProducer(_producerId) public {
+bool _isConsumable
+) onlyProducer(_producerId) public {
     productsMapping[truklipId] = Product({
     certificate:_certificate,
     batchNumber:_batchNumber,
     productionData:_productionData,
-    producerAddress:_producerAddress,
+    producerAddress:msg.sender,
     truklipId:_truklipId,
-    uriInfo:uriInfo,
+    otherDetails:_otherDetails,
     producerId:_producerId,
+    isConsumable:_isConsumable,
     distributorDetails:Distributor({
          truklipId:0,
          shipmentDate:0,
@@ -76,6 +80,7 @@ address _producerAddress) onlyProducer(_producerId) public {
         pickDate:0,
         packagingBarcode:"",
         otherDetails:"",
+        orderNumber:0,
         retailerAddress:address(0)}),
     customerDetails:Customer({
     klipId:0,
@@ -99,6 +104,17 @@ uint256 hssCode;
 string barcode;
 }
 
+function addDistributorDetails(uint256 _truklip,uint256 _shipmentDate,uint256 _orderNumber,uint256 _hssCode,string memory  _barcode) public {
+productsMapping[_truklip].distributorDetails= Distributor({
+    truklipId:_truklip,
+    shipmentDate:_shipmentDate,
+    orderNumber:_orderNumber,
+    hssCode:_hssCode,
+    barcode:_barcode
+});
+
+}
+
 
 
 struct Retailer{
@@ -107,19 +123,21 @@ struct Retailer{
     uint256 pickDate;
     string packagingBarcode;
     string otherDetails;
+    uint256 orderNumber;
     address retailerAddress;
 }
 
 
 
 
-function addRetailerDetails(uint256 _truklipId,uint256 _recievedate,uint256 _pickdate,string memory _otherdetails,string memory _packingbarcode) public {
+function addRetailerDetails(uint256 _truklipId,uint256 _recievedate,uint256 _pickdate,uint256 _orderNumber,string memory _otherdetails,string memory _packingbarcode) public {
 productsMapping[_truklipId].retailerDetail = Retailer({
     truklipId:_truklipId,
     recieveDate:_recievedate,
     pickDate:_pickdate,
     packagingBarcode:_packingbarcode,
     otherDetails:_otherdetails,
+    orderNumber:_orderNumber,
     retailerAddress:msg.sender
 });
 }
