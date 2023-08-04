@@ -15,6 +15,7 @@ import NFTMinting from './components/NFTMinting';
 import LoginPage from './components/LoginPage';
 //import Callback from './components/CallBack';
 import CallBack from './components/CallBack';
+import Admin from './components/Admin';
 
 
 
@@ -40,6 +41,7 @@ function App() {
     <Route path = '/minting' element ={<NFTMinting/>}/>
     <Route path="/login" element={<LoginPage/>} />
     <Route path="/auth/google/callback" element={<CallBack/>} />
+    <Route path="/admin" element={<Admin/>}/>
 
 
     

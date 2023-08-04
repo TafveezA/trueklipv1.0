@@ -46,6 +46,9 @@ app.use('/api/v1/products',products)
 const smartcontract = require('./routes/smartcontract')
 app.use('/api/ethv1/validate',smartcontract)
 
+const qrgenerator = require('./routes/qrgenerator')
+app.use('api/v1/generateqr',qrgenerator)
+
 //const provider = new ethers.providers.JsonRpcProvider('http://localhost:8545')
 
 

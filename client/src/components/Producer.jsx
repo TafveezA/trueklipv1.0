@@ -1,7 +1,7 @@
 import{useEffect, useState} from "react";
 import axios from 'axios'
-import {Html5QrcodeScanner} from "html5-qrcode"
-//const { JsonRpcProvider } = require("@ethersproject/providers");
+
+
 import { Web3Provider } from "@ethersproject/providers";
 import { Link } from "react-router-dom";
 import logo from '../logo.svg';
@@ -28,6 +28,13 @@ console.log("encrypted data",encrypted)
 const decrypted = CryptoJS.AES.decrypt(encrypted, key);
 console.log("decrypted data",decrypted)
 
+
+
+
+
+
+
+
 function Producer(){
 
   
@@ -43,25 +50,10 @@ function Producer(){
     // const [arrayData, setArrayData] = useState([]);
     const [isButtonVisible, setIsButtonVisible] = useState(false);
    ;
-    //const [temp, setTemp] = useState("")
-    
+    //const [temp, setTemp] = useState("")    
     useEffect(() =>{
-      const scanner = new Html5QrcodeScanner('reader',{
-        qrbox:{
-          width: 400,
-          height:400,
-        },
-        fps:5,
-      })
-      scanner.render(success,error);
-      function success(result){
-        scanner.clear()
-        setScanResult(result)
-        //addProduct(scanResult)
-      }
-      function error(){
-       console.warn(error)
-      }
+     
+      
      
 
   },[])
@@ -73,13 +65,7 @@ function Producer(){
     ) {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
       console.log("accounts", accounts);
-      // const provider = await new ethers.providers.Web3Provider(
-      //   window.ethereum
-      // );
-      // const signer = await provider.getSigner();
-      // console.log("Signer", signer);
-      // const address = await signer.getAddress();
-      // console.log(address);
+   
     } else {
       console.log("MemtaMask Not Installed ");
     }
@@ -97,7 +83,7 @@ function Producer(){
       console.log('expirydate',jsonData.expirydate)
       console.log('warranty',jsonData.warranty)
       console.log('description',jsonData.description)
-      //apiCall(_data)
+    
       
 
      
@@ -106,15 +92,7 @@ function Producer(){
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi,signer);
 
-      // setKlipId(jsonData.klipid)
-      // setBatchNumber(jsonData.batchnumber)
-      // // const batchNumber=jsonData.batchnumber;
-      // // const mfgDate =jsonData.mfgdate;
-      // setMfgDate(jsonData.mfgdate)
-    
-      // setExpiryDate(jsonData.expiryDate)
-      // setWarranty(jsonData.warranty)
-      // setDescription(jsonData.description)
+
       const klipId =jsonData.klipid;
       const batchNumber=jsonData.batchnumber;
       const mfgDate =jsonData.mfgdate;
@@ -125,21 +103,7 @@ function Producer(){
 
 
       const tx = await contract.connect(signer).hashData(klipId, batchNumber, mfgDate, expiryDate, warranty, description);
-//       await tx.wait();
-    
-//       const receipt = await provider.getTransactionReceipt(tx.hash);
-//     // const hash = receipt.logs[0].data;
 
-
-   
-
-// if (typeof receipt.confirmations !== 'undefined') {
-//   // Access the confirmations property
-//   const confirmations = receipt.confirmations;
-//   console.log("Confirmations:", confirmations);
-// } else {
-//   console.log("Confirmations not available");
-// }
     
       console.log("TX Response:", tx.hash);
 
@@ -257,7 +221,7 @@ function Producer(){
     // Create a new instance of the contract
     const contract = new ethers.Contract(contractAddress, abi, signer);
   
-    // Prepare the parameters for the hashData function
+
     const klipId =1;
     const batchNumber='XYZ';
     const mfgDate =1;
@@ -265,20 +229,20 @@ function Producer(){
     const warranty=2;
     const description='digitalreceipt';
   
-    // Call the hashData function
+
     const tx = await contract.hashData(klipId, batchNumber, mfgDate, expiryDate, warranty, description);
     await tx.wait();
   
-    // Get the transaction receipt to retrieve the hash value
+
     const receipt = await provider.getTransactionReceipt(tx.hash);
-    //const hash = receipt.logs[0].data;
+
   
     console.log("Reciept:", receipt);
   }catch (error) {
   console.log(error.message);
 }
   }
-  //callHashData()
+  
 
   function apiCall(data){
   
