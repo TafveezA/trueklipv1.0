@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react';
+// import { useHistory } from 'react';
 import axios from 'axios';
 
 const CallBack = () => {
-    const history = useHistory();
+    const history = null;
     console.log(history)
 
   useEffect(() => {
