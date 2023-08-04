@@ -15,7 +15,7 @@ const CERTIFICATION_ABI=abiCertification
 const CONTRACT_ADDRESS=contractAddressCertification
 
 const auth = 'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64')
-const client = create({
+const infuraClient = create({
     host: 'ipfs.infura.io',
     port: 5001,
     protocol: 'https',
@@ -23,6 +23,10 @@ const client = create({
         authorization: auth,
     },
   })
+
+const localClient = create({host:'localhost',
+port:5001,
+protocol:'http',})
   
 
 function NFTMinting(){
@@ -48,11 +52,14 @@ function NFTMinting(){
     
       const handleImageChange = async(e) => {
         const file = e.target.files[0];
-        const added = await client.add(file)
+        const added = await infuraClient.add(file)
+        const addedToLocal = await localClient.add(file)
         setImage(file)
         const fileurl = `https://infura-ipfs.io/ipfs/${added.path}`
+        const localFileUrl =`https://ipfs.io/ipfs/${added.path}`
       
-        console.log("IPFS URI: ", fileurl)
+        console.log("IPFS URI INFURA: ", fileurl)
+        console.log("IPFS URL Local Client",localFileUrl)
         setImageUrl(fileurl)
       }
     
