@@ -1,4 +1,5 @@
 import React from "react";
+// import * as IPFS from 'ipfs-core';
 import { abiCertification,contractAddressCertification,IPFS_INFURAPROJECT_ID,IPFS_PRIVATE_KEY } from "../constants";
 import { useState } from "react";
 //import { ethers } from "ethers";
@@ -9,6 +10,7 @@ const ethers = require("ethers");
 
 
 
+// const node = await IPFS.create();
 const projectId=IPFS_INFURAPROJECT_ID
 const projectSecret=IPFS_PRIVATE_KEY
 const CERTIFICATION_ABI=abiCertification
@@ -24,9 +26,7 @@ const infuraClient = create({
     },
   })
 
-const localClient = create({host:'localhost',
-port:5001,
-protocol:'http',})
+
   
 
 function NFTMinting(){
@@ -53,13 +53,13 @@ function NFTMinting(){
       const handleImageChange = async(e) => {
         const file = e.target.files[0];
         const added = await infuraClient.add(file)
-        const addedToLocal = await localClient.add(file)
+        //const addedToLocal = await node.add(file)
         setImage(file)
         const fileurl = `https://infura-ipfs.io/ipfs/${added.path}`
-        const localFileUrl =`https://ipfs.io/ipfs/${added.path}`
+        //const localFileUrl =`https://ipfs.io/ipfs/${addedToLocal.path}`
       
         console.log("IPFS URI INFURA: ", fileurl)
-        console.log("IPFS URL Local Client",localFileUrl)
+        //console.log("IPFS URL Local Client",localFileUrl)
         setImageUrl(fileurl)
       }
     
