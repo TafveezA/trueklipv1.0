@@ -45,7 +45,7 @@ struct Product{
 
 
 uint256 public truklipId;
-mapping(uint256 => Product) productsMapping;
+mapping(uint256 => Product) public productsMapping;
 
 function addProduct(string memory _certificate,
 string memory _batchNumber,
@@ -157,6 +157,16 @@ mapping(uint256=>Customer) customersDetails;
 
    modifier onlyProducer(uint256 _producerId){
     require(true == registeredProducer[_producerId][msg.sender],"only admin can register a PRODUCER");
+    _;
+}
+
+     modifier onlyRetailer(uint256 _producerId){
+    require(true == registeredRetailer[_producerId][msg.sender],"only admin can register a Retailer");
+    _;
+}
+
+   modifier onlyDistributor(uint256 _producerId){
+    require(true == registeredDistributor[_producerId][msg.sender],"only admin can register a Distributor");
     _;
 }
 
