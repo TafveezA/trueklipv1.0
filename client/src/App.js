@@ -1,5 +1,5 @@
 
-import './App.css';
+
 // import {Html5QrcodeScanner} from "html5-qrcode"
 //import{useEffect, useState} from "react";
 //import axios from 'axios'
@@ -12,10 +12,10 @@ import Customer from './components/Customer';
 import Tracking from './components/Tracking';
 import Marketplace from './components/Marketplace';
 import NFTMinting from './components/NFTMinting';
-import LoginPage from './components/LoginPage';
+//import LoginPage from './components/LoginPage';
 //import Callback from './components/CallBack';
-import CallBack from './components/CallBack';
-import Admin from './components/Admin';
+//import CallBack from './components/CallBack';
+//import Admin from './components/Admin';
 
 
 
@@ -39,12 +39,9 @@ function App() {
     <Route path = '/marketplace' element ={<Marketplace />}/>
     <Route path = '/ipfs' element ={<IPFS/>}/>
     <Route path = '/minting' element ={<NFTMinting/>}/>
-    <Route path="/login" element={<LoginPage/>} />
-    <Route path="/auth/google/callback" element={<CallBack/>} />
-    <Route path="/admin" element={<Admin/>}/>
-
-
-    
+    {/* <Route path="/login" element={<LoginPage/>} />
+    <Route path="/auth/google/callback" element={<CallBack/>} /> */}
+    {/* <Route path="/admin" element={<Admin/>}/> */}
     </Routes>
     </BrowserRouter>
 
