@@ -22,7 +22,7 @@ const Home = () => {
           <h2 className="text-4xl font-bold mb-4">Blockchain-Powered Supply Chain</h2>
           <p className="text-lg mb-8">Efficient, Transparent,Trackable and Secure</p>
           <button className="bg-green-500 text-white font-bold py-2 px-6 rounded hover:bg-green-600" onClick={<Link to="https://klipit.co/"></Link>}>
-            Learn More
+            Validate 
           </button>
         </div>
       </div>
