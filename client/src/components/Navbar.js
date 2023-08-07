@@ -30,7 +30,10 @@ const Navbar = () => {
           </div>
           <div className={`hidden md:block ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
             <div className="ml-4 md:ml-10 flex items-baseline space-x-4">
-              <a href="/" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home/Retailer</a>
+              <a href="/" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+              <a href="/manufacturer" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Manufacturer</a>
+              <a href="/distributor" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Distributor</a>
+              <a href="/retailer" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Retailer</a>
               <a href="/tracking" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Tracking</a>
               <a href="/customer" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Customer</a>
               <a href="/validation" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Validation</a>
@@ -42,7 +45,10 @@ const Navbar = () => {
       </div>
       <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <a href="/" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Retailer</a>
+          <a href="/" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+          <a href="/manufacturer" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Manufacturer</a>
+          <a href="/distributor" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Distributor</a>
+          <a href="/retailer" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Retailer</a>
           <a href="/tracking" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Tracking</a>
           <a href="/customer" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Customer</a>
           <a href="/validation" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Validation</a>

@@ -47,7 +47,7 @@ function Validation() {
       
   
   
-  },[])
+     },[])
 
   async function validateProduct() {
     try {

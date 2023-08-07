@@ -36,7 +36,7 @@ console.log("decrypted data",decrypted)
 
 
 
-function Producer(){
+function Distributor(){
 
   
  
@@ -182,13 +182,13 @@ function Producer(){
       <div className="App">
           <header className="bg-white shadow-md">
         <div className="container mx-auto py-4 px-8">
-          <h1 className="text-2xl font-bold text-gray-800">Manufacturer Co</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Distributor Co</h1>
         </div>
       </header>
        <img className="mx-auto p-4" src={logo} alt="Logo" />
        
       <br></br>
-      <h2 class="text-3xl font-bold mt-6">Add Product Info</h2>
+      <h2 class="text-3xl font-bold mt-6">Add Product</h2>
       <br></br>
     <div><form className="max-w-lg mx-auto">
     <fieldset>
@@ -206,7 +206,7 @@ function Producer(){
     </div>
     <div className="mb-4">
       <label htmlFor="batchnumber" className="text-gray-700 text-lg font-medium">
-        Batch Number
+        Order Number
       </label>
       <input
         type="text"
@@ -218,7 +218,7 @@ function Producer(){
     </div>
     <div className="mb-4">
       <label htmlFor="distributor" className="text-gray-700 text-lg font-medium">
-        Distributor Details
+        Retailer Details
       </label>
       <input
         type="text"
@@ -264,5 +264,5 @@ function Producer(){
     );
       }
   
-  export default Producer;
+  export default Distributor;
   
