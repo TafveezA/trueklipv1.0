@@ -44,9 +44,8 @@ function Producer(){
     const [batchNumber, setBatchNumber] = useState("")
     const [distributor, setDistributor] = useState("")
     const [description,setDescription] = useState("")
-    //  const [expiryDate, setExpiryDate] = useState("")
-    //  const [description, setDescription] = useState("")
-    // const [warranty, setWarranty] = useState("")
+ 
+
      const [isLoading, setIsLoading] = useState(false);
     
     const [isButtonVisible, setIsButtonVisible] = useState(false);
@@ -222,18 +221,20 @@ function Producer(){
       </label>
       <input
         type="text"
-        value={batchNumber}
+        value={distributor}
         onChange={(e) => setDistributor(e.target.value)}
         className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
       />
     </div>
+
+
     <div className="mb-4">
       <label label htmlFor="description" className="block text-gray-700 font-medium mb-2">
         Description
       </label>
       <textarea
         type="text"
-        value={batchNumber}
+        value={description}
         onChange={(e) => setDescription(e.target.value)}
         className="border border-gray-300 rounded-lg px-4 py-2 w-full resize-none focus:outline-none focus:ring focus:border-blue-300"
             rows="4"

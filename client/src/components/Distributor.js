@@ -41,9 +41,10 @@ function Distributor(){
   
  
     const [klipId, setKlipId] = useState("")
-    const [batchNumber, setBatchNumber] = useState("")
-    const [distributor, setDistributor] = useState("")
+    const [orderNumber, setOrderNumber] = useState("")
+    const [retailer, setRetailer] = useState("")
     const [description,setDescription] = useState("")
+    const [shipmentDate,setShipmentDate] =useState("")
     //  const [expiryDate, setExpiryDate] = useState("")
     //  const [description, setDescription] = useState("")
     // const [warranty, setWarranty] = useState("")
@@ -180,21 +181,21 @@ function Distributor(){
   
     return (
       <div className="App">
-          <header className="bg-white shadow-md">
+      <header className="bg-white shadow-md">
         <div className="container mx-auto py-4 px-8">
-          <h1 className="text-2xl font-bold text-gray-800">Distributor Co</h1>
+          <h2 className="text-2xl font-bold text-gray-800">Distributor Co</h2>
         </div>
       </header>
-       <img className="mx-auto p-4" src={logo} alt="Logo" />
+       <img className="mx-auto p-2" src={logo} alt="Logo" />
        
       <br></br>
-      <h2 class="text-3xl font-bold mt-6">Add Product</h2>
+      <h3 class="text-3xl font-bold mt-6">Add Distributor Info</h3>
       <br></br>
-    <div><form className="max-w-lg mx-auto">
+    <div><form  onSubmit={callHashData} className="max-w-lg mx-auto">
     <fieldset>
     <div className="mb-4">
       <label htmlFor="klipId" className="text-gray-700 text-lg font-medium">
-        Tru KLIP ID
+        Tru Klip Id
       </label>
       <input
         type="text"
@@ -211,8 +212,8 @@ function Distributor(){
       <input
         type="text"
         id="klipId"
-        value={batchNumber}
-        onChange={(e) => setBatchNumber(e.target.value)}
+        value={orderNumber}
+        onChange={(e) => setOrderNumber(e.target.value)}
         className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
       />
     </div>
@@ -222,39 +223,32 @@ function Distributor(){
       </label>
       <input
         type="text"
-        value={batchNumber}
-        onChange={(e) => setDistributor(e.target.value)}
+        value={retailer}
+        onChange={(e) => setRetailer(e.target.value)}
         className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
       />
     </div>
+
     <div className="mb-4">
-      <label label htmlFor="description" className="block text-gray-700 font-medium mb-2">
-        Description
+      <label htmlFor="shipment date" className="text-gray-700 text-lg font-medium">
+        Shipment Date
       </label>
-      <textarea
+      <input
         type="text"
-        value={batchNumber}
-        onChange={(e) => setDescription(e.target.value)}
-        className="border border-gray-300 rounded-lg px-4 py-2 w-full resize-none focus:outline-none focus:ring focus:border-blue-300"
-            rows="4"
+        value={shipmentDate}
+        onChange={(e) => setShipmentDate(e.target.value)}
+        className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
       />
     </div>
+
   </fieldset>
-  {isButtonVisible && (
-        <button
-          type="button"
-          onClick={callHashData}
-          className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4"
-        >
-          Validate Product
-        </button>
-      )}
+  <div>
+       
+       <button type="submit" className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+</div>
 </form></div>
    
-       <div>
-        <br></br>
-       <button type="submit" onClick={callHashData} className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
-       </div>
+     
       </div>
 
 

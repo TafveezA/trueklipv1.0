@@ -13,6 +13,8 @@ import Tracking from './components/Tracking';
 import Marketplace from './components/Marketplace';
 import NFTMinting from './components/NFTMinting';
 import Distributor from "./components/Distributor";
+import Retailer from "./components/Retailer";
+import Home from "./components/Home";
 //import LoginPage from './components/LoginPage';
 //import Callback from './components/CallBack';
 //import CallBack from './components/CallBack';
@@ -20,7 +22,7 @@ import Distributor from "./components/Distributor";
 
 
 
-//import fs from'fs';
+
 
 
 //console.log(process.env)
@@ -33,7 +35,7 @@ function App() {
    
     <BrowserRouter>
     <Routes>
-    <Route path = '/' element ={<Producer />}/>
+    <Route path = '/' element ={<Home />}/>
     <Route path = '/validation' element ={<Validation />}/>
     <Route path = '/customer' element ={<Customer />}/>
     <Route path = '/tracking' element ={<Tracking />}/>
@@ -42,7 +44,7 @@ function App() {
     <Route path = '/minting' element ={<NFTMinting/>}/>
     <Route path = '/manufacturer' element ={<Producer/>}/>
     <Route path = '/distributor' element ={<Distributor/>}/>
-    {/* <Route path = '/retailer' element ={<Retailer/>}/> */}
+    <Route path = '/retailer' element ={<Retailer/>}/>
     
     
 
