@@ -9,7 +9,7 @@ const NFTs = ({ nft }) => {
         <h2 className="text-xl font-semibold text-gray-800">{nft.name}</h2>
         <p className="text-gray-600">{nft.description}</p>
         <div className="flex items-center justify-between mt-4">
-          <p className="text-gray-700 font-medium">{nft.price} ETH</p>
+          <p className="text-gray-700 font-medium">{nft.price} AED</p>
           <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
             Buy
           </button>

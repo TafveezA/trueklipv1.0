@@ -43,11 +43,17 @@ const products = require('./routes/product.js')
 // mount routers
 app.use('/api/v1/products',products)
 
+
+const auth = require('./routes/auth')
+
+app.use('/api/v1/auth',auth)
+
 const smartcontract = require('./routes/smartcontract')
 app.use('/api/ethv1/validate',smartcontract)
 
 const qrgenerator = require('./routes/qrgenerator')
 app.use('api/v1/generateqr',qrgenerator)
+
 
 //const provider = new ethers.providers.JsonRpcProvider('http://localhost:8545')
 
