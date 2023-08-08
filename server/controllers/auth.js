@@ -14,8 +14,10 @@ const user = await User.create({
     password,
     role
 })
+const token = user.getSignedJwtToken()
      res.status(200).json({
       success:true,
+      token:token
      })
     
 })
