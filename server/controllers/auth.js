@@ -14,11 +14,7 @@ const user = await User.create({
     password,
     role
 })
-const token = user.getSignedJwtToken()
-     res.status(200).json({
-      success:true,
-      token:token
-     })
+sendTokenResponse(user,200,res)
     
 })
 
@@ -49,9 +45,18 @@ return next(new ErrorResponse('Invalid credentials',401))
 }
 
 
-         res.status(200).json({
-          success:true,
-          login:true
-         })
+         sendTokenResponse(user,200,res)
         
     })
+
+    const sendTokenResponse = (user,statusCode,res)=>{
+        const token = user.getSignedJwtToken()
+        const options = {
+            expires: new Date(Date.now()+process.env.JWT_COOKIE_EXPIRE*24*60*60*1000),
+            httpOnly:true
+             }
+
+            res.statusCode(statusCode).cookie('token',token,options).json({
+                success:true,
+                token:token})
+    }

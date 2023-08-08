@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
+const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const errorHandler = require('./middleware/error')
 const app = express()
@@ -17,6 +18,7 @@ connectDB()
 
 
 app.use(express.json())
+app.use(cookieParser())
 app.use(logger)
 app.use(errorHandler)
 app.use(cors({
