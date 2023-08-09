@@ -5,10 +5,9 @@ const {getProducts,getProduct,updateProduct,createProduct,deleteProduct,getProdu
 const router = express.Router()
 const {protect,authorize} = require('../middleware/auth')
 router.route('/radius/:zipcode/:distance').get(getProductsInRadius)
-router.route('/').get(getProducts).post(authorize('admin','producer'),protect,createProduct)
+router.route('/').get(getProducts).post(authorize('admin'),protect,createProduct)
 
 router.route('/:id').delete(authorize('admin','producer'),protect,deleteProduct).get(getProduct).put(authorize('admin'),protect,updateProduct)
 
 
-
-    module.exports = router;
+module.exports = router;

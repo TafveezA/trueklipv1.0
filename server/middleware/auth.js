@@ -19,6 +19,7 @@ exports.protect = asyncHandler(async(req,res,next)=>{
      const decoded = jwt.verify(token,process.env.JWT_SECRET)
      console.log(decoded)
      req.user = await User.findById(decoded.id)
+     console.log(req.user)
      next()
     }catch(err){
 
@@ -32,7 +33,7 @@ exports.authorize = (...roles)=>{
 
 return (req,res,next) =>{
 if(!roles.includes(req.user.role)){
-    return next(new ErrorResponse(`User role ${req.user.role} is unauthorize to acces this`,401))
+    return next(new ErrorResponse(`User role ${req.user.role} is unauthorize to acces this resource`,401))
 
 }
 next()

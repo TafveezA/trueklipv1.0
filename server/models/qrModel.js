@@ -41,7 +41,7 @@ const qrSchema =mongoose.Schema({
     }
 )
 
-const qrData = mongoose.model('Product',qrSchema)
+const qrData = mongoose.model('QR',qrSchema)
 qrSchema.pre('save',function(){
    //console.log('slugify ran',this.name)
    this.slug =slugify(this.name,{lower:true})

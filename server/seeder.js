@@ -5,9 +5,10 @@ const dotenv = require('dotenv')
 dotenv.config({path:'./config/config.env'})
 
 const Product = require('./models/productModel')
+const User = require('./models/User')
 
 mongoose.connect(process.env.MONGO_URI).then(()=>{
-    //console.log(process.env.MONGO_URI)
+  
     console.log(`MongoDB Connected :`)
 }).catch((error)=>{
         console.log(error)
@@ -15,10 +16,11 @@ mongoose.connect(process.env.MONGO_URI).then(()=>{
 
     // read from DB
     const Product = JSON.parse(fs.readFileSync(`${__dirname}/_data/products.json`,'utf-8'))
-
+    const User = JSON.parse(fs.readFileSync(`${__dirname}/_data/users.json`,'utf-8'))
     const importData = async() =>{
         try{
             await Product.create(products)
+            await User.create(users)
             console.log('Data Imported .. '.green.inverse)
 
 
@@ -31,6 +33,7 @@ mongoose.connect(process.env.MONGO_URI).then(()=>{
     const deleteData = async() =>{
         try{
             await Product.deleteMany()
+            await User.deleteMany()
             console.log('Data Destroyed .. '.red.inverse)
              process.exit()
 

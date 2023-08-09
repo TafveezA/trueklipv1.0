@@ -2,6 +2,9 @@ const ErrorResponse = require('../utils/errorResponse')
 const Product = require('../models/productModel.js')
 const asyncHandler = require('../middleware/async')
 const geocoder = require('../utils/geocoder')
+
+
+
 // @desc  get all products
 // @route Get /api/v1/products
 // @access Public
@@ -39,19 +42,30 @@ exports.getProduct = asyncHandler(async(req,res,next)=>{
 
 
 // @desc  create  product
-// @route Post /api/v1/products
+// @route POST /api/v1/products
 // @access Private
 exports.createProduct = asyncHandler(async(req,res,next)=>{
-    
-                    const product = await Product.create(req.body)
-                    res.status(200).json(product)
+                   // Add user to req,body
+                   console.log(req.user.id)
+                    req.body.user = req.user.id
+                   
+                  //check for produced product
+                  const producedProduct = await Product.findOne({user:req.user.id})
+                  if(producedProduct && req.user.role !== 'admin'){
+                  return next(
+                    new ErrorResponse(`The user with ID ${req.user.id} has already published with a bootcamp`,400)
+                  )
+                  }
+                  const product = await Product.create(req.body)
+                  res.status(201).json({success:true,
+                    data:product})
                  
                 
 })
 
 
 // @desc   update product
-// @route Put /api/v1/products
+// @route PUT /api/v1/products
 // @access Private
 exports.updateProduct = asyncHandler(async(req,res,next)=>{
                     const {id} = req.params
