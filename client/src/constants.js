@@ -1272,8 +1272,640 @@ export const abiValidation =[
 		"type": "function"
 	}
 ]
-	
-	
+
+
+export const contractAddressSupplyChain = "0x2BA96D3844f1dBbaf4a05a3B5ED521cdDDa481fC";
+export const abiSupplyChain =[
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_klipId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_customerAddress",
+				"type": "address"
+			}
+		],
+		"name": "addCustomer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truklip",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_shipmentDate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_orderNumber",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_hssCode",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_barcode",
+				"type": "string"
+			}
+		],
+		"name": "addDistributorDetails",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_certificate",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_batchNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_productionData",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_otherDetails",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_producerId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_truklipId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "_isConsumable",
+				"type": "bool"
+			}
+		],
+		"name": "addProduct",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truklipId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_recievedate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_pickdate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_orderNumber",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_otherdetails",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_packingbarcode",
+				"type": "string"
+			}
+		],
+		"name": "addRetailerDetails",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			}
+		],
+		"name": "cancelStatus",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_distributorId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_destributorAddress",
+				"type": "address"
+			}
+		],
+		"name": "registerDestributor",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_producerId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_producerAddress",
+				"type": "address"
+			}
+		],
+		"name": "registerProducer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_retailerId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_retailerAddress",
+				"type": "address"
+			}
+		],
+		"name": "registerRetailer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			}
+		],
+		"name": "resetStation",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			}
+		],
+		"name": "resetStatus",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum Tracking.Station",
+				"name": "_productStation",
+				"type": "uint8"
+			}
+		],
+		"name": "setStation",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum Tracking.Status",
+				"name": "_shippingStatus",
+				"type": "uint8"
+			}
+		],
+		"name": "setStatus",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "admin",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			}
+		],
+		"name": "getStation",
+		"outputs": [
+			{
+				"internalType": "enum Tracking.Station",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			}
+		],
+		"name": "getStatus",
+		"outputs": [
+			{
+				"internalType": "enum Tracking.Status",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "productsMapping",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "certificate",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "batchNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "productionData",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "otherDetails",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "truklipId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "producerId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "producerAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "isConsumable",
+				"type": "bool"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "truklipId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "shipmentDate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderNumber",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "hssCode",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "barcode",
+						"type": "string"
+					}
+				],
+				"internalType": "struct SupplyChain.Distributor",
+				"name": "distributorDetails",
+				"type": "tuple"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "truklipId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "recieveDate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pickDate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "packagingBarcode",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "otherDetails",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderNumber",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "retailerAddress",
+						"type": "address"
+					}
+				],
+				"internalType": "struct SupplyChain.Retailer",
+				"name": "retailerDetail",
+				"type": "tuple"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "klipId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "customerAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "recieveDate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "invoiceNumber",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderNumber",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "otherDetails",
+						"type": "string"
+					}
+				],
+				"internalType": "struct SupplyChain.Customer",
+				"name": "customerDetails",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "registeredDistributor",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "registeredProducer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "registeredRetailer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum Tracking.Station",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"name": "traceProductStation",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "trackProductStation",
+		"outputs": [
+			{
+				"internalType": "enum Tracking.Station",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "trackShippingStatus",
+		"outputs": [
+			{
+				"internalType": "enum Tracking.Status",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "truklipId",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
 
 export const APIkey = "YYZDE57B9239MQEYSVYIZW6FJZ85TCCKG6";
 
