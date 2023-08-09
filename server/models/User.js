@@ -18,7 +18,7 @@ const userSchema =mongoose.Schema({
     },
     role:{
         type: String,
-        enum :['user','publisher'],
+        enum :['user','producer','admin'],
         default:'user'
     },
     password:{

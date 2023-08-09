@@ -63,3 +63,19 @@ return next(new ErrorResponse('Invalid credentials',401))
                 success:true,
                 token:token})
     }
+  
+// @desc  Get Me
+// @route GET /api/v1/auth/me
+// @access Private
+exports.getMe = asyncHandler(async(req,res,next)=>{
+  const user = await User.findById(req.user.id)
+  console.log(user)
+   
+  res.status(200).json({
+    status:true,
+    data:user,
+    valid:true
+    })
+        
+    })
+    
