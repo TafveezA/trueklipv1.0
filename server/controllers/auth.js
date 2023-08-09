@@ -55,8 +55,11 @@ return next(new ErrorResponse('Invalid credentials',401))
             expires: new Date(Date.now()+process.env.JWT_COOKIE_EXPIRE*24*60*60*1000),
             httpOnly:true
              }
+        if(process.env.NODE_ENV ==='production'){
+            options.secure =true;
+        }
 
-            res.statusCode(statusCode).cookie('token',token,options).json({
+            res.status(statusCode).cookie('token',token,options).json({
                 success:true,
                 token:token})
     }
