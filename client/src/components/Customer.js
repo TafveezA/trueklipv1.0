@@ -77,10 +77,10 @@ function Customer() {
       const signer = await provider.getSigner()
       console.log(await signer.getAddress())
       const contract = new ethers.Contract(contractAddress, abi,signer);
-	  const fetcheddata =fetchData(data)
-	  const jsonData = JSON.parse(data);
+	    const fetcheddata =fetchData(data)
+	    const jsonData = JSON.parse(data);
       console.log('klipID: ' ,jsonData.klipid)
-	  console.log('klipID: ' ,fetcheddata.klipid)
+	    console.log('klipID: ' ,fetcheddata.klipid)
       const hash = await contract.getHashById(jsonData.klipid)
 
       console.log('hash' , hash)
@@ -92,7 +92,7 @@ function Customer() {
       console.log("Validation Result :", result);
       setValid(result)
       setKlipHash(hash)
-	  setIsButtonVisible(false);
+	    setIsButtonVisible(false);
 
 
      

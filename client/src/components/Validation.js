@@ -8,28 +8,20 @@ import { abiValidation, contractAddressValidation } from "../constants";
 //import{ethers} from 'ethers'
 
 
-//import Web3 from 'web3';
 
-//const { keccak256, toHexString } = require('ethereum-cryptography/keccak')
 
 
 //const abiValidation= require( '../abi')
 //const Web3 = require('web3');
 const ethers = require("ethers");
-//const web3 = new window.Web3()
-//const keccak256 = require('keccak256')
-// const dotenv = require('dotenv')
 
-// dotenv.config({path:'../config/config.env'})
 const contractAddress =contractAddressValidation
 const abi= abiValidation
 
 function Validation() {
 
     const [klipId, setKlipId] = useState("")
-    // const [batchNumber, setBatchNumber] = useState("")
-    // const [mfgDate, setMfgDate] = useState("")
-    // const [expiryDate, setExpiryDate] = useState("")
+
     // const [description, setDescription] = useState("")
     const [isButtonVisible, setIsButtonVisible] = useState(true);
     const [valid, setValid] = useState(null);
@@ -37,7 +29,6 @@ function Validation() {
     const [kliphash, setKlipHash] = useState("")
     const [check, setCheck] = useState(null);
     
-    // const [arrayData, setArrayData] = useState([]);
    ;
     
     
@@ -81,38 +72,12 @@ function Validation() {
 
       console.log("Valid",result)
     
-      //const receipt = await provider.getTransactionReceipt(result.hash);
-      //const hash = receipt.logs[0].data;
-    
+   
       console.log("Validation Result :", result);
    
       setKlipHash(hash)
       console.log(kliphash)
-// const fetchedData =fetchData()
 
-// const _klipId = ethers.BigNumber.form(fetchedData.klipid, 0);
-// const _batchNumber = fetchedData.batchnumber;
-// const _mfgDate = ethers.BigNumber(fetchedData.mfgdate, 0);
-// const _expiryDate = ethers.BigNumber(fetchedData.expirydate, 0);
-// const _warranty = ethers.BigNumber(fetchedData.warranty, 0);
-// const _description = fetchedData.description;
-// const _klipId = 10;
-// const _batchNumber ="XYZ";
-// const _mfgDate =1;
-// const _expiryDate = 3;
-// const _warranty = 2;
-// const _description ="digitalreciept" ;
-// //const abiCoder = new ethers.utils.AbiCoder();
-// const abiCoder = new ethers.utils.AbiCoder();
-// const encodedData = abiCoder.encode(
-//   ['uint256', 'string', 'uint256', 'uint256', 'uint256', 'string'],
-//   [_klipId,_batchNumber, _mfgDate, _expiryDate, _warranty, _description]
-// );
-
-// const _hash = ethers.utils.keccak256(encodedData);
-
-// console.log("Hash From DB:", _hash);
-  
  
 
     
@@ -126,32 +91,9 @@ function Validation() {
     }
 
   }
-  //setKlipId(0)
-//validateProduct()
 
-  // function apiCall(data){
-  //   const jsonData = JSON.parse(data);
-  //   const apiUrl = 'http://localhost:5000/api/v1/products/'
-  //   const requestBody = {
-  //       klipid: jsonData.klipid,
-  //       batchnumber:jsonData.batchnumber,
-  //       mfgdate:jsonData.mfgdate,
-  //       expirydate:jsonData.expirydate,
-  //       mfgdate:jsonData.mfgdate,
-  //       warranty:jsonData.warranty,
-  //       description:jsonData.description
-  //     };
-    
+
   
-  //   axios.post(apiUrl, requestBody)
-  //   .then((response) => {
-  //     console.log('Data successfully inserted into the API:', response.data);
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error inserting data into the API:', error.data);
-  //   });
-  
-  // }
 
   async function fetchData() {
     try {

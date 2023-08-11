@@ -178,16 +178,14 @@ function Producer(){
    
   
     return (
-      <div className="Producer">
-          <header className="bg-white shadow-md">
-          <div className="container mx-auto py-4 px-8">
-          <h1 className="text-2xl font-bold text-gray-800">Manufacturer Co</h1>
-        </div>
-      </header>
+<div className="Producer">
+  <header className="bg-white shadow-md">
+  <div className="container mx-auto py-4 px-8">
+  <h1 className="text-2xl font-bold text-gray-800">Manufacturer Co</h1>
+  </div>
+  </header>
        <img className="mx-auto p-4" src={logo} alt="Logo" />
-       
-    
-      <h2 class="text-3xl font-bold mt-6">Add Product Info</h2>
+       <h2 class="text-3xl font-bold mt-6">Add Product Info</h2>
       
 <div>
 <form onSubmit={handleSubmit} className="space-y-4">
