@@ -73,106 +73,13 @@ function Distributor(){
     }
   
   }
-  requestAccount()
-  async function addProduct(_dataToBlockchain) {
-
-    try {
-      const jsonData = JSON.parse(_dataToBlockchain);
-      console.log('jsonData',jsonData)
-      console.log('klipid',jsonData.klipid)
-      console.log('Batch Number',jsonData.batchnumber)
-      console.log('mfg date',jsonData.mfgdate)
-      console.log('expirydate',jsonData.expirydate)
-      console.log('warranty',jsonData.warranty)
-      console.log('description',jsonData.description)
-    
-      
-
-     
-     
-      const provider = new Web3Provider(window.ethereum);
-      const signer = await provider.getSigner();
-      const contract = new ethers.Contract(contractAddress, abi,signer);
-
-
-      const klipId =jsonData.klipid;
-      const batchNumber=jsonData.batchnumber;
-      const mfgDate =jsonData.mfgdate;
-      const expiryDate =jsonData.expirydate;
-      const warranty=jsonData.warranty;
-      const description=jsonData.description;
-   
-
-
-      const tx = await contract.connect(signer).hashData(klipId, batchNumber, mfgDate, expiryDate, warranty, description);
-
-    
-      console.log("TX Response:", tx.hash);
-
-
-    }
-    
-      catch (error) {
-      console.log(error.message);
-    }
-
-  }
-
-  async function callHashData() {
-  try{ 
-    const provider = new Web3Provider(window.ethereum);
-    const signer = await provider.getSigner();  
-    const contract = new ethers.Contract(contractAddress, abi, signer);
+ async function handleSubmit(){
   
+ }
 
-    const klipId =1;
-    const batchNumber='XYZ';
-    const mfgDate =1;
-    const expiryDate =3;
-    const warranty=2;
-    const description='digitalreceipt';
-  
 
-    const tx = await contract.hashData(klipId, batchNumber, mfgDate, expiryDate, warranty, description);
-    await tx.wait();
-  
 
-    const receipt = await provider.getTransactionReceipt(tx.hash);
-
-  
-    console.log("Reciept:", receipt);
-  }catch (error) {
-  console.log(error.message);
-}
-  }
-  
-
-  function apiCall(data){
-  
-    const jsonData = JSON.parse(data);
-    const apiUrl = 'http://localhost:5000/api/v1/products/'
-    const requestBody = {
-      klipid: jsonData.klipid,
-      batchnumber:jsonData.batchnumber,
-      mfgdate:jsonData.mfgdate,
-      expirydate:jsonData.expirydate,
-      mfgdate:jsonData.mfgdate,
-      warranty:jsonData.warranty,
-      description:jsonData.description
-    };
-  
-    axios.post(apiUrl, requestBody)
-    .then((response) => {
-      console.log('Data successfully inserted into the API:', response.data);
-    })
-    .catch((error) => {
-      console.error('Error inserting data into the API:', error.data);
-    });
-    addProduct(data)
-    setIsLoading(true)
-   
-  }
-
+ 
   
   
 
@@ -191,7 +98,7 @@ function Distributor(){
       <br></br>
       <h3 class="text-3xl font-bold mt-6">Add Distributor Info</h3>
       <br></br>
-    <div><form  onSubmit={callHashData} className="max-w-lg mx-auto">
+    <div><form  onSubmit={requestAccount} className="max-w-lg mx-auto">
     <fieldset>
     <div className="mb-4">
       <label htmlFor="klipId" className="text-gray-700 text-lg font-medium">

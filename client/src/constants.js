@@ -1274,7 +1274,7 @@ export const abiValidation =[
 ]
 
 
-export const contractAddressSupplyChain = "0x2BA96D3844f1dBbaf4a05a3B5ED521cdDDa481fC";
+export const contractAddressSupplyChain = "0x07Fa7765a7763Db5405F8D0e9a332b0c509AB4F0";
 export const abiSupplyChain =[
 	{
 		"inputs": [

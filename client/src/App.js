@@ -15,10 +15,7 @@ import NFTMinting from './components/NFTMinting';
 import Distributor from "./components/Distributor";
 import Retailer from "./components/Retailer";
 import Home from "./components/Home";
-//import LoginPage from './components/LoginPage';
-//import Callback from './components/CallBack';
-//import CallBack from './components/CallBack';
-//import Admin from './components/Admin';
+
 
 
 
@@ -45,6 +42,8 @@ function App() {
     <Route path = '/manufacturer' element ={<Producer/>}/>
     <Route path = '/distributor' element ={<Distributor/>}/>
     <Route path = '/retailer' element ={<Retailer/>}/>
+    {/* <Route path = '/forex' element ={<ForexApp/>}/> */}
+    
     
     
 
