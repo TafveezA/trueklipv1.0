@@ -45,9 +45,7 @@ function Retailer(){
     const [retailer, setRetailer] = useState("")
     const [description,setDescription] = useState("")
     const [recieveDate,setRecieveDate] =useState("")
-    //  const [expiryDate, setExpiryDate] = useState("")
-    //  const [description, setDescription] = useState("")
-    // const [warranty, setWarranty] = useState("")
+
      const [isLoading, setIsLoading] = useState(false);
     
     const [isButtonVisible, setIsButtonVisible] = useState(false);

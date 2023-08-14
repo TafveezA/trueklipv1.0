@@ -9,29 +9,37 @@ import { abiValidation,
   contractAddressValidation,
 contractAddressSupplyChain,
 abiSupplyChain } from "../constants";
+// const { TextDecoder } = require('util');
 
 
-
-//import {abiValidation} from "../abi"
-// const dotenv =require('dotenv')
-// //const Web3 = require("web3");
-// require('dotenv').config({path:'../../.env'})
-//console.log(process.env.ALCHEMY_API_KEY)
 const ethers = require("ethers");
 const CryptoJS = require("crypto-js");
 
-// const contractAddress =contractAddressValidation
-// const abi= abiValidation
-//const polygonUrl = env.POLYGON_TESTNET_RPC_URL;
+
 
 
 
 const key ="1234"
-const plainText = "Hello, world!";
+const jsonPlainText = {
+  "name":"tafveez",
+  "gmail":"tafveez.eth@gmail.com"
+}
+const plainText= JSON.stringify(jsonPlainText)
 const encrypted = CryptoJS.AES.encrypt(plainText, key);
 console.log("encrypted data",encrypted)
+console.log("stringify encrypteddata  ",encrypted.toString)
 const decrypted = CryptoJS.AES.decrypt(encrypted, key);
-console.log("decrypted data",decrypted)
+console.log("decrypted data",decrypted.toString(CryptoJS.enc.Utf8))
+console.log("decrypted JSON data ",JSON.parse(decrypted.toString(CryptoJS.enc.Utf8)))
+
+
+
+// const bytes = new decrypted; // Example bytes
+// const decoder = new TextDecoder();
+// const text = decoder.decode(bytes);
+
+// console.log("Stringify data",text);
+
 
 // const privateKey = 'de4b0fad5b2956afa383903e4ebcd407d1d6417fdfb977f08c5d5a4a112c199c';
 
@@ -83,7 +91,7 @@ function Producer(){
    async function handleSubmit(){
    
    try{
-    requestAccount()
+  requestAccount()
   const metamaskProvider =  new Web3Provider(window.ethereum)
   console.log(metamaskProvider)
   const signer = metamaskProvider.getSigner()
@@ -126,12 +134,12 @@ function Producer(){
   <img className="mx-auto p-2" src={logo} alt="Logo" />
        
        <br></br>
-       <h3 class="text-3xl font-bold mt-6">Add Distributor Info</h3>
-       <br></br> 
-     
+       <h3 class="text-3xl font-bold mt-6">Add Manufacturer Info</h3>
       
+     
+       <br></br> 
     <div>
-      <input />
+   
     <button type="submit" onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
      AddProduct
     </button>
