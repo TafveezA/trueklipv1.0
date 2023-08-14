@@ -3,9 +3,9 @@ import axios from 'axios'
 
 
 import { Web3Provider } from "@ethersproject/providers";
-import { Link } from "react-router-dom";
+
 import logo from '../logo.svg';
-import { abiValidation, contractAddressValidation } from "../constants";
+import { abiValidation, contractAddressValidation,abiSupplyChain,contractAddressSupplyChain } from "../constants";
 
 
 //import {abiValidation} from "../abi"
@@ -45,9 +45,7 @@ function Distributor(){
     const [retailer, setRetailer] = useState("")
     const [description,setDescription] = useState("")
     const [shipmentDate,setShipmentDate] =useState("")
-    //  const [expiryDate, setExpiryDate] = useState("")
-    //  const [description, setDescription] = useState("")
-    // const [warranty, setWarranty] = useState("")
+
      const [isLoading, setIsLoading] = useState(false);
     
     const [isButtonVisible, setIsButtonVisible] = useState(false);
@@ -74,6 +72,21 @@ function Distributor(){
   
   }
  async function handleSubmit(){
+  try{
+    requestAccount()
+    const metamaskProvider = new Web3Provider(window.ethereum)
+    const signer = metamaskProvider.getSigner()
+    const contract  = new ethers.Contract(contractAddressSupplyChain,abiSupplyChain,signer)
+    const _truklip = 1
+    const _shipmentDate =Date.now()
+    const _orderNo =1
+    const _hssCode =28
+    const _barcode ="#KLIP"
+    const result = contract.addDistributorDetails(_truklip,_shipmentDate,_orderNo,_hssCode,_barcode)
+    console.log(result)
+   }catch(error){
+    console.log(error.message)
+   }
   
  }
 
@@ -98,62 +111,9 @@ function Distributor(){
       <br></br>
       <h3 class="text-3xl font-bold mt-6">Add Distributor Info</h3>
       <br></br>
-    <div><form  onSubmit={requestAccount} className="max-w-lg mx-auto">
-    <fieldset>
-    <div className="mb-4">
-      <label htmlFor="klipId" className="text-gray-700 text-lg font-medium">
-        Tru Klip Id
-      </label>
-      <input
-        type="text"
-        id="klipId"
-        value={klipId}
-        onChange={(e) => setKlipId(e.target.value)}
-        className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
-      />
-    </div>
-    <div className="mb-4">
-      <label htmlFor="batchnumber" className="text-gray-700 text-lg font-medium">
-        Order Number
-      </label>
-      <input
-        type="text"
-        id="klipId"
-        value={orderNumber}
-        onChange={(e) => setOrderNumber(e.target.value)}
-        className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
-      />
-    </div>
-    <div className="mb-4">
-      <label htmlFor="distributor" className="text-gray-700 text-lg font-medium">
-        Retailer Details
-      </label>
-      <input
-        type="text"
-        value={retailer}
-        onChange={(e) => setRetailer(e.target.value)}
-        className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
-      />
-    </div>
-
-    <div className="mb-4">
-      <label htmlFor="shipment date" className="text-gray-700 text-lg font-medium">
-        Shipment Date
-      </label>
-      <input
-        type="text"
-        value={shipmentDate}
-        onChange={(e) => setShipmentDate(e.target.value)}
-        className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
-      />
-    </div>
-
-  </fieldset>
-  <div>
-       
-       <button type="submit" className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
-</div>
-</form></div>
+      <button type="submit" onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+     AddProduct
+    </button>
    
      
       </div>
