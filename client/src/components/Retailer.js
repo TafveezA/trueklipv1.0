@@ -5,7 +5,7 @@ import axios from 'axios'
 import { Web3Provider } from "@ethersproject/providers";
 import { Link } from "react-router-dom";
 import logo from '../logo.svg';
-import { abiValidation, contractAddressValidation } from "../constants";
+import { abiSupplyChain, abiValidation, contractAddressSupplyChain, contractAddressValidation } from "../constants";
 
 
 //import {abiValidation} from "../abi"
@@ -73,105 +73,28 @@ function Retailer(){
     }
   
   }
+
+  async function handleSubmit(){
+  try{
   requestAccount()
-  async function addProduct(_dataToBlockchain) {
+  const metamaskProvider = new Web3Provider(window.ethereum)
+  const signer = metamaskProvider.getSigner()
+  const contract = new ethers.Contract(contractAddressSupplyChain,abiSupplyChain,signer)
+  const _truklip =1
+  const _recievedate = Date.now()
+  const _pickdate =Date.now()
+  const _orderNo = 1
+  const _otherDetails ="other details goes here"
+  const _packingbarcode ="packingbarcode details goes here"
+  const result = await contract.addRetailerDetails(_truklip,_recievedate,_pickdate,_orderNo,_otherDetails,_packingbarcode)
+  console.log(result)
 
-    try {
-      const jsonData = JSON.parse(_dataToBlockchain);
-      console.log('jsonData',jsonData)
-      console.log('klipid',jsonData.klipid)
-      console.log('Batch Number',jsonData.batchnumber)
-      console.log('mfg date',jsonData.mfgdate)
-      console.log('expirydate',jsonData.expirydate)
-      console.log('warranty',jsonData.warranty)
-      console.log('description',jsonData.description)
-    
-      
-
-     
-     
-      const provider = new Web3Provider(window.ethereum);
-      const signer = await provider.getSigner();
-      const contract = new ethers.Contract(contractAddress, abi,signer);
-
-
-      const klipId =jsonData.klipid;
-      const batchNumber=jsonData.batchnumber;
-      const mfgDate =jsonData.mfgdate;
-      const expiryDate =jsonData.expirydate;
-      const warranty=jsonData.warranty;
-      const description=jsonData.description;
-   
-
-
-      const tx = await contract.connect(signer).hashData(klipId, batchNumber, mfgDate, expiryDate, warranty, description);
-
-    
-      console.log("TX Response:", tx.hash);
-
-
-    }
-    
-      catch (error) {
-      console.log(error.message);
-    }
+  }catch(error){
+    console.log(error.message)
 
   }
-
-  async function callHashData() {
-  try{ 
-    const provider = new Web3Provider(window.ethereum);
-    const signer = await provider.getSigner();  
-    const contract = new ethers.Contract(contractAddress, abi, signer);
-  
-
-    const klipId =1;
-    const batchNumber='XYZ';
-    const mfgDate =1;
-    const expiryDate =3;
-    const warranty=2;
-    const description='digitalreceipt';
-  
-
-    const tx = await contract.hashData(klipId, batchNumber, mfgDate, expiryDate, warranty, description);
-    await tx.wait();
-  
-
-    const receipt = await provider.getTransactionReceipt(tx.hash);
-
-  
-    console.log("Reciept:", receipt);
-  }catch (error) {
-  console.log(error.message);
-}
   }
-  
 
-  function apiCall(data){
-  
-    const jsonData = JSON.parse(data);
-    const apiUrl = 'http://localhost:5000/api/v1/products/'
-    const requestBody = {
-      klipid: jsonData.klipid,
-      batchnumber:jsonData.batchnumber,
-      mfgdate:jsonData.mfgdate,
-      expirydate:jsonData.expirydate,
-      mfgdate:jsonData.mfgdate,
-      warranty:jsonData.warranty,
-      description:jsonData.description
-    };
-  
-    axios.post(apiUrl, requestBody)
-    .then((response) => {
-      console.log('Data successfully inserted into the API:', response.data);
-    })
-    .catch((error) => {
-      console.error('Error inserting data into the API:', error.data);
-    });
-    addProduct(data)
-    setIsLoading(true)
-   
-  }
 
   
   
@@ -191,62 +114,9 @@ function Retailer(){
       <br></br>
       <h3 class="text-3xl font-bold mt-6">Add Retailer Info</h3>
       <br></br>
-    <div><form  onSubmit={callHashData} className="max-w-lg mx-auto">
-    <fieldset>
-    <div className="mb-4">
-      <label htmlFor="klipId" className="text-gray-700 text-lg font-medium">
-        Tru Klip Id
-      </label>
-      <input
-        type="text"
-        id="klipId"
-        value={klipId}
-        onChange={(e) => setKlipId(e.target.value)}
-        className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
-      />
-    </div>
-    <div className="mb-4">
-      <label htmlFor="batchnumber" className="text-gray-700 text-lg font-medium">
-        Package Specification
-      </label>
-      <input
-        type="text"
-        id="klipId"
-        value={packageSpecification}
-        onChange={(e) => setPackageSpecification(e.target.value)}
-        className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
-      />
-    </div>
-    <div className="mb-4">
-      <label htmlFor="distributor" className="text-gray-700 text-lg font-medium">
-        Bar Code
-      </label>
-      <input
-        type="text"
-        value={retailer}
-        onChange={(e) => setRetailer(e.target.value)}
-        className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
-      />
-    </div>
-
-    <div className="mb-4">
-      <label htmlFor="shipment date" className="text-gray-700 text-lg font-medium">
-        Recieve Date
-      </label>
-      <input
-        type="text"
-        value={recieveDate}
-        onChange={(e) => setRecieveDate(e.target.value)}
-        className="appearance-none bg-gray-100 border border-gray-300 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black-500 w-full"
-      />
-    </div>
-
-  </fieldset>
-  <div>
-       
-       <button type="submit" className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
-</div>
-</form></div>
+      <button type="submit" onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+     Add
+    </button>
    
      
       </div>

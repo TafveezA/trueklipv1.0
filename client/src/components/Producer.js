@@ -4,7 +4,7 @@ import{useEffect, useState} from "react";
 
 import { Web3Provider } from "@ethersproject/providers";
 // import { Link } from "react-router-dom";
-//import logo from '../logo.svg';
+import logo from '../logo.svg';
 import { abiValidation, 
   contractAddressValidation,
 contractAddressSupplyChain,
@@ -104,7 +104,7 @@ function Producer(){
     console.log(error.message)
    }
    }
-handleSubmit()
+
 
 
  
@@ -123,7 +123,11 @@ handleSubmit()
   <h1 className="text-2xl font-bold text-gray-800">Manufacturer Co</h1>
   </div>
   </header>
-     
+  <img className="mx-auto p-2" src={logo} alt="Logo" />
+       
+       <br></br>
+       <h3 class="text-3xl font-bold mt-6">Add Distributor Info</h3>
+       <br></br> 
      
       
     <div>
