@@ -87,8 +87,7 @@ function Distributor(){
    }catch(error){
     console.log(error.message)
    }
-  
- }
+  }
 
 
 
@@ -123,7 +122,7 @@ function Distributor(){
     
 
     );
-      }
+    }
   
   export default Distributor;
   

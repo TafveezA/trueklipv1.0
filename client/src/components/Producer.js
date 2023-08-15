@@ -3,13 +3,14 @@ import{useEffect, useState} from "react";
 //import env from "react-dotenv";
 
 import { Web3Provider } from "@ethersproject/providers";
+import { JsonRpcProvider } from "ethers";
 // import { Link } from "react-router-dom";
 import logo from '../logo.svg';
 import { abiValidation, 
   contractAddressValidation,
 contractAddressSupplyChain,
 abiSupplyChain } from "../constants";
-// const { TextDecoder } = require('util');
+
 
 
 const ethers = require("ethers");
@@ -27,7 +28,7 @@ const jsonPlainText = {
 const plainText= JSON.stringify(jsonPlainText)
 const encrypted = CryptoJS.AES.encrypt(plainText, key);
 console.log("encrypted data",encrypted)
-console.log("stringify encrypteddata  ",encrypted.toString)
+console.log("stringify encrypteddata  ",encrypted.toString())
 const decrypted = CryptoJS.AES.decrypt(encrypted, key);
 console.log("decrypted data",decrypted.toString(CryptoJS.enc.Utf8))
 console.log("decrypted JSON data ",JSON.parse(decrypted.toString(CryptoJS.enc.Utf8)))
@@ -41,12 +42,7 @@ console.log("decrypted JSON data ",JSON.parse(decrypted.toString(CryptoJS.enc.Ut
 // console.log("Stringify data",text);
 
 
-// const privateKey = 'de4b0fad5b2956afa383903e4ebcd407d1d6417fdfb977f08c5d5a4a112c199c';
 
-// const provider = new ethers.JsonRpcProvider('https://api.testnet.evm.eosnetwork.com/');
-// const wallet = new ethers.Wallet(privateKey, provider);
-
-// const supplyChainContract = new ethers.Contract(contractAddressSupplyChain, abiSupplyChain, wallet);
 
 
 
@@ -115,6 +111,31 @@ function Producer(){
 
 
 
+async function handleSubmitForUrl(){
+  try{
+const privateKey = 'de4b0fad5b2956afa383903e4ebcd407d1d6417fdfb977f08c5d5a4a112c199c';
+const EOS_RPC_URL='https://api.testnet.evm.eosnetwork.com/';
+const provider = new JsonRpcProvider(EOS_RPC_URL, undefined, {
+  batchMaxCount: 1
+})
+const wallet = new ethers.Wallet(privateKey, provider);
+
+const eoscontractAddress = "0x192d2fC734D58fc2864A8E6F33a00361943DefBB" 
+const supplyChainContract = new ethers.Contract(eoscontractAddress, abiSupplyChain, wallet);
+
+const _certificate ='x'
+const _batchnumber ='xy'
+const _productionData ='xyz'
+const _otherDetails = 'xy'
+const _producerId =0
+const _truklipId =1
+const _isConsumable = false
+const response = await supplyChainContract.addProduct(_certificate,_batchnumber,_productionData,_otherDetails,_producerId,_truklipId,_isConsumable)
+console.log(response.toJSON())
+  }catch(error){
+    console.log(error.message)
+  }
+}
  
   
  
@@ -125,7 +146,7 @@ function Producer(){
    
   
     return (
-<div className="Producer">
+ <div className="Producer">
   <header className="bg-white shadow-md">
   <div className="container mx-auto py-4 px-8">
   <h1 className="text-2xl font-bold text-gray-800">Manufacturer Co</h1>
@@ -142,6 +163,9 @@ function Producer(){
    
     <button type="submit" onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
      AddProduct
+    </button>
+    <button type="submit" onClick={handleSubmitForUrl} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+     AddProductOnEOS
     </button>
     </div>
 
