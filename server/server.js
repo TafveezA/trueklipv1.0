@@ -8,6 +8,7 @@ const errorHandler = require('./middleware/error')
 const app = express()
 const logger = require('./middleware/logger')
 const connectDB = require('./config/db')
+const mongoSanitize = require('express-mongo-sanitize')
 
 
 
@@ -24,6 +25,9 @@ app.use(errorHandler)
 app.use(cors({
     origin: 'http://localhost:3000',
   }));
+
+// To remove data using these defaults:
+app.use(mongoSanitize());
 
 // morgan logger can be used durinmg development
 if(process.env.NODE_ENV === 'development'){
