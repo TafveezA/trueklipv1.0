@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %> Certificate</title>
+    <style>
+        /* Add your certificate styling here */
+        .certificate {
+            width: 800px;
+            height: 600px;
+            border: 2px solid #000;
+            text-align: center;
+            padding: 20px;
+        }
+        .recipient {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .title {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .description {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate">
+        <h1><%= title %> Certificate</h1>
+        <p class="recipient">Presented to: <%= recipient %></p>
+        <p class="title">For: <%= title %></p>
+        <p class="description"><%= description %></p>
+    </div>
+</body>
+</html>

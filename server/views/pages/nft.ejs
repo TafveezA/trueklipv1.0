@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Certificate of Excellence NFT</title>
+    <style>
+        /* Add your certificate styling here */
+        body {
+            background: linear-gradient(to bottom, #1b1b1b, #121212);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            animation: backgroundAnimation 10s infinite alternate; /* Add animation to the background */
+        }
+
+        @keyframes backgroundAnimation {
+            0% {
+                background: linear-gradient(to bottom, #1b1b1b, #121212);
+            }
+            100% {
+                background: linear-gradient(to bottom, #121212, #1b1b1b);
+            }
+        }
+
+        .certificate {
+            width: 600px;
+        height: 800px;
+        background: linear-gradient(to bottom, #1a1a1a, #0c0c0c);
+        border: 1px solid #1b1b1b;
+        border-radius: 10px;
+        border-color: #61C06F; /* Light green border color */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nft-badge {
+            background-color: #1d0108;
+            color: #ffffff;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-top: -30px;
+            text-transform: uppercase;
+            border: 2px solid #23f70f; /* Light green border color for badge */
+        }
+
+        .nft-image {
+            width: 80%;
+            max-height: 60%;
+            object-fit: cover;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .text-container {
+            padding: 20px;
+            text-align: center;
+            color: #f1f3f0;
+        }
+
+        .recipient {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate">
+        <div class="nft-badge">NFT</div>
+        <img class="nft-image" src="https://ipfs.io/ipfs/QmXYrQZBJiL5SVx8Z2ELZ8AjohnAa6iH64SgBDRW1Z1J8B?filename=onft.png" alt="NFT Image">
+        <div class="text-container">
+            <h1><%= title %> Certificate</h1>
+            <p class="recipient">Presented to: <%= recipient %></p>
+            <p class="title">For: <%= title %></p>
+            <p class="description"><%= description %></p>
+        </div>
+    </div>
+</body>
+</html>
