@@ -93,7 +93,7 @@ app.get('/index', function(req, res) {
   app.get('/generate-certificate', (req, res) => {
     // Sample dynamic data for the certificate
     const certificateData = {
-        recipient: 'Tafveez',
+        recipient: 'XYZ',
         title: 'Ownership',
         description: 'In accusition of the Product:Rolex Watch.'
     };
