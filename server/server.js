@@ -1,5 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const fs = require('fs');
+const puppeteer = require('puppeteer');
 const dotenv = require('dotenv')
 const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
@@ -99,13 +101,50 @@ app.get('/index', function(req, res) {
     };
 
     
-    ejs.renderFile('./views/index.ejs', certificateData, (err, html) => {
+    ejs.renderFile('./views/index.ejs', certificateData, async(err, html) => {
         if (err) {
             console.error('Error rendering certificate:', err);
             return res.status(500).send('Error generating certificate.');
         }
-        res.status(200).send(html);
+       
+       
+      
+  res.status(200).send(html);
+
+
     });
+})
+
+  app.get('/generatepdf',async(req,res)=>{
+  try{  const browser = await puppeteer.launch( {headless: false,});
+    const page = await browser.newPage();
+    
+    const url = 'http://localhost:5000/generate-certificate'; // Replace with the URL you want to convert
+    const url2 ='https://klip-latest-ui-3a9ab5.teleporthq.app/'
+  // Define the width and height of the PDF page to match the size of the card
+  const cardWidth = 350; // Replace with the actual width of the card in pixels
+  const cardHeight = 202; // Replace with the actual height of the card in pixels
+  
+  await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
+
+  // Set the viewport size to match the card dimensions
+  await page.setViewport({ width: cardWidth, height: cardHeight });
+
+  // Generate the PDF with the specified dimensions
+  await page.pdf({
+    path: `certificate${Date.now()}.pdf`, // Output file path
+    width: `${cardWidth}px`,
+    height: `${cardHeight}px`,
+    printBackground: true,
+  });
+  
+    await browser.close();
+    console.log('PDF generated successfully.');
+    res.status(200).json({suceess:true})
+  }catch(error){
+    console.log(error.message)
+    res.status(500).json({error:error.message})
+  }
 });
   
 
