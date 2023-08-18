@@ -99,7 +99,7 @@ app.get('/index', function(req, res) {
     };
 
     
-    ejs.renderFile('./views/pages/nft.ejs', certificateData, (err, html) => {
+    ejs.renderFile('./views/pages/card.ejs', certificateData, (err, html) => {
         if (err) {
             console.error('Error rendering certificate:', err);
             return res.status(500).send('Error generating certificate.');

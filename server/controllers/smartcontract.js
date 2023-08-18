@@ -17,8 +17,11 @@ const privateKey = process.env.PRIVATE_KEY;
 
 const{Web3}=require("web3")
 const ABI= require("../config/validationABI.json")
+const supplychainABI = require("../config/trackingABI.json")
+const Product = require('../models/productModel.js')
 const ALCHEMY_RPC_URL_SEPOLIA=process.env.ALCHEMY_RPC_URL_SEPOLIA
-const CONTRACT_VALIDATION_ADDRESS=process.env.CONTRACT_VALIDATION_ADDRESS
+const CONTRACT_VALIDATION_ADDRESS=process.env.CONTRACT_ADDRESS_VALIDATION
+console.log("contract address",CONTRACT_VALIDATION_ADDRESS)
 const web3 =new Web3(ALCHEMY_RPC_URL_SEPOLIA)
 const contract = new web3.eth.Contract(ABI,CONTRACT_VALIDATION_ADDRESS)
 
@@ -31,7 +34,7 @@ console.log("Supply chain smart contract on EOS",process.env.EOS_SUPPLYCHAIN_CON
 
 const EOS_RPC_URL=process.env.EOS_RPC_URL;
 const EOS_PROVIDER = new Web3(EOS_RPC_URL)
-const abiSupplyChain =ABI
+const abiSupplyChain =supplychainABI
 const eoscontractAddress = process.env.EOS_SUPPLYCHAIN_CONTRACT_ADDRESS
 
 
@@ -48,7 +51,8 @@ const eosSupplyChainContract = new EOS_PROVIDER.eth.Contract(abiSupplyChain,eosc
 exports.validateProduct = asyncHandler(async(req,res,next)=>{
             const {id}= req.params
             console.log(id)
-      
+            // const product = await Product.findById(id)
+            // console.log("Product ", product)
             
             const result = await contract.methods.validate(id).call();
       
@@ -57,7 +61,7 @@ exports.validateProduct = asyncHandler(async(req,res,next)=>{
              res.status(200).json({
               truklipId:id,
               success:true,
-              valid:result,
+              valid:result
              })
             
 })
