@@ -1,87 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Card with Background Image</title>
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Front Design</title>
+  <style>
+    .front-container {
+      width: 100%;
+      display: flex;
+      overflow: auto;
+      min-height: 100vh;
+      align-items: center;
+      flex-direction: column;
+    }
 
-  .card {
-    position: relative;
-    width: 300px;
-    height: 200px;
-    background-image: url('https://ipfs.io/ipfs/QmXYrQZBJiL5SVx8Z2ELZ8AjohnAa6iH64SgBDRW1Z1J8B?filename=onft.png'); /* Replace with your image URL */
-    background-size: cover;
-    background-position: center;
-    border-radius: 10px;
-    overflow: hidden;
-    border: 2px solid #fff; /* Add a white border to increase visibility */
-  }
+    .front-front {
+      width: 100%;
+      height: 200px;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+      align-items: flex-start;
+      flex-shrink: 0;
+    }
 
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    padding: 20px;
-    opacity: 0.9;
-  }
+    /* Add the rest of your CSS styles here */
 
-  .certificate {
-    text-align: center;
-  }
-
-  .certificate h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-
-  .recipient, .title, .description {
-    font-size: 16px;
-    margin-bottom: 8px;
-  }
-
-  .submit-button {
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-
-  .submit-button:hover {
-    background-color: #45a049;
-  }
-</style>
+  </style>
 </head>
 <body>
-  <div class="card">
-    <div class="overlay">
-      <div class="certificate">
-        <h1><%= title %> Certificate</h1>
-        <p class="recipient">Presented to: <%= recipient %></p>
-        <p class="title">For: <%= title %></p>
-        <p class="description"><%= description %></p>
-        <button class="submit-button">Submit</button>
+  <div class="front-container">
+    <div class="front-front">
+      <img src="/subtract18780-42m.svg" alt="Subtract18780" class="front-subtract">
+      <img src="/vector18780-awoi.svg" alt="Vector18780" class="front-vector">
+      <img src="/vector18780-auru.svg" alt="Vector18780" class="front-vector01">
+      <img src="/vector18780-s72n.svg" alt="Vector18780" class="front-vector02">
+      <img src="/vector18780-ztbe.svg" alt="Vector18780" class="front-vector03">
+      <img src="/vector18780-t666.svg" alt="Vector18780" class="front-vector04">
+      <img src="/vector18780-mg29.svg" alt="Vector18780" class="front-vector05">
+      <div class="front-frame1686564733">
+        <div class="front-frame1686564735">
+          <span class="front-text ApplicationtextstyleSubhead(Med14px)">
+            <span>Brand Name</span>
+          </span>
+        </div>
+        <span class="front-text2 ApplicationtextstyleBody(Reg14px)">
+          <span>TruKlip ID : T8WDD77885</span>
+        </span>
+      </div>
+      <div class="front-frame1686564705">
+        <span class="front-text4 ApplicationtextstyleHeadline1(Med18px)">
+          Imran Sheikh
+        </span>
+        <span class="front-text5 ApplicationtextstyleCaption1(Reg12px)">
+          12 Mar 2022, 12:20 PM
+        </span>
+      </div>
+      <div class="front-englishklip">
+        <div class="front-group">
+          <div class="front-layer01member0fill">
+            <img src="/vectori1878-jihe.svg" alt="VectorI1878" class="front-vector06">
+          </div>
+        </div>
+        <div class="front-group1">
+          <div class="front-layer01member1fill">
+            <img src="/vectori1878-9twb.svg" alt="VectorI1878" class="front-vector07">
+          </div>
+        </div>
+        <div class="front-group2">
+          <div class="front-layer01member2fill">
+            <img src="/vectori1878-i8s8.svg" alt="VectorI1878" class="front-vector08">
+          </div>
+        </div>
+        <div class="front-group3">
+          <div class="front-layer01member3fill">
+            <img src="/vectori1878-tqu.svg" alt="VectorI1878" class="front-vector09">
+          </div>
+        </div>
+        <div class="front-group4">
+          <div class="front-layer01member4fill">
+            <img src="/vectori1878-zcfg.svg" alt="VectorI1878" class="front-vector10">
+          </div>
+        </div>
+        <div class="front-group5">
+          <div class="front-layer02fill">
+            <img src="/vectori1878-40vk.svg" alt="VectorI1878" class="front-vector11">
+          </div>
+        </div>
       </div>
     </div>
   </div>
