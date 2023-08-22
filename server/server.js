@@ -8,6 +8,7 @@ const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const errorHandler = require('./middleware/error')
+const filterCertificates = require('./utils/filterCertificates')
 const app = express()
 const logger = require('./middleware/logger')
 const connectDB = require('./config/db')
@@ -169,13 +170,43 @@ const certificates = require('./_data/certificate.json')
   
   // Listing API: Listing TruKLIP Certificates with filters and text search
   app.post('/list', (req, res) => {
-    const { searchText, filter } = req.body;
-  
-    // Apply your filtering and searching logic here
-  
-    // For now, just return dummy data
-    return res.json(certificates);
+    try {
+        const searchText = req.body.searchText.toLowerCase();
+        const { dateType, specificDate, startDate, endDate } = req.body.filter;
+    
+        const filteredCertificates = certificates.filter(certificate => {
+          // Filter based on search text
+          if (searchText) {
+            if (
+              certificate.brandName.toLowerCase().includes(searchText) ||
+              certificate.truklipid.toLowerCase().includes(searchText)
+            ) {
+              return true;
+            }
+            return false;
+          }
+    
+          const {isSameDay,isSameWeek,isSameMonth,isSameYear,isWithinDateRange} = filterCertificates
+          const certificateDate = new Date(certificate.certificateDateTime);
+          if (dateType === 0) return true; // All Days
+          if (dateType === 1) return isSameDay(certificateDate, new Date()); // Today
+          if (dateType === 2) return isSameWeek(certificateDate, new Date()); // This week
+          if (dateType === 3) return isSameMonth(certificateDate, new Date()); // This month
+          if (dateType === 4) return isSameYear(certificateDate, new Date()); // This year
+          if (specificDate) return isSameDay(certificateDate, new Date(specificDate));
+          if (startDate && endDate) {
+            return isWithinDateRange(certificateDate, new Date(startDate), new Date(endDate));
+          }
+        });
+        console.log(filteredCertificates.length)
+        res.json({filteredCertificates});
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
   });
+
+
   
   // Sync API: Send the scanning ID to get the product genuinity with product details
   app.post('/sync', (req, res) => {
