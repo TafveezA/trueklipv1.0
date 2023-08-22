@@ -153,10 +153,23 @@ app.get('/index', function(req, res) {
 
 
 // Dummy data for testing
-const certificates = require('./_data/certificate.json')
+const certificates = 
+[{
+  truklipid: "T516I85",
+  brandName: "Roast Bread",
+  certificateDateTime: "12 Mar 2021, 12:20 PM",
+  certificateData: "<PDF Base64 String>"
+},
+{
+    truklipid: "T516I86",
+    brandName: "Roast Bread",
+    certificateDateTime: "12 Mar 2023, 12:20 PM",
+    certificateData: "<PDF Base64 String>"
+}
+]
   
   // Detail API: Getting the certificate details
-  app.post('/detail', (req, res) => {
+  app.post('/api/v1/detail', (req, res) => {
     const { truklipid } = req.body;
   
     const certificate = certificates.find(cert => cert.truklipid === truklipid);
@@ -169,7 +182,7 @@ const certificates = require('./_data/certificate.json')
   });
   
   // Listing API: Listing TruKLIP Certificates with filters and text search
-  app.post('/list', (req, res) => {
+  app.post('/api/v1/list', (req, res) => {
     try {
         const searchText = req.body.searchText.toLowerCase();
         const { dateType, specificDate, startDate, endDate } = req.body.filter;
@@ -209,17 +222,18 @@ const certificates = require('./_data/certificate.json')
 
   
   // Sync API: Send the scanning ID to get the product genuinity with product details
-  app.post('/sync', (req, res) => {
+  app.post('/api/v1/sync', (req, res) => {
   const products= require('./_data/products.json')
   console.log(products)
-    // ...
+  
     const { truklipid } = req.body;
     const product = products.find( prod=>prod.truklipid=truklipid);
   console.log(product)
-    // For now, return a dummy response
-    const response = {
-           product :product
-            }
+  const responseFromBlockchain = true
+    const response = [{
+           product :product,
+           validityFromBlockchain: responseFromBlockchain,
+            }]
     
   
     return res.json(response);
