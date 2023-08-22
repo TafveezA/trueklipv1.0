@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const fs = require('fs');
+const bodyParser = require('body-parser');
 const puppeteer = require('puppeteer');
 const dotenv = require('dotenv')
 const morgan = require('morgan')
@@ -25,6 +26,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(logger)
 app.use(errorHandler)
+app.use(bodyParser.json());
 app.use(cors({
     origin: 'http://localhost:3000',
   }));
@@ -119,18 +121,18 @@ app.get('/index', function(req, res) {
   try{  const browser = await puppeteer.launch( {headless: false,});
     const page = await browser.newPage();
     
-    const url = 'http://localhost:5000/generate-certificate'; // Replace with the URL you want to convert
+    const url = 'http://localhost:5000/generate-certificate'; 
     const url2 ='https://klip-latest-ui-3a9ab5.teleporthq.app/'
-  // Define the width and height of the PDF page to match the size of the card
-  const cardWidth = 350; // Replace with the actual width of the card in pixels
-  const cardHeight = 202; // Replace with the actual height of the card in pixels
+
+  const cardWidth = 350; 
+  const cardHeight = 202; 
   
   await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
 
-  // Set the viewport size to match the card dimensions
+
   await page.setViewport({ width: cardWidth, height: cardHeight });
 
-  // Generate the PDF with the specified dimensions
+  
   await page.pdf({
     path: `certificate${Date.now()}.pdf`, // Output file path
     width: `${cardWidth}px`,
@@ -146,10 +148,58 @@ app.get('/index', function(req, res) {
     res.status(500).json({error:error.message})
   }
 });
+
+
+
+// Dummy data for testing
+const certificates = require('./_data/certificate.json')
+  
+  // Detail API: Getting the certificate details
+  app.post('/detail', (req, res) => {
+    const { truklipid } = req.body;
+  
+    const certificate = certificates.find(cert => cert.truklipid === truklipid);
+  
+    if (!certificate) {
+      return res.status(404).json({ error: 'Certificate not found' });
+    }
+  
+    return res.json(certificate);
+  });
+  
+  // Listing API: Listing TruKLIP Certificates with filters and text search
+  app.post('/list', (req, res) => {
+    const { searchText, filter } = req.body;
+  
+    // Apply your filtering and searching logic here
+  
+    // For now, just return dummy data
+    return res.json(certificates);
+  });
+  
+  // Sync API: Send the scanning ID to get the product genuinity with product details
+  app.post('/sync', (req, res) => {
+  const products= require('./_data/products.json')
+  console.log(products)
+    // ...
+    const { truklipid } = req.body;
+    const product = products.find( prod=>prod.truklipid=truklipid);
+  console.log(product)
+    // For now, return a dummy response
+    const response = {
+           product :product
+            }
+    
+  
+    return res.json(response);
+  });
+
+
+
+
   
 
-const server =app.listen(PORT,
-                console.log(`Node API app is runnning on ${NODE_ENV} enviornment port :${PORT}`)
+const server =app.listen(PORT,console.log(`Node API app is runnning on ${NODE_ENV} enviornment port :${PORT}`)
 )
 
 
