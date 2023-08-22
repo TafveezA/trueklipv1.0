@@ -39,7 +39,7 @@ app.use(logger)
 app.use(errorHandler)
 app.use(bodyParser.json());
 app.use(cors({
-    origin: 'http://localhost:3000','*'
+    origin: '*'
   }));
 
 // To remove data using these defaults:
