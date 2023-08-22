@@ -14,10 +14,20 @@ const logger = require('./middleware/logger')
 const connectDB = require('./config/db')
 const mongoSanitize = require('express-mongo-sanitize')
 const ejs = require('ejs');
+const{Web3}=require("web3")
+const ABI= require("./config/validationABI.json")
 
 
 
 dotenv.config({path:'./config/config.env'})
+
+const ALCHEMY_RPC_URL_SEPOLIA=process.env.ALCHEMY_RPC_URL_SEPOLIA
+const CONTRACT_VALIDATION_ADDRESS=process.env.CONTRACT_ADDRESS_VALIDATION
+console.log("contract address",CONTRACT_VALIDATION_ADDRESS)
+const web3 =new Web3(ALCHEMY_RPC_URL_SEPOLIA)
+const contract = new web3.eth.Contract(ABI,CONTRACT_VALIDATION_ADDRESS)
+
+
 const PORT = process.env.PORT ||5000
 const NODE_ENV =process.env.NODE_ENV
 connectDB()
@@ -222,14 +232,14 @@ const certificates =
 
   
   // Sync API: Send the scanning ID to get the product genuinity with product details
-  app.post('/api/v1/sync', (req, res) => {
+  app.post('/api/v1/sync', async(req, res) => {
   const products= require('./_data/products.json')
   console.log(products)
   
     const { truklipid } = req.body;
     const product = products.find( prod=>prod.truklipid=truklipid);
   console.log(product)
-  const responseFromBlockchain = true
+  const responseFromBlockchain = await contract.methods.validate(truklipid).call();
     const response = [{
            product :product,
            validityFromBlockchain: responseFromBlockchain,

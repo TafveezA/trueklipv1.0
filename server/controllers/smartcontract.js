@@ -6,7 +6,7 @@ const dotenv = require('dotenv')
 dotenv.config({path:'../config/config.env'})
 
 
-//get account from the wallet
+
 
 const privateKey = process.env.PRIVATE_KEY; 
 
@@ -49,12 +49,12 @@ const eosSupplyChainContract = new EOS_PROVIDER.eth.Contract(abiSupplyChain,eosc
 // @route Get /api/ethv1/validate
 // @access Public
 exports.validateProduct = asyncHandler(async(req,res,next)=>{
-            const {id}= req.params
-            console.log(id)
+            const {truklipid}= req.body
+            console.log(truklipid)
             // const product = await Product.findById(id)
             // console.log("Product ", product)
             
-            const result = await contract.methods.validate(id).call();
+            const result = await contract.methods.validate(truklipid).call();
       
             console.log("Valid",result)
                           
