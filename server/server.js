@@ -163,20 +163,8 @@ app.get('/index', function(req, res) {
 
 
 // Dummy data for testing
-const certificates = 
-[{
-  truklipid: "T516I85",
-  brandName: "Roast Bread",
-  certificateDateTime: "12 Mar 2021, 12:20 PM",
-  certificateData: "<PDF Base64 String>"
-},
-{
-    truklipid: "T516I86",
-    brandName: "Roast Bread",
-    certificateDateTime: "12 Mar 2023, 12:20 PM",
-    certificateData: "<PDF Base64 String>"
-}
-]
+const certificates = require('./_data/certificate.json')
+
   
   // Detail API: Getting the certificate details
   app.post('/api/v1/detail', (req, res) => {
