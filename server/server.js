@@ -220,22 +220,43 @@ const certificates = require('./_data/certificate.json')
 
   
   // Sync API: Send the scanning ID to get the product genuinity with product details
-  app.post('/api/v1/sync', async(req, res) => {
-  const products= require('./_data/products.json')
-  console.log(products)
+  app.post('/api/v1/sync', async (req, res) => {
+    try {
+      const { truklipid } = req.body;
   
-    const { truklipid } = req.body;
-    const product = products.find( prod=>prod.truklipid=truklipid);
-  console.log(product)
-  const responseFromBlockchain =  await contract.methods.validationResult(truklipid).call();
-    const response = [{
-           product :product,
-           validityFromBlockchain: responseFromBlockchain,
-            }]
-    
+      // Input validation
+      if (!truklipid || typeof truklipid !== 'string' || truklipid.length !== expectedLength) {
+        return res.status(400).json({ error: 'Invalid input' });
+      }
   
-    return res.json(response);
+      // Fetch product details
+      const product = products.find(prod => prod.truklipid === truklipid);
+      if (!product) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+  
+      // Fetch validity from blockchain
+      const responseFromBlockchain = await contract.methods.validationResult(truklipid).call();
+  
+      // Determine if the product is genuine
+      const isGenuine = responseFromBlockchain === true;
+  
+      // Response based on genuineness
+      if (isGenuine) {
+        const response = {
+          product: product,
+          validityFromBlockchain: true,
+        };
+        return res.json(response);
+      } else {
+        return res.status(200).json({ error: 'Product is not genuine' });
+      }
+    } catch (error) {
+      console.error('Error in /api/v1/sync:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
   });
+  
 
 
 
