@@ -239,7 +239,7 @@ const certificates =
     const { truklipid } = req.body;
     const product = products.find( prod=>prod.truklipid=truklipid);
   console.log(product)
-  const responseFromBlockchain = true||await contract.methods.validate(truklipid).call();
+  const responseFromBlockchain =  await contract.methods.validationResult(truklipid).call();
     const response = [{
            product :product,
            validityFromBlockchain: responseFromBlockchain,

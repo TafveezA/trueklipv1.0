@@ -20,6 +20,7 @@ const ABI= require("../config/validationABI.json")
 const supplychainABI = require("../config/trackingABI.json")
 const Product = require('../models/productModel.js')
 const ALCHEMY_RPC_URL_SEPOLIA=process.env.ALCHEMY_RPC_URL_SEPOLIA
+console.log(ALCHEMY_RPC_URL_SEPOLIA)
 const CONTRACT_VALIDATION_ADDRESS=process.env.CONTRACT_ADDRESS_VALIDATION
 console.log("contract address",CONTRACT_VALIDATION_ADDRESS)
 const web3 =new Web3(ALCHEMY_RPC_URL_SEPOLIA)
@@ -54,12 +55,12 @@ exports.validateProduct = asyncHandler(async(req,res,next)=>{
             // const product = await Product.findById(id)
             // console.log("Product ", product)
             
-            const result = await contract.methods.validate(truklipid).call();
+            const result = await contract.methods.validationResult(truklipid).call();
       
             console.log("Valid",result)
                           
              res.status(200).json({
-              truklipId:id,
+              truklipId:truklipid,
               success:true,
               valid:result
              })

@@ -2,6 +2,95 @@
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "_truKlipId",
+				"type": "string"
+			}
+		],
+		"name": "addProduct",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "certificationHash",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			}
+		],
+		"name": "getCertificationHash",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_truKlipId",
+				"type": "string"
+			}
+		],
+		"name": "getHashById",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			}
+		],
+		"name": "getProductHash",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_truKlipId",
 				"type": "uint256"
@@ -20,9 +109,9 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "_klipId",
-				"type": "uint256"
+				"internalType": "string",
+				"name": "_truKlipId",
+				"type": "string"
 			},
 			{
 				"internalType": "string",
@@ -87,82 +176,6 @@
 				"type": "uint256"
 			}
 		],
-		"name": "certificationHash",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_truKlipId",
-				"type": "uint256"
-			}
-		],
-		"name": "getCertificationHash",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_truKlipId",
-				"type": "uint256"
-			}
-		],
-		"name": "getHashById",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_truKlipId",
-				"type": "uint256"
-			}
-		],
-		"name": "getProductHash",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
 		"name": "productHash",
 		"outputs": [
 			{
@@ -177,9 +190,28 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "validatByTruklipProduct",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
 				"name": "_truKlipId",
-				"type": "uint256"
+				"type": "string"
 			}
 		],
 		"name": "validate",
@@ -196,9 +228,9 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "",
-				"type": "uint256"
+				"type": "string"
 			},
 			{
 				"internalType": "bytes32",
@@ -206,7 +238,7 @@
 				"type": "bytes32"
 			}
 		],
-		"name": "validateHashByKlipId",
+		"name": "validateHashByTruklipId",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -231,6 +263,25 @@
 			}
 		],
 		"name": "validateProduct",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_truKlipId",
+				"type": "string"
+			}
+		],
+		"name": "validationResult",
 		"outputs": [
 			{
 				"internalType": "bool",
