@@ -1,7 +1,8 @@
 const express = require('express')
-const {getCertificate} = require('../controllers/certificate')
-const router = express.Router()
+const { updatedCertificate, deleteCertificate, createCertificate, getCertificate, getcertificates } = require('../controllers/certificate');
 
-router.route('/:id').get(getCertificate)
+const router = express.Router()
+router.route('/:id').get(getCertificate).delete(deleteCertificate).put(updatedCertificate)
+router.route('/').get(getcertificates).post(createCertificate)
 
 module.exports = router;

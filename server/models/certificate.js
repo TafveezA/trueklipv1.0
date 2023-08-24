@@ -11,10 +11,14 @@ const certificateSchema = new mongoose.Schema({
   },
   certificateDateTime: {
     type: Date,
+    default:Date.now()
+  },
+  certificateDataFront: {
+    type: String, 
     required: true
   },
-  certificateData: {
-    type: String, // Assuming it's a Base64 string
+  certificateDataBack: {
+    type: String, 
     required: true
   }
 }, {

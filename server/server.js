@@ -80,11 +80,6 @@ const certificate = require('./routes/certificate')
 app.use('/api/v1/certificate',certificate)
 
 
-//const provider = new ethers.providers.JsonRpcProvider('http://localhost:8545')
-
-// use res.render to load up an ejs view file
-
-// index page
 app.get('/index', function(req, res) {
     var mascots = [
         { name: 'Sammy', organization: "DigitalOcean", birth_year: 2012},
@@ -180,42 +175,69 @@ const certificates = require('./_data/certificate.json')
   });
   
   // Listing API: Listing TruKLIP Certificates with filters and text search
-  app.post('/api/v1/list', (req, res) => {
-    try {
-        const searchText = req.body.searchText.toLowerCase();
-        const { dateType, specificDate, startDate, endDate } = req.body.filter;
-    
-        const filteredCertificates = certificates.filter(certificate => {
-          // Filter based on search text
-          if (searchText) {
-            if (
-              certificate.brandName.toLowerCase().includes(searchText) ||
-              certificate.truklipid.toLowerCase().includes(searchText)
-            ) {
-              return true;
-            }
-            return false;
-          }
-    
-          const {isSameDay,isSameWeek,isSameMonth,isSameYear,isWithinDateRange} = filterCertificates
-          const certificateDate = new Date(certificate.certificateDateTime);
-          if (dateType === 0) return true; // All Days
-          if (dateType === 1) return isSameDay(certificateDate, new Date()); // Today
-          if (dateType === 2) return isSameWeek(certificateDate, new Date()); // This week
-          if (dateType === 3) return isSameMonth(certificateDate, new Date()); // This month
-          if (dateType === 4) return isSameYear(certificateDate, new Date()); // This year
-          if (specificDate) return isSameDay(certificateDate, new Date(specificDate));
-          if (startDate && endDate) {
-            return isWithinDateRange(certificateDate, new Date(startDate), new Date(endDate));
-          }
-        });
-        console.log(filteredCertificates.length)
-        res.json({filteredCertificates});
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
-  });
+app.post('/api/v1/list', async (req, res) => {
+  try {
+    const searchText = req.body.searchText.toLowerCase();
+    const { dateType, specificDate, startDate, endDate } = req.body.filter;
+console.log(dateType,specificDate,startDate,endDate) 
+console.log(searchText)
+    // const filteredCertificates = certificates.filter(certificate => {
+    //   // Filter based on search text
+    //   if (searchText) {
+    //     if (
+    //       certificate.brandName.toLowerCase().includes(searchText) ||
+    //       certificate.truklipid.toLowerCase().includes(searchText)
+    //     ) {
+    //       return true;
+    //     }
+    //     return false;
+    //   }
+
+    //   const {
+    //     isSameDay,
+    //     isSameWeek,
+    //     isSameMonth,
+    //     isSameYear,
+    //     isWithinDateRange
+    //   } = filterCertificates;
+    //   const certificateDate = new Date(certificate.certificateDateTime);
+    //   if (dateType === 0) return true; // All Days
+    //   if (dateType === 1) return isSameDay(certificateDate, new Date()); // Today
+    //   if (dateType === 2) return isSameWeek(certificateDate, new Date()); // This week
+    //   if (dateType === 3) return isSameMonth(certificateDate, new Date()); // This month
+    //   if (dateType === 4) return isSameYear(certificateDate, new Date()); // This year
+    //   if (specificDate) return isSameDay(certificateDate, new Date(specificDate));
+    //   if (startDate && endDate) {
+    //     return isWithinDateRange(
+    //       certificateDate,
+    //       new Date(startDate),
+    //       new Date(endDate)
+    //     );
+    //   }
+    // });
+
+    // Validating each filtered certificate with the blockchain
+    const validatedCertificates = await Promise.all(
+      certificates.map(async certificate => {
+        const response = await contract.methods
+          .validationResult(certificate.truklipid)
+          .call();
+        return {
+          ...certificate,
+          isValid: response
+        };
+      })
+    );
+
+    console.log(validatedCertificates.length);
+
+    res.json({validatedCertificates });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 const productsdata =require('./_data/products.json')
   
