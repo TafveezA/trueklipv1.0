@@ -219,7 +219,7 @@ const certificates = require('./_data/certificate.json')
 
 const productsdata =require('./_data/products.json')
   
-  // Sync API: Send the scanning ID to get the product genuinity with product details
+  
   app.post('/api/v1/sync', async (req, res) => {
     try {
       const { truklipid } = req.body;
@@ -234,13 +234,10 @@ const productsdata =require('./_data/products.json')
         return res.status(404).json({ error: 'Product not found' });
       }
   
-      // Fetch validity from blockchain
       const responseFromBlockchain = await contract.methods.validationResult(truklipid).call();
   
-      // Determine if the product is genuine
       const isGenuine = responseFromBlockchain === true;
   
-      // Response based on genuineness
       if (isGenuine) {
         const response = {
           product: product,
