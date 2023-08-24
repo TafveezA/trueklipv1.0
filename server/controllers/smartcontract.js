@@ -68,8 +68,8 @@ exports.validateProduct = asyncHandler(async(req,res,next)=>{
 })
 
 exports.validateProductOnEOS = asyncHandler(async(req,res,next)=>{
-    const {id} = req.params
-    const result = await eosSupplyChainContract.methods.validate(id).call()
+    const {truklipid} = req.body
+    const result = await eosSupplyChainContract.methods.validationResult(truklipid).call()
     console.log(result)
     res.status(200).json({
         truklipId:id,

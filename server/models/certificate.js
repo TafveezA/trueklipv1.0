@@ -11,6 +11,7 @@ const certificateSchema = new mongoose.Schema({
   },
   certificateDateTime: {
     type: Date,
+    required:false,
     default:Date.now()
   },
   certificateDataFront: {

@@ -5,7 +5,7 @@ const geocoder = require('../utils/geocoder');
 const productSchema = mongoose.Schema({
     klipid: {
         type: Number,
-        required: [true, 'Please enter a valid integer klipid']
+        required: [true, 'Please enter a valid integer truklipid']
     },
     batchnumber: {
         type: String,

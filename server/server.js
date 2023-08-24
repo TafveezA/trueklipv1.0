@@ -217,21 +217,18 @@ console.log(searchText)
     // });
 
     // Validating each filtered certificate with the blockchain
-    const validatedCertificates = await Promise.all(
+    const nftCertificates = await Promise.all(
       certificates.map(async certificate => {
-        const response = await contract.methods
-          .validationResult(certificate.truklipid)
-          .call();
+       // const response = await contract.methods.validationResult(certificate.truklipid).call();
         return {
           ...certificate,
-          isValid: response
         };
       })
     );
 
-    console.log(validatedCertificates.length);
+    console.log(nftCertificates.length);
 
-    res.json({validatedCertificates });
+    res.json({nftCertificates });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
