@@ -217,20 +217,19 @@ const certificates = require('./_data/certificate.json')
       }
   });
 
-
+const productsdata =require('./_data/products.json')
   
   // Sync API: Send the scanning ID to get the product genuinity with product details
   app.post('/api/v1/sync', async (req, res) => {
     try {
       const { truklipid } = req.body;
-  
-      // Input validation
+    const expectedLength =7
       if (!truklipid || typeof truklipid !== 'string' || truklipid.length !== expectedLength) {
         return res.status(400).json({ error: 'Invalid input' });
       }
   
-      // Fetch product details
-      const product = products.find(prod => prod.truklipid === truklipid);
+
+      const product = productsdata.find(prod => prod.truklipid === truklipid);
       if (!product) {
         return res.status(404).json({ error: 'Product not found' });
       }
@@ -249,7 +248,12 @@ const certificates = require('./_data/certificate.json')
         };
         return res.json(response);
       } else {
-        return res.status(200).json({ error: 'Product is not genuine' });
+        const response = {
+            product: product,
+            validityFromBlockchain: false,
+            message:'product is not genuine',
+          }
+        return res.status(200).json(response);
       }
     } catch (error) {
       console.error('Error in /api/v1/sync:', error);
