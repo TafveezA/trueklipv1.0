@@ -1,6 +1,8 @@
 const ErrorResponse = require('../utils/errorResponse')
 const Certificate = require('../models/certificate.js')
 const asyncHandler = require('../middleware/async')
+// Dummy data for testing
+const certificates = require('../_data/certificate.json')
 
 
 
@@ -85,3 +87,15 @@ exports.deleteCertificate = asyncHandler(async(req,res,next)=>{
             
 })
 
+
+// @desc  create  Certificate
+// @route POST /api/v1/certificates
+// @access Private
+exports.listCertificate = asyncHandler(async(req,res,next)=>{
+                  
+
+    res.status(200).json({success:true,
+      data:certificates})
+   
+  
+})

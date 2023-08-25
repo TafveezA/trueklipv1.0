@@ -230,6 +230,7 @@ app.post('/api/v1/list', async (req, res) => {
     // console.log(nftCertificates.length);
 
     res.json(certificates);
+    console.time()
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
