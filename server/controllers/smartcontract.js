@@ -75,7 +75,6 @@ exports.validateProductOnEOS = asyncHandler(async(req,res,next)=>{
         truklipId:id,
         success:true,
         valid:result,
-
     })
 })
 
