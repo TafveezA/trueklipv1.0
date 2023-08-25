@@ -177,10 +177,10 @@ const certificates = require('./_data/certificate.json')
   // Listing API: Listing TruKLIP Certificates with filters and text search
 app.post('/api/v1/list', async (req, res) => {
   try {
-    const searchText = req.body.searchText.toLowerCase();
-    const { dateType, specificDate, startDate, endDate } = req.body.filter;
-console.log(dateType,specificDate,startDate,endDate) 
-console.log(searchText)
+//     const searchText = req.body.searchText.toLowerCase();
+//     const { dateType, specificDate, startDate, endDate } = req.body.filter;
+// console.log(dateType,specificDate,startDate,endDate) 
+// console.log(searchText)
     // const filteredCertificates = certificates.filter(certificate => {
     //   // Filter based on search text
     //   if (searchText) {
