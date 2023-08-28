@@ -13,16 +13,16 @@ const productSchema = mongoose.Schema({
         default: ""
     },
     mfgdate: {
-        type: Date, // Changed type to Date
-        required: true // Removed Date.now()
+        type: Date, 
+        required: true 
     },
     expirydate: {
-        type: Date, // Changed type to Date
+        type: Date, 
         required: false,
         default: new Date(2025, 11, 17)
     },
     warranty: {
-        type: Date, // Changed type to Date
+        type: Date, 
         required: false,
         default: new Date(2025, 11, 17)
     },
