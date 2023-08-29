@@ -5,16 +5,16 @@
 //import axios from 'axios'
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 
-import Producer from './components/Producer';
-import Validation from './components/Validation';
-import IPFS from './components/ipfs';
-import Customer from './components/Customer';
-import Tracking from './components/Tracking';
-import Marketplace from './components/Marketplace';
-import NFTMinting from './components/NFTMinting';
-import Distributor from "./components/Distributor";
-import Retailer from "./components/Retailer";
-import Home from "./components/Home";
+import Producer from './pages/Producer';
+import Validation from './pages/Validation';
+import IPFS from './pages/ipfs';
+import Customer from './pages/Customer';
+import Tracking from './pages/Tracking';
+import Marketplace from './pages/Marketplace';
+import NFTMinting from './pages/NFTMinting';
+import Distributor from "./pages/Distributor";
+import Retailer from "./pages/Retailer";
+import Home from "./pages/Home";
 
 
 

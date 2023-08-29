@@ -1,5 +1,5 @@
 import React from 'react';
-import NFTs from './NFTs';
+import NFTs from '../components/NFTs';
 
 function NFTMarketplace(){
   const nfts = [
