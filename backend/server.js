@@ -15,14 +15,10 @@ const mongoSanitize = require('express-mongo-sanitize')
 const ejs = require('ejs');
 const{Web3}=require("web3")
 const ABI= require("./config/validationABI.json")
-
-
-
 dotenv.config({path:'./config/config.env'})
 
 const ALCHEMY_RPC_URL_SEPOLIA=process.env.ALCHEMY_RPC_URL_SEPOLIA
 const CONTRACT_VALIDATION_ADDRESS=process.env.CONTRACT_ADDRESS_VALIDATION
-console.log("contract address",CONTRACT_VALIDATION_ADDRESS)
 const web3 =new Web3(ALCHEMY_RPC_URL_SEPOLIA)
 const contract = new web3.eth.Contract(ABI,CONTRACT_VALIDATION_ADDRESS)
 
@@ -64,16 +60,19 @@ const products = require('./routes/product.js')
 // mount routers
 app.use('/api/v1/products',products)
 
-const productsv1 = require('./routes/product.js')
+const productsv1 = require('./routes/productv1.js')
 app.use('/api/v2/products',productsv1)
 
 
-const auth = require('./routes/auth')
 
+const auth = require('./routes/auth')
 app.use('/api/v1/auth',auth)
 
-const smartcontract = require('./routes/smartcontract')
-app.use('/api/ethv1/validate',smartcontract)
+const eos = require('./routes/eos')
+app.use('/api/eos/v1/validate',eos)
+
+const ethereum = require('./routes/ethereum')
+app.use('/api/eth/v1/validate',ethereum)
 
 const qrgenerator = require('./routes/qrgenerator')
 app.use('api/v1/generateqr',qrgenerator)
@@ -124,7 +123,7 @@ app.use('/api/v1/certificate',certificate)
 
   
   await page.pdf({
-    path: `certificate${Date.now()}.pdf`, // Output file path
+    path: `certificate${Date.now()}.pdf`, 
     width: `${cardWidth}px`,
     height: `${cardHeight}px`,
     printBackground: true,
@@ -146,7 +145,7 @@ const certificates = require('./_data/certificate.json')
 
   
   // Detail API: Getting the certificate details
-  app.post('/api/v1/detail', (req, res) => {
+app.post('/api/v1/detail', (req, res) => {
     const { truklipid } = req.body;
   
     const certificate = certificates.find(cert => cert.truklipid === truklipid);
@@ -158,7 +157,7 @@ const certificates = require('./_data/certificate.json')
     return res.json(certificate);
   });
   
-  // Listing API: Listing TruKLIP Certificates with filters and text search
+
 app.post('/api/v1/list', async (req, res) => {
   try {
 
@@ -182,8 +181,6 @@ const productsdata =require('./_data/products.json')
       if (!truklipid || typeof truklipid !== 'string' || truklipid.length !== expectedLength) {
         return res.status(400).json({ error: 'Invalid input' });
       }
-  
-
       const product = productsdata.find(prod => prod.truklipid === truklipid);
       if (!product) {
         return res.status(404).json({ error: 'Product not found' });
@@ -191,13 +188,12 @@ const productsdata =require('./_data/products.json')
   
       const responseFromBlockchain = await contract.methods.validationResult(truklipid).call();
   
-      const isGenuine = responseFromBlockchain === true;
   
-      if (isGenuine) {
+      if (responseFromBlockchain === true) {
         const response = {
           product: product,
           validityFromBlockchain: true,
-        };
+        }
         return res.json(response);
       } else {
         const response = {
@@ -205,10 +201,10 @@ const productsdata =require('./_data/products.json')
             validityFromBlockchain: false,
             message:'product is not genuine',
           }
-        return res.status(200).json(response);
+        return res.status(200).json(response)
       }
     } catch (error) {
-      console.error('Error in /api/v1/sync:', error);
+      console.error('Error in /api/v1/sync:', error)
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   });

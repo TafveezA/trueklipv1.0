@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-// const slugify = require('slugify');
+const slugify = require('slugify');
 
-const productSchema = mongoose.Schema({
+const productInfoSchema = mongoose.Schema({
     truklipid: {
         type: String, 
         required: true
@@ -51,12 +51,12 @@ const productSchema = mongoose.Schema({
     timestamps: true
 });
 
-// // Pre-Save Middleware for Generating Slug
-// productSchema.pre('save', function (next) {
-//     this.slug = slugify(this.batchNo, { lower: true });
-//     next();
-// });
+// Pre-Save Middleware for Generating Slug
+productInfoSchema.pre('save', function (next) {
+    this.slug = slugify(this.batchNo, { lower: true });
+    next();
+});
 
-const Product = mongoose.model('Product', productSchema);
+const ProductInfo = mongoose.model('ProductInfo', productInfoSchema);
 
-module.exports = Product;
+module.exports = ProductInfo;
