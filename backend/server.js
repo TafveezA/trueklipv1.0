@@ -8,7 +8,6 @@ const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const errorHandler = require('./middleware/error')
-const filterCertificates = require('./utils/filterCertificates')
 const app = express()
 const logger = require('./middleware/logger')
 const connectDB = require('./config/db')
@@ -65,6 +64,9 @@ const products = require('./routes/product.js')
 // mount routers
 app.use('/api/v1/products',products)
 
+const productsv1 = require('./routes/product.js')
+app.use('/api/v2/products',productsv1)
+
 
 const auth = require('./routes/auth')
 
@@ -80,24 +82,6 @@ const certificate = require('./routes/certificate')
 app.use('/api/v1/certificate',certificate)
 
 
-app.get('/index', function(req, res) {
-    var mascots = [
-        { name: 'Sammy', organization: "DigitalOcean", birth_year: 2012},
-        { name: 'Tux', organization: "Linux", birth_year: 1996},
-        { name: 'Moby Dock', organization: "Docker", birth_year: 2013}
-      ];
-      var tagline = "No programming concept is complete without a cute animal mascot.";
-    
-      res.render('pages/index', {
-        mascots: mascots,
-        tagline: tagline
-      });
-  });
-  
-  // about page
-  app.get('/about', function(req, res) {
-    res.render('pages/about');
-  });
 
 
   app.get('/generate-certificate', (req, res) => {
@@ -177,57 +161,7 @@ const certificates = require('./_data/certificate.json')
   // Listing API: Listing TruKLIP Certificates with filters and text search
 app.post('/api/v1/list', async (req, res) => {
   try {
-//     const searchText = req.body.searchText.toLowerCase();
-//     const { dateType, specificDate, startDate, endDate } = req.body.filter;
-// console.log(dateType,specificDate,startDate,endDate) 
-// console.log(searchText)
-    // const filteredCertificates = certificates.filter(certificate => {
-    //   // Filter based on search text
-    //   if (searchText) {
-    //     if (
-    //       certificate.brandName.toLowerCase().includes(searchText) ||
-    //       certificate.truklipid.toLowerCase().includes(searchText)
-    //     ) {
-    //       return true;
-    //     }
-    //     return false;
-    //   }
 
-    //   const {
-    //     isSameDay,
-    //     isSameWeek,
-    //     isSameMonth,
-    //     isSameYear,
-    //     isWithinDateRange
-    //   } = filterCertificates;
-    //   const certificateDate = new Date(certificate.certificateDateTime);
-    //   if (dateType === 0) return true; // All Days
-    //   if (dateType === 1) return isSameDay(certificateDate, new Date()); // Today
-    //   if (dateType === 2) return isSameWeek(certificateDate, new Date()); // This week
-    //   if (dateType === 3) return isSameMonth(certificateDate, new Date()); // This month
-    //   if (dateType === 4) return isSameYear(certificateDate, new Date()); // This year
-    //   if (specificDate) return isSameDay(certificateDate, new Date(specificDate));
-    //   if (startDate && endDate) {
-    //     return isWithinDateRange(
-    //       certificateDate,
-    //       new Date(startDate),
-    //       new Date(endDate)
-    //     );
-    //   }
-    // });
-
-    // Validating each filtered certificate with the blockchain
-    // const nftCertificates = await Promise.all(
-    //   certificates.map(async certificate => {
-    //    // const response = await contract.methods.validationResult(certificate.truklipid).call();
-    //     return {
-    //       ...certificate,
-    //     };
-    //   })
-    // );
-    // const nftCertificates =
-
-    // console.log(nftCertificates.length);
 
     res.json(certificates);
     console.time()

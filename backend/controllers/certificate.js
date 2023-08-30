@@ -92,10 +92,58 @@ exports.deleteCertificate = asyncHandler(async(req,res,next)=>{
 // @route POST /api/v1/certificates
 // @access Private
 exports.listCertificate = asyncHandler(async(req,res,next)=>{
-                  
+  const { searchText, filter } = req.body;
 
-    res.status(200).json({success:true,
-      certificates:certificates})
-   
-  
-})
+  let query = {};
+
+  if (searchText) {
+    query.brandName = { $regex: searchText, $options: 'i' };
+  }
+
+  if (filter) {
+    if (filter.dateType === 0) {
+      query.certificateDateTime = {
+        $gte: new Date(filter.specificDate),
+        $lt: new Date(filter.specificDate).setDate(new Date(filter.specificDate).getDate() + 1)
+      };
+    } else if (filter.dateType === 1) {
+      const currentDate = new Date();
+      const weekStartDate = new Date(currentDate);
+      weekStartDate.setDate(currentDate.getDate() - currentDate.getDay());
+      const weekEndDate = new Date(weekStartDate);
+      weekEndDate.setDate(weekStartDate.getDate() + 7);
+      
+      query.certificateDateTime = {
+        $gte: weekStartDate,
+        $lt: weekEndDate
+      };
+    } else if (filter.dateType === 2) {
+      const currentDate = new Date();
+      const monthStartDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+      const nextMonthStartDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+      
+      query.certificateDateTime = {
+        $gte: monthStartDate,
+        $lt: nextMonthStartDate
+      };
+    } else if (filter.dateType === 3) {
+      const currentDate = new Date();
+      const yearStartDate = new Date(currentDate.getFullYear(), 0, 1);
+      const nextYearStartDate = new Date(currentDate.getFullYear() + 1, 0, 1);
+      
+      query.certificateDateTime = {
+        $gte: yearStartDate,
+        $lt: nextYearStartDate
+      };
+    } else if (filter.startDate && filter.endDate) {
+      query.certificateDateTime = {
+        $gte: new Date(filter.startDate),
+        $lt: new Date(filter.endDate).setDate(new Date(filter.endDate).getDate() + 1)
+      };
+    }
+  }
+
+  const certificates = await Certificate.find(query);
+
+  res.status(200).json({ success: true, certificates });
+});
