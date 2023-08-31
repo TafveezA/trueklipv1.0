@@ -91,7 +91,7 @@ exports.deleteCertificate = asyncHandler(async(req,res,next)=>{
 // @desc  create  Certificate
 // @route POST /api/v1/certificates
 // @access Private
-exports.listCertificate = asyncHandler(async(req,res,next)=>{
+exports.listCertificate = asyncHandler(async (req, res, next) => {
   const { searchText, filter } = req.body;
 
   let query = {};
@@ -101,45 +101,50 @@ exports.listCertificate = asyncHandler(async(req,res,next)=>{
   }
 
   if (filter) {
-    if (filter.dateType === 0) {
-      query.certificateDateTime = {
-        $gte: new Date(filter.specificDate),
-        $lt: new Date(filter.specificDate).setDate(new Date(filter.specificDate).getDate() + 1)
-      };
-    } else if (filter.dateType === 1) {
+    if (typeof filter.dateType === 'number' && filter.dateType >= 0 && filter.dateType <= 4) {
       const currentDate = new Date();
-      const weekStartDate = new Date(currentDate);
-      weekStartDate.setDate(currentDate.getDate() - currentDate.getDay());
-      const weekEndDate = new Date(weekStartDate);
-      weekEndDate.setDate(weekStartDate.getDate() + 7);
-      
-      query.certificateDateTime = {
-        $gte: weekStartDate,
-        $lt: weekEndDate
-      };
-    } else if (filter.dateType === 2) {
-      const currentDate = new Date();
-      const monthStartDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-      const nextMonthStartDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
-      
-      query.certificateDateTime = {
-        $gte: monthStartDate,
-        $lt: nextMonthStartDate
-      };
-    } else if (filter.dateType === 3) {
-      const currentDate = new Date();
-      const yearStartDate = new Date(currentDate.getFullYear(), 0, 1);
-      const nextYearStartDate = new Date(currentDate.getFullYear() + 1, 0, 1);
-      
-      query.certificateDateTime = {
-        $gte: yearStartDate,
-        $lt: nextYearStartDate
-      };
-    } else if (filter.startDate && filter.endDate) {
-      query.certificateDateTime = {
-        $gte: new Date(filter.startDate),
-        $lt: new Date(filter.endDate).setDate(new Date(filter.endDate).getDate() + 1)
-      };
+      const startOfCurrentDate = new Date(currentDate);
+      startOfCurrentDate.setHours(0, 0, 0, 0);
+
+      if (filter.dateType === 0) {
+        // All Days
+        query.certificateDateTime = { $exists: true }; 
+      } else if (filter.dateType === 1) {
+        // Today
+        query.certificateDateTime = {
+          $gte: startOfCurrentDate,
+          $lt: new Date(currentDate.getTime() + 24 * 60 * 60 * 1000), 
+        };
+      } else if (filter.dateType === 2) {
+        // This week
+        const weekStartDate = new Date(startOfCurrentDate);
+        weekStartDate.setDate(currentDate.getDate() - currentDate.getDay());
+        const weekEndDate = new Date(weekStartDate);
+        weekEndDate.setDate(weekStartDate.getDate() + 7);
+
+        query.certificateDateTime = {
+          $gte: weekStartDate,
+          $lt: weekEndDate,
+        };
+      } else if (filter.dateType === 3) {
+        // This month
+        const monthStartDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+        const nextMonthStartDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+
+        query.certificateDateTime = {
+          $gte: monthStartDate,
+          $lt: nextMonthStartDate,
+        };
+      } else if (filter.dateType === 4) {
+        // This year
+        const yearStartDate = new Date(currentDate.getFullYear(), 0, 1);
+        const nextYearStartDate = new Date(currentDate.getFullYear() + 1, 0, 1);
+
+        query.certificateDateTime = {
+          $gte: yearStartDate,
+          $lt: nextYearStartDate,
+        };
+      }
     }
   }
 
@@ -147,3 +152,4 @@ exports.listCertificate = asyncHandler(async(req,res,next)=>{
 
   res.status(200).json({ success: true, certificates });
 });
+
