@@ -1,8 +1,7 @@
 const { Wallet } = require('xrpl');
 const dotenv = require('dotenv')
 dotenv.config({path:'../config/config.env'})
-
-export default async function submitTransaction({ client, tx }) {
+async function submitTransaction({ client, tx }) {
     try {
         // Create a wallet using the seed
         const wallet = await Wallet.fromSeed(process.env.SEED);
@@ -18,3 +17,5 @@ export default async function submitTransaction({ client, tx }) {
         return null;
     }
 }
+
+module.exports ={submitTransaction}
