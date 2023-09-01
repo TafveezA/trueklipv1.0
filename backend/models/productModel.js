@@ -25,6 +25,11 @@ const distributorSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+      required:true
+  }
 });
 
 const customerSchema = new mongoose.Schema({
@@ -51,6 +56,11 @@ const customerSchema = new mongoose.Schema({
     otherDetails: {
         type: String,
     },
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+      required:true,
+  }
 });
 
 const retailerSchema = new mongoose.Schema({
@@ -81,6 +91,11 @@ const retailerSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+      required:true,
+  }
 });
 
 
@@ -88,7 +103,7 @@ const retailerSchema = new mongoose.Schema({
 
 const productSchema = new mongoose.Schema(
     {
-      klipid: {
+      truklipid: {
         type: Number,
         required: [true, 'Please enter a valid integer truklipid']
       },
@@ -121,24 +136,25 @@ const productSchema = new mongoose.Schema(
         ref: 'User',
         required: true
       },
-      certificate: String,
       productionData: String,
       otherDetails: String,
-      truklipId: Number,
       producerId: Number,
       producerAddress: String,
       isConsumable: Boolean,
       distributorDetails: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Distributor'
+        ref: 'Distributor',
+        required:false
       },
       retailerDetail: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Retailer'
+        ref: 'Retailer',
+        required:false
       },
       customerDetails: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Customer'
+        ref: 'Customer',
+        required:false
       }
     },
     {

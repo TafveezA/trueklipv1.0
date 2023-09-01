@@ -24,7 +24,7 @@ const productInfoSchema = mongoose.Schema({
     },
     bestBefore: {
         type: String,
-        required: true
+        required: false
     },
     productType: {
         type: String,

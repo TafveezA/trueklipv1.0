@@ -74,6 +74,9 @@ app.use('/api/eos/v1/validate',eos)
 const ethereum = require('./routes/ethereum')
 app.use('/api/eth/v1/validate',ethereum)
 
+const xrp = require('./routes/xrp')
+app.use('/api/v1/xrp/',xrp)
+
 const qrgenerator = require('./routes/qrgenerator')
 app.use('api/v1/generateqr',qrgenerator)
 
@@ -112,11 +115,12 @@ app.use('/api/v1/certificate',certificate)
     
     const url = 'http://localhost:5000/generate-certificate'; 
     const url2 ='https://klip-latest-ui-3a9ab5.teleporthq.app/'
+    const url3 ='https://learn.xrpl.org/progress/'
 
-  const cardWidth = 350; 
-  const cardHeight = 202; 
+  const cardWidth = 1000; 
+  const cardHeight = 2000; 
   
-  await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
+  await page.goto(url3, { waitUntil: 'networkidle0', timeout: 30000 });
 
 
   await page.setViewport({ width: cardWidth, height: cardHeight });
