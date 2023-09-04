@@ -18,7 +18,7 @@ const abiSupplyChain =supplychainABI
 const eoscontractAddress = process.env.EOS_SUPPLYCHAIN_CONTRACT_ADDRESS
 
 
-console.log(privateKey.toUpperCase())
+console.log(privateKey)
 const eosSupplyChainContract = new EOS_PROVIDER.eth.Contract(abiSupplyChain,eoscontractAddress);
 
 
