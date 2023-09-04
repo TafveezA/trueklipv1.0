@@ -15,7 +15,7 @@ inquirer
   .then((answers) => {
     const data = answers.data;
     const qr_svg = qr.image(data);
-    qr_svg.pipe(fs.createWriteStream(`qr_image${Date.now()}.jpg`));
+    qr_svg.pipe(fs.createWriteStream(`qr_image${JSON.parse(data).truklip}.jpg`));
 
     fs.writeFile("data.json", data, (err) => {
       if (err) {

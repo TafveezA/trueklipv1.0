@@ -2,11 +2,22 @@ const asyncHandler = require('../middleware/async')
 const ErrorResponse = require('../utils/errorResponse')
 const dotenv = require('dotenv')
 dotenv.config({path:'../config/config.env'})
-const {Client,Wallet} = require('xrpl')
+const {Client,Wallet,xrpToDrops} = require('xrpl')
 const xrpl = require('xrpl')
 const {getWalletDetails} = require('../utils/walletdetails')
 const {getNet} = require('../utils/getNet')
 const { response } = require('../server')
+const { BigNumber } = require('bignumber.js');
+
+// ...
+
+// Example usage:
+const value1 = new BigNumber('123.456789');
+const value2 = new BigNumber('987.654321');
+
+const sum = value1.plus(value2);
+console.log(sum.toString()); // Output: 1111.11111
+
 
 
 const client = new Client(process.env.CLIENT);
@@ -46,7 +57,8 @@ exports.connectToXRPL = asyncHandler(async(req,res,next)=>{
 //steps to generate fungible token
 //1>configure hot wallet
 //2>configure cold wallet
-//3>
+//3>create a trust line(make sure currency symbol should match)
+//4> send a token
 exports.configColdAddress = asyncHandler(async(req,res,next)=>{
     await client.connect()
 // Configure issuer (cold address) settings ----------------------------------
@@ -181,5 +193,206 @@ exports.sendToken = asyncHandler(async(req,res,next)=>{
     client.disconnect()
     
     })
+exports.confirmBalance = asyncHandler(async(req,res,next)=>{
+      await client.connect() // Check balances ------------------------------------------------------------
+    console.log("Getting hot address balances...")
+    const hot_balances = await client.request({
+    command: "account_lines",
+    account: hot_wallet.address,
+    ledger_index: "validated"
+    })
+    console.log(hot_balances.result)
     
+    console.log("Getting cold address balances...")
+    const cold_balances = await client.request({
+    command: "gateway_balances",
+    account: cold_wallet.address,
+    ledger_index: "validated",
+    hotwallet: [hot_wallet.address]
+    })
+    console.log(JSON.stringify(cold_balances.result, null, 2))
+    res.json({cold_balances,hot_balances})
+    client.disconnect()
+    })
+// trade of products on dex way by creating orderbooks
+exports.tradeProduct = asyncHandler(async(req,res,next)=>{
+  await client.connect() // Check balances ------------------------------------------------------------
+  const walletIssuer = xrpl.Wallet.fromSeed(process.env.HOT_SECRET)
+  console.log("Issuer Wallet",walletIssuer)
+  const wallet = Wallet.fromSeed(process.env.COLD_SECRET)
+  console.log("Wallet Taker Address @Product view",wallet)
+
+  // Define the proposed trade. ------------------------------------------------
+  // Technically you don't need to specify the amounts (in the "value" field)
+  // to look up order books using book_offers, but for this tutorial we reuse
+  // these variables to construct the actual Offer later.
+  const we_want = {
+    currency: "AED",
+    issuer: walletIssuer.address,
+    value: "25"
+  }
+  const we_spend = {
+    currency: "XRP",
+           // 25 AED * 10 XRP per AED * 15% financial exchange (FX) cost
+    value: xrpl.xrpToDrops(25*10*1.15)
+  }
+  // "Quality" is defined as TakerPays / TakerGets. The lower the "quality"
+  // number, the better the proposed exchange rate is for the taker.
+  // The quality is rounded to a number of significant digits based on the
+  // issuer's TickSize value (or the lesser of the two for token-token trades.)
+  const proposed_quality = BigNumber(we_spend.value) / BigNumber(we_want.value)
+
+  // Look up Offers. -----------------------------------------------------------
+  // To buy AED, look up Offers where "TakerGets" is AED:
+  const orderbook_resp = await client.request({
+    "command": "book_offers",
+    "taker": wallet.address,
+    "ledger_index": "current",
+    "taker_gets": we_want,
+    "taker_pays": we_spend
+  })
+  console.log(JSON.stringify(orderbook_resp.result, null, 2))
+
+  // Estimate whether a proposed Offer would execute immediately, and...
+  // If so, how much of it? (Partial execution is possible)
+  // If not, how much liquidity is above it? (How deep in the order book would
+  //    other Offers have to go before ours would get taken?)
+  // Note: These estimates can be thrown off by rounding if the token issuer
+  // uses a TickSize setting other than the default (15). In that case, you
+  // can increase the TakerGets amount of your final Offer to compensate.
+
+  const offers = orderbook_resp.result.offers
+  const want_amt = BigNumber(we_want.value)
+  let running_total = BigNumber(0)
+  if (!offers) {
+    console.log(`No Offers in the matching book.
+                 Offer probably won't execute immediately.`)
+  } else {
+    for (const o of offers) {
+      if (o.quality <= proposed_quality) {
+        console.log(`Matching Offer found, funded with ${o.owner_funds}
+            ${we_want.currency}`)
+        running_total = running_total.plus(BigNumber(o.owner_funds))
+        if (running_total >= want_amt) {
+          console.log("Full Offer will probably fill")
+          break
+        }
+      } else {
+        // Offers are in ascending quality order, so no others after this
+        // will match, either
+        console.log(`Remaining orders too expensive.`)
+        break
+      }
+    }
+    console.log(`Total matched:
+          ${Math.min(running_total, want_amt)} ${we_want.currency}`)
+    if (running_total > 0 && running_total < want_amt) {
+      console.log(`Remaining ${want_amt - running_total} ${we_want.currency}
+            would probably be placed on top of the order book.`)
+    }
+  }
+
+  if (running_total == 0) {
+    // If part of the Offer was expected to cross, then the rest would be placed
+    // at the top of the order book. If none did, then there might be other
+    // Offers going the same direction as ours already on the books with an
+    // equal or better rate. This code counts how much liquidity is likely to be
+    // above ours.
+
+    // Unlike above, this time we check for Offers going the same direction as
+    // ours, so TakerGets and TakerPays are reversed from the previous
+    // book_offers request.
+    const orderbook2_resp = await client.request({
+      "command": "book_offers",
+      "taker": wallet.address,
+      "ledger_index": "current",
+      "taker_gets": we_spend,
+      "taker_pays": we_want
+    })
+    console.log(JSON.stringify(orderbook2_resp.result, null, 2))
+
+    // Since TakerGets/TakerPays are reversed, the quality is the inverse.
+    // You could also calculate this as 1/proposed_quality.
+    const offered_quality = BigNumber(we_want.value) / BigNumber(we_spend.value)
+
+    const offers2 = orderbook2_resp.result.offers
+    let tally_currency = we_spend.currency
+    if (tally_currency == "XRP") { tally_currency = "drops of XRP" }
+    let running_total2 = 0
+    if (!offers2) {
+      console.log(`No similar Offers in the book. Ours would be the first.`)
+    } else {
+      for (const o of offers2) {
+        if (o.quality <= offered_quality) {
+          console.log(`Existing offer found, funded with
+                ${o.owner_funds} ${tally_currency}`)
+          running_total2 = running_total2.plus(BigNumber(o.owner_funds))
+        } else {
+          console.log(`Remaining orders are below where ours would be placed.`)
+          break
+        }
+      }
+      console.log(`Our Offer would be placed below at least
+            ${running_total2} ${tally_currency}`)
+      if (running_total > 0 && running_total < want_amt) {
+        console.log(`Remaining ${want_amt - running_total} ${tally_currency}
+              will probably be placed on top of the order book.`)
+      }
+    }
+  }
+  res.json({message:"lookup successfull"})
+
+
+  client.disconnect()
+})
+        
+    
+
+
+
+
+//send offercreate transaction
+exports.placeOffer = asyncHandler(async(req,res,next)=>{
+  await client.connect()
+  // Send OfferCreate transaction ----------------------------------------------
+  const we_want = {
+    currency: "AED",
+    issuer: cold_wallet.address,
+    value: "25"
+  }
+  const we_spend = {
+    currency: "XRP",
+           // 25 AED * 10 XRP per AED * 15% financial exchange (FX) cost
+    value:xrpToDrops(25*10*1.15)
+  }
+  // For this tutorial, we already know that TST is pegged to
+  // XRP at a rate of approximately 10:1 plus spread, so we use
+  // hard-coded TakerGets and TakerPays amounts.
+console.log()
+  const offer_1 = {
+    "TransactionType": "OfferCreate",
+    "Account": hot_wallet.address,
+    "TakerPays": we_want,
+    "TakerGets": we_spend// since it's XRP
+  }
+
+  const prepared = await client.autofill(offer_1)
+  console.log("Prepared transaction:", JSON.stringify(prepared, null, 2))
+  const signed = hot_wallet.sign(prepared)
+  console.log("Sending OfferCreate transaction...")
+  const result = await client.submitAndWait(signed.tx_blob)
+  if (result.result.meta.TransactionResult == "tesSUCCESS") {
+    console.log(`Transaction succeeded:
+          https://testnet.xrpl.org/transactions/${signed.hash}`)
+          
+res.json({success:true,url:`Transaction succeeded:
+https://testnet.xrpl.org/transactions/${signed.hash}`})
+  } else {
+    throw `Error sending transaction: ${result}`
+  }
+
+client.disconnect()
+})
+// error in the above fixes are require.
+
 
