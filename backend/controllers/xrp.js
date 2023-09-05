@@ -396,3 +396,102 @@ client.disconnect()
 // error in the above fixes are require.
 
 
+// mint product NFT on XRPL
+
+  exports.mintCertificate = asyncHandler(async (req, res, next) => {
+    try {
+
+      const { tokenUrl, flags, transferFee } = req.body;
+  
+      // Convert input values to the correct data types if necessary
+      const convertedFlags = parseInt(flags);
+      const convertedTransferFee = parseInt(transferFee);
+  
+  
+      const standby_wallet = xrpl.Wallet.fromSeed(process.env.COLD_SECRET);
+      await client.connect();
+   
+      const transactionBlob = {
+        TransactionType: "NFTokenMint",
+        Account: standby_wallet.address,
+        URI: xrpl.convertStringToHex(tokenUrl),
+        Flags: convertedFlags,
+        TransferFee: convertedTransferFee,
+        NFTokenTaxon: 0, // Required, but set to zero if not needed
+    
+      };
+  
+      // Submit the signed blob
+      const tx = await client.submitAndWait(transactionBlob, {
+        wallet: standby_wallet
+      });
+  
+
+      const nfts = await client.request({
+        method: "account_nfts",
+        account: standby_wallet.address
+      });
+
+      res.json({
+        success: "Minted NFT successfully",
+        transactionId: tx.result.meta.TransactionResult,
+        nfts: nfts,
+      });
+
+      client.disconnect();
+    } catch (error) {
+    
+      console.error("Error in mintCertificate:", error);
+      res.status(500).json({ error: "An error occurred while minting the NFT" });
+    }
+  });
+  
+
+
+
+
+// get product NFT on XRPL
+
+exports.getNFTCertificate = asyncHandler(async(req,res,next)=>{
+  const standby_wallet = Wallet.fromSeed(process.env.COLD_SECRET)
+  await client.connect()
+  const nfts = await client.request({
+    method: "account_nfts",
+    account: standby_wallet.classicAddress
+  });
+  res.json(nfts)//------------------------------------------------------- Report results
+  
+  
+  client.disconnect()
+
+
+})
+
+exports.burnNFTCertificate = asyncHandler(async(req,res,next)=>{
+  const standby_wallet = Wallet.fromSeed(process.env.COLD_SECRET)
+  const { nfttokenid } = req.body;
+  await client.connect()
+    // ------------------------------------------------------- Prepare transaction
+    const transactionBlob = {
+      TransactionType: "NFTokenBurn",
+      Account: standby_wallet.classicAddress,
+      NFTokenID: nfttokenid
+    };
+  
+    //---------------------------------- Submit transaction and wait for the results
+    const tx = await client.submitAndWait(transactionBlob, {
+      wallet: standby_wallet
+    });
+    const nfts = await client.request({
+      method: "account_nfts",
+      account: standby_wallet.classicAddress
+    });
+  res.json({success:true,nfts})//------------------------------------------------------- Report results
+  
+  
+  client.disconnect()
+
+
+})
+
+

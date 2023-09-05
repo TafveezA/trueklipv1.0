@@ -1,5 +1,5 @@
 const express = require('express')
-const {connectToXRPL, configColdAddress, configHotAddress, createTrustLine, sendToken, confirmBalance, tradeProduct, placeOffer} = require('../controllers/xrp')
+const {connectToXRPL, configColdAddress, configHotAddress, createTrustLine, sendToken, confirmBalance, tradeProduct, placeOffer, mintCertificate, getNFTCertificate, burnNFTCertificate} = require('../controllers/xrp')
 
 const router = express.Router()
 
@@ -14,5 +14,11 @@ router.route('/tradeproduct').get(tradeProduct)
 
 //place offers
 router.route('/placeoffer').get(placeOffer)
+// mint a NFT
+router.route('/mint').post(mintCertificate)
+//get aNFT
+router.route('/getnfts').get(getNFTCertificate)
+//burn NFT
+router.route('/burn').post(burnNFTCertificate)
 
 module.exports = router;
