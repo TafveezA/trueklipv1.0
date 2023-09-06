@@ -13,6 +13,17 @@
         "certificateDateTime": "2023-03-12T12:20:00",
         "certificateDataFront": "https://firebasestorage.googleapis.com/v0/b/assetsfortruklipmvp.appspot.com/o/asset%2FFrontFront.png?alt=media&token=c85e938c-0d84-42a0-8d1d-dc03e1e96dbe",
         "certificateDataBack" :"https://firebasestorage.googleapis.com/v0/b/assetsfortruklipmvp.appspot.com/o/asset%2FBackback.png?alt=media&token=ed432e13-cb5b-4aae-9e05-8bc3392388eb"
+    },
+    {
+        "truklipid": "T516I91",
+        "brandName": "Leather Tote Shopping Bag",
+        "certificateDateTime": "2023-03-12T08:20:00.000Z",
+        "certificateDataFront": "https://firebasestorage.googleapis.com/v0/b/mvptruklip.appspot.com/o/Certificates%2FCardLeatherTote.png?alt=media&token=005a783f-d186-46f7-a51e-0878209916aa",
+        "certificateDataBack": "https://firebasestorage.googleapis.com/v0/b/mvptruklip.appspot.com/o/Certificates%2FCardLeatherToteBack%20(1).png?alt=media&token=7de72fef-4c30-43c0-b34a-e20559ccc0a6",
+        "_id": "64f70bda45db873f7419e18c",
+        "createdAt": "2023-09-05T11:07:06.615Z",
+        "updatedAt": "2023-09-05T11:07:06.615Z",
+        "__v": 0
     }
     ]
   

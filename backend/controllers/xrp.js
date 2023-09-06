@@ -403,7 +403,7 @@ client.disconnect()
 
       const { tokenUrl, flags, transferFee } = req.body;
   
-      // Convert input values to the correct data types if necessary
+      // Converts input values to the correct data types if necessary
       const convertedFlags = parseInt(flags);
       const convertedTransferFee = parseInt(transferFee);
   
@@ -486,7 +486,8 @@ exports.burnNFTCertificate = asyncHandler(async(req,res,next)=>{
       method: "account_nfts",
       account: standby_wallet.classicAddress
     });
-  res.json({success:true,nfts})//------------------------------------------------------- Report results
+  res.json({success:true,nfts})
+    //------------------------------------------------------- Report results
   
   
   client.disconnect()
@@ -495,3 +496,314 @@ exports.burnNFTCertificate = asyncHandler(async(req,res,next)=>{
 })
 
 
+exports.createNFTSellOffer = asyncHandler(async(req,res,next)=>{
+  const standby_wallet = Wallet.fromSeed(process.env.HOT_SECRET)
+  const operational_wallet = Wallet.fromSeed(process.env.COLD_SECRET)
+  const client = new Client(process.env.CLIENT)
+  const { nfttokenid,amount,flags } = req.body;
+  await client.connect()
+    // Prepare transaction -------------------------------------------------------
+    let transactionBlob = {
+      "TransactionType": "NFTokenCreateOffer",
+      "Account":operational_wallet.classicAddress,
+      "NFTokenID": nfttokenid,
+      "Amount":amount,
+      "Flags": parseInt(flags),
+  }
+
+
+  // Submit transaction --------------------------------------------------------
+
+  const tx = await client.submitAndWait(transactionBlob,{wallet:operational_wallet})
+
+  let nftSellOffers
+  try {
+    nftSellOffers = await client.request({
+      method: "nft_sell_offers",
+      nft_id: nfttokenid  
+    })
+  } catch (error) {
+    nftSellOffers = "No sell offers."
+    next(new ErrorResponse(`Error While looking nft sell offers `,{error}``,500))
+  }
+ 
+  let nftBuyOffers
+  try {
+    nftBuyOffers = await client.request({
+      method: "nft_buy_offers",
+      nft_id: nfttokenid
+    })
+   
+  } catch (error) {
+    nftBuyOffers = "No buy offers."
+    next(new ErrorResponse(`No buy offers `,{error}``,500))
+  }
+
+  // Check transaction results -------------------------------------------------
+  results += '\n\nTransaction result:\n' + 
+    JSON.stringify(tx.result.meta.TransactionResult, null, 2)
+  results += '\n\nBalance changes:\n' + 
+    JSON.stringify(xrpl.getBalanceChanges(tx.result.meta), null, 2)
+    console.log(results)
+
+  const results = {
+    standby_wallet_balance:await client.getXrpBalance(operational_wallet.address),
+    operational_wallet_balance:await client.getXrpBalance(standby_wallet.address),
+    nftBuyOffers:nftBuyOffers,
+    nftSellOffers:nftSellOffers,
+    txnResult:tx.result.meta.TransactionResult,
+  }
+
+  res.json(results)
+  
+
+  
+  
+  client.disconnect()
+
+
+})
+
+exports.createNFTBuyOffer = asyncHandler(async(req,res,next)=>{
+  const standby_wallet = Wallet.fromSeed(process.env.HOT_SECRET)
+  const operational_wallet = Wallet.fromSeed(process.env.COLD_SECRET)
+  const client = new Client(process.env.CLIENT)
+  const { nfttokenid,amount,flags,owner } = req.body;
+    // Prepare transaction -------------------------------------------------------
+    const transactionBlob = {
+      "TransactionType": "NFTokenCreateOffer",
+      "Account": operational_wallet.classicAddress,
+      "Owner": owner,
+      "NFTokenID":nfttokenid,
+      "Amount": amount,
+      "Flags":flags,
+    }
+  // Submit transaction --------------------------------------------------------
+  const tx = await client.submitAndWait(transactionBlob,{wallet: operational_wallet})
+
+  results += "\n\n***Sell Offers***\n"
+  let nftSellOffers
+  try {
+    nftSellOffers = await client.request({
+      method: "nft_sell_offers",
+      nft_id: operationalTokenIdField.value  
+    })
+  } catch (err) {
+    nftSellOffers = "No sell offers."
+  }
+  results += JSON.stringify(nftSellOffers,null,2)
+  results += "\n\n***Buy Offers***\n"
+  let nftBuyOffers
+  try {
+    nftBuyOffers = await client.request({
+      method: "nft_buy_offers",
+      nft_id: operationalTokenIdField.value
+    })
+  } catch (err) {
+    results += "No buy offers."
+  }
+  results += JSON.stringify(nftBuyOffers,null,2)
+
+  // Check transaction results -------------------------------------------------
+  results += "\n\nTransaction result:\n" +
+    JSON.stringify(tx.result.meta.TransactionResult, null, 2)
+  results += "\n\nBalance changes:\n" + 
+    JSON.stringify(xrpl.getBalanceChanges(tx.result.meta), null, 2)
+  operationalResultField.value = results
+  const results = {
+    standby_wallet_balance:await client.getXrpBalance(operational_wallet.address),
+    operational_wallet_balance:await client.getXrpBalance(standby_wallet.address),
+    nftBuyOffers:nftBuyOffers,
+    nftSellOffers:nftSellOffers,
+    txnResult:tx.result.meta.TransactionResult,
+  }
+
+  res.json(results)
+  
+
+  
+  
+  client.disconnect()
+
+
+})
+
+
+exports.cancleOffer = asyncHandler(async(req,res,next)=>{
+
+  const wallet = xrpl.Wallet.fromSeed(process.env.HOT_SECRET)
+  const client = new Client(process.env.CLIENT)
+
+  await client.connect()
+  results +=  "\nConnected. Cancelling offer..."
+  operationalResultField.value = results
+
+  const {nfttokenid,tokenofferIds} = req.body
+
+  // Prepare transaction -------------------------------------------------------
+  const transactionBlob = {
+    "TransactionType": "NFTokenCancelOffer",
+    "Account": wallet.classicAddress,
+    "NFTokenOffers": tokenofferIds
+  }
+  // Submit transaction --------------------------------------------------------
+  const tx = await client.submitAndWait(transactionBlob,{wallet})
+
+ 
+  let nftSellOffers
+  try {
+    nftSellOffers = await client.request({
+      method: "nft_sell_offers",
+      nft_id: nfttokenid
+    })
+  } catch (err) {
+    nftSellOffers = "No sell offers."
+  }
+  results += JSON.stringify(nftSellOffers,null,2)
+  results += "\n\n***Buy Offers***\n"
+  let nftBuyOffers
+  try {
+    nftBuyOffers = await client.request({
+      method: "nft_buy_offers",
+      nft_id: nfttokenid
+    })
+  } catch (err) {
+    nftBuyOffers = "No buy offers."
+  }
+  results += JSON.stringify(nftBuyOffers,null,2)
+
+
+const response = {
+  txnresult:tx.meta.TransactionResult,
+  banlancechanges: xrpl.getBalanceChanges(tx.result.meta),
+  nftbuyoffers:nftBuyOffers,
+  nftselloffers:nftSellOffers
+
+}
+res.json(response)
+
+  client.disconnect()
+})// End of cancelOffer()
+
+// *******************************************************
+// **************** Operational Get Offers ***************
+// *******************************************************
+
+exports.getOffers = asyncHandler(async(req,res,next)=>{
+ const standby_wallet = xrpl.Wallet.fromSeed(process.env.HOT_SECRET)
+  
+  const client = new xrpl.Client(process.env.CLIENT)
+  const {nfttokenid} = req.body
+
+  await client.connect()
+
+
+  let nftSellOffers
+  try {
+    nftSellOffers = await client.request({
+      method: "nft_sell_offers",
+      nft_id: nfttokenid
+    })
+  } catch (err) {
+    nftSellOffers = 'No sell offers.'
+  }
+  results += JSON.stringify(nftSellOffers,null,2)
+
+  results += '\n\n***Buy Offers***\n'
+  let nftBuyOffers
+  try {
+    nftBuyOffers = await client.request({
+      method: "nft_buy_offers",
+      nft_id: nfttokenid
+    })
+  } catch (err) {
+    nftBuyOffers =  'No buy offers.'
+  }
+  const results = {
+    operational_wallet_balance:await client.getXrpBalance(standby_wallet.address),
+    nftBuyOffers:nftBuyOffers,
+    nftSellOffers:nftSellOffers,
+  }
+  res.json(results)
+
+  client.disconnect()
+})
+
+
+// End of getOffers()
+
+// @desc  accept Buy Offer
+// @route POST /api/v1/xrp/acceptselloffer
+exports.acceptSellOffer = asyncHandler(async(req,res,next)=>{
+  const standby_wallet = xrpl.Wallet.fromSeed(process.env.COLD_SECRET)
+  const operational_wallet = xrpl.Wallet.fromSeed(process.env.HOT_SECRET)
+
+  const client = new  Client(process.env.CLIENT)
+  const {nfttokenselloffer} = req.body
+
+  await client.connect()
+
+
+  // Prepare transaction -------------------------------------------------------
+  const transactionBlob = {
+    "TransactionType": "NFTokenAcceptOffer",
+    "Account": operational_wallet.classicAddress,
+    "NFTokenSellOffer": operationalTokenOfferIndexField.value,
+  }
+  // Submit transaction --------------------------------------------------------
+  const tx = await client.submitAndWait(transactionBlob,{wallet: operational_wallet}) 
+  const nfts = await client.request({
+    method: "account_nfts",
+    account: nfttokenselloffer
+  })
+
+  const response = {txnresult:tx.result.meta.TransactionResult,banlancechanges:xrpl.getBalanceChanges(tx.result.meta)}
+  res.json(response)
+  client.disconnect()
+})
+
+// End of acceptSellOffer()
+
+// *******************************************************
+// ********* Operational Accept Buy Offer ****************
+// *******************************************************
+
+
+// @desc  accept Buy Offer
+// @route POST /api/v1/xrp/acceptbuyoffer
+exports.acceptBuyOffer =asyncHandler(async(req,res,next)=>{
+  const standby_wallet = xrpl.Wallet.fromSeed(process.env.COLD_SECRET)
+  const operational_wallet = xrpl.Wallet.fromSeed(process.env.HOT_SECRET)
+  const client = new Client(process.env.CLIENT)
+  const {nfttokenbuyoffer} = req.body 
+  await client.connect()
+
+  // Prepare transaction -------------------------------------------------------
+  const transactionBlob = {
+    "TransactionType": "NFTokenAcceptOffer",
+    "Account": operational_wallet.classicAddress,
+    "NFTokenBuyOffer": nfttokenbuyoffer
+  }
+  // Submit transaction --------------------------------------------------------
+  const tx = await client.submitAndWait(transactionBlob,{wallet: operational_wallet}) 
+  const nfts = await client.request({
+    method: "account_nfts",
+    account: operational_wallet.classicAddress
+  })
+  results += JSON.stringify(nfts,null,2)
+  operationalResultField.value = results
+
+  // Check transaction results -------------------------------------------------
+  results += "\n\nTransaction result:\n" + 
+    JSON.stringify(tx.result.meta.TransactionResult, null, 2)
+  results += "\nBalance changes:\n" +
+    JSON.stringify(xrpl.getBalanceChanges(tx.result.meta), null, 2)
+  operationalBalanceField.value = 
+    (await client.getXrpBalance(operational_wallet.address))
+  operationalBalanceField.value = 
+    (await client.getXrpBalance(standby_wallet.address))
+  operationalResultField.value = results
+  const response ={txnresult:tx.result.meta.TransactionResult,nfts:nfts}
+  res.json(response)
+  client.disconnect()
+})// End of acceptBuyOffer()

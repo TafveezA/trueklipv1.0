@@ -1,5 +1,5 @@
 const express = require('express')
-const {connectToXRPL, configColdAddress, configHotAddress, createTrustLine, sendToken, confirmBalance, tradeProduct, placeOffer, mintCertificate, getNFTCertificate, burnNFTCertificate} = require('../controllers/xrp')
+const {connectToXRPL, configColdAddress, configHotAddress, createTrustLine, sendToken, confirmBalance, tradeProduct, placeOffer, mintCertificate, getNFTCertificate, burnNFTCertificate, createNFTsellOffer, createNFTBuyOffer, cancleOffer, getOffers, acceptSellOffer, acceptBuyOffer} = require('../controllers/xrp')
 
 const router = express.Router()
 
@@ -20,5 +20,17 @@ router.route('/mint').post(mintCertificate)
 router.route('/getnfts').get(getNFTCertificate)
 //burn NFT
 router.route('/burn').post(burnNFTCertificate)
+//create NFT sell offer
+router.route('/nftselloffer').post(createNFTsellOffer)
+//create NFT buy offer
+router.route('/nftbuyoffer').post(createNFTBuyOffer)
+//get Offers
+router.route('/getoffers').get(getOffers)
+//cancel Offer
+router.route('/canceloffer').post(cancleOffer)
+//acceptselloffer
+router.route('/acceptselloffer').post(acceptSellOffer)
+//acceptbuyoffer
+router.route('/acceptbuyoffer').post(acceptBuyOffer)
 
 module.exports = router;
