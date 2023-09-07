@@ -1,5 +1,7 @@
 const express = require('express')
-const {connectToXRPL, configColdAddress, configHotAddress, createTrustLine, sendToken, confirmBalance, tradeProduct, placeOffer, mintCertificate, getNFTCertificate, burnNFTCertificate, createNFTsellOffer, createNFTBuyOffer, cancleOffer, getOffers, acceptSellOffer, acceptBuyOffer} = require('../controllers/xrp')
+const {connectToXRPL, configColdAddress, configHotAddress, createTrustLine, sendToken, confirmBalance, tradeProduct,
+     placeOffer, mintCertificate, getNFTCertificate, burnNFTCertificate, createNFTSellOffer, createNFTBuyOffer, 
+     cancleOffer, getOffers, acceptSellOffer, acceptBuyOffer, issueToken, autoBridging} = require('../controllers/xrp')
 
 const router = express.Router()
 
@@ -7,6 +9,7 @@ router.route('/').get(connectToXRPL)
 router.route('/configcoldwallet').get(configColdAddress)
 router.route('/confighotwallet').get(configHotAddress)
 router.route('/createtrustline').get(createTrustLine)
+router.route('/issuetoken').get(issueToken)
 router.route('/sendtoken').get(sendToken)
 router.route('/checkbalance').get(confirmBalance)
 //lookup offers
@@ -20,17 +23,18 @@ router.route('/mint').post(mintCertificate)
 router.route('/getnfts').get(getNFTCertificate)
 //burn NFT
 router.route('/burn').post(burnNFTCertificate)
+router.route('/autobridging').get(autoBridging)
 //create NFT sell offer
-router.route('/nftselloffer').post(createNFTsellOffer)
+router.route('/nftselloffer').post(createNFTSellOffer)
 //create NFT buy offer
 router.route('/nftbuyoffer').post(createNFTBuyOffer)
-//get Offers
-router.route('/getoffers').get(getOffers)
-//cancel Offer
+ //get Offers
+router.route('/getoffers').post(getOffers)
+ //cancel Offer
 router.route('/canceloffer').post(cancleOffer)
 //acceptselloffer
-router.route('/acceptselloffer').post(acceptSellOffer)
-//acceptbuyoffer
-router.route('/acceptbuyoffer').post(acceptBuyOffer)
+ router.route('/acceptselloffer').post(acceptSellOffer)
+ //acceptbuyoffer -check
+ router.route('/acceptbuyoffer').post(acceptBuyOffer)
 
 module.exports = router;

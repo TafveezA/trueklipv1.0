@@ -11,6 +11,7 @@ const errorHandler = require('./middleware/error')
 const app = express()
 const logger = require('./middleware/logger')
 const connectDB = require('./config/db')
+//const connectXRPL = require('./config/xrpl')
 const mongoSanitize = require('express-mongo-sanitize')
 const ejs = require('ejs');
 const{Web3}=require("web3")
@@ -26,6 +27,7 @@ const contract = new web3.eth.Contract(ABI,CONTRACT_VALIDATION_ADDRESS)
 const PORT = process.env.PORT ||5000
 const NODE_ENV =process.env.NODE_ENV
 connectDB()
+
 
 app.set('view engine', 'ejs');
 app.use(express.json())

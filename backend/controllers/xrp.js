@@ -131,7 +131,7 @@ const hot_settings_tx = {
 exports.createTrustLine = asyncHandler(async(req,res,next)=>{
 await client.connect()
 // Create trust line from hot to cold address --------------------------------
-const currency_code = "AED"
+const currency_code = "USD"
 const trust_set_tx = {
   "TransactionType": "TrustSet",
   "Account": hot_wallet.address,
@@ -164,7 +164,7 @@ exports.sendToken = asyncHandler(async(req,res,next)=>{
     await client.connect()
  // Send token ----------------------------------------------------------------
  const issue_quantity = "3840"
- const currency_code="AED"
+ const currency_code="USD"
  const send_token_tx = {
    "TransactionType": "Payment",
    "Account": cold_wallet.address,
@@ -214,14 +214,150 @@ exports.confirmBalance = asyncHandler(async(req,res,next)=>{
     res.json({cold_balances,hot_balances})
     client.disconnect()
     })
+
+
+
+exports.issueToken =asyncHandler(async(req,res,next)=>{
+
+  await client.connect()
+  const hot_wallet = new Wallet(process.env.HOT_SECRET)
+  const cold_wallet = new Wallet(process.env.COLD_SECRET)
+
+
+  console.log(`Got hot address ${hot_wallet.address} and cold address ${cold_wallet.address}.`)
+
+  // Configure issuer (cold address) settings ----------------------------------
+  const cold_settings_tx = {
+    "TransactionType": "AccountSet",
+    "Account": cold_wallet.address,
+    "TransferRate": 0,
+    "TickSize": 5,
+    "Domain": "6578616D706C652E636F6D", // "example.com"
+    "SetFlag": xrpl.AccountSetAsfFlags.asfDefaultRipple,
+    // Using tf flags, we can enable more flags in one transaction
+    "Flags": (xrpl.AccountSetTfFlags.tfDisallowXRP |
+             xrpl.AccountSetTfFlags.tfRequireDestTag)
+  }
+
+  const cst_prepared = await client.autofill(cold_settings_tx)
+  const cst_signed = cold_wallet.sign(cst_prepared)
+  console.log("Sending cold address AccountSet transaction...")
+  const cst_result = await client.submitAndWait(cst_signed.tx_blob)
+  if (cst_result.result.meta.TransactionResult == "tesSUCCESS") {
+    console.log(`Transaction succeeded: https://testnet.xrpl.org/transactions/${cst_signed.hash}`)
+  } else {
+    next( new ErrorResponse(`Error sending transaction: ${cst_result}`,500))
+  }
+
+
+  // Configure hot address settings --------------------------------------------
+
+  const hot_settings_tx = {
+    "TransactionType": "AccountSet",
+    "Account": hot_wallet.address,
+    "Domain": "6578616D706C652E636F6D", // "example.com"
+    // enable Require Auth so we can't use trust lines that users
+    // make to the hot address, even by accident:
+    "SetFlag": xrpl.AccountSetAsfFlags.asfRequireAuth,
+    "Flags": (xrpl.AccountSetTfFlags.tfDisallowXRP |
+              xrpl.AccountSetTfFlags.tfRequireDestTag)
+  }
+
+  const hst_prepared = await client.autofill(hot_settings_tx)
+  const hst_signed = hot_wallet.sign(hst_prepared)
+  console.log("Sending hot address AccountSet transaction...")
+  const hst_result = await client.submitAndWait(hst_signed.tx_blob)
+  if (hst_result.result.meta.TransactionResult == "tesSUCCESS") {
+    console.log(`Transaction succeeded: https://testnet.xrpl.org/transactions/${hst_signed.hash}`)
+  } else {
+    next( new ErrorResponse( `Error sending transaction: ${hst_result.result.meta.TransactionResult}`))
+  }
+
+
+  // Create trust line from hot to cold address --------------------------------
+  const currency_code = "USD"
+  const trust_set_tx = {
+    "TransactionType": "TrustSet",
+    "Account": hot_wallet.address,
+    "LimitAmount": {
+      "currency": currency_code,
+      "issuer": cold_wallet.address,
+      "value": "10000000000" // Large limit, arbitrarily chosen
+    }
+  }
+
+  const ts_prepared = await client.autofill(trust_set_tx)
+  const ts_signed = hot_wallet.sign(ts_prepared)
+  console.log("Creating trust line from hot address to issuer...")
+  const ts_result = await client.submitAndWait(ts_signed.tx_blob)
+  if (ts_result.result.meta.TransactionResult == "tesSUCCESS") {
+    console.log(`Transaction succeeded: https://testnet.xrpl.org/transactions/${ts_signed.hash}`)
+  } else {
+    next( new ErrorResponse(`Error sending transaction: ${ts_result.result.meta.TransactionResult}`))
+  }
+
+
+  // Send token ----------------------------------------------------------------
+  const issue_quantity = "4000"
+  const send_token_tx = {
+    "TransactionType": "Payment",
+    "Account": cold_wallet.address,
+    "Amount": {
+      "currency": currency_code,
+      "value": issue_quantity,
+      "issuer": cold_wallet.address
+    },
+    "Destination": hot_wallet.address,
+    "DestinationTag": 1 // Needed since we enabled Require Destination Tags
+                        // on the hot account earlier.
+  }
+
+  const pay_prepared = await client.autofill(send_token_tx)
+  const pay_signed = cold_wallet.sign(pay_prepared)
+  console.log(`Sending ${issue_quantity} ${currency_code} to ${hot_wallet.address}...`)
+  const pay_result = await client.submitAndWait(pay_signed.tx_blob)
+  if (pay_result.result.meta.TransactionResult == "tesSUCCESS") {
+    console.log(`Transaction succeeded: https://testnet.xrpl.org/transactions/${pay_signed.hash}`)
+  } else {
+    next(new ErrorResponse( `Error sending transaction: ${pay_result.result.meta.TransactionResult}`))
+  }
+
+  // Check balances ------------------------------------------------------------
+  console.log("Getting hot address balances...")
+  const hot_balances = await client.request({
+    command: "account_lines",
+    account: hot_wallet.address,
+    ledger_index: "validated"
+  })
+  console.log(hot_balances.result)
+
+  console.log("Getting cold address balances...")
+  const cold_balances = await client.request({
+    command: "gateway_balances",
+    account: cold_wallet.address,
+    ledger_index: "validated",
+    hotwallet: [hot_wallet.address]
+  })
+  const result = {
+    hot_balances:cold_balances,
+    cold_balances:hot_balances,
+    payresult:`Transaction succeeded: https://testnet.xrpl.org/transactions/${pay_signed.hash}`,
+    tsresult:`Transaction succeeded: https://testnet.xrpl.org/transactions/${ts_signed.hash}`,
+    hst_result:`Transaction succeeded: https://testnet.xrpl.org/transactions/${hst_signed.hash}`,
+    cst_result:`Transaction succeeded: https://testnet.xrpl.org/transactions/${cst_signed.hash}`,
+
+  }
+  res.json(result)
+})
 // trade of products on dex way by creating orderbooks
 exports.tradeProduct = asyncHandler(async(req,res,next)=>{
-  await client.connect() // Check balances ------------------------------------------------------------
+// Check balances ------------------------------------------------------------
+
+  await client.connect() 
   const walletIssuer = xrpl.Wallet.fromSeed(process.env.HOT_SECRET)
   console.log("Issuer Wallet",walletIssuer)
   const wallet = Wallet.fromSeed(process.env.COLD_SECRET)
   console.log("Wallet Taker Address @Product view",wallet)
-
   // Define the proposed trade. ------------------------------------------------
   // Technically you don't need to specify the amounts (in the "value" field)
   // to look up order books using book_offers, but for this tutorial we reuse
@@ -399,7 +535,7 @@ client.disconnect()
 // mint product NFT on XRPL
 
   exports.mintCertificate = asyncHandler(async (req, res, next) => {
-    try {
+   
 
       const { tokenUrl, flags, transferFee } = req.body;
   
@@ -439,11 +575,9 @@ client.disconnect()
       });
 
       client.disconnect();
-    } catch (error) {
-    
-      console.error("Error in mintCertificate:", error);
-      res.status(500).json({ error: "An error occurred while minting the NFT" });
-    }
+     
+
+
   });
   
 
@@ -452,20 +586,22 @@ client.disconnect()
 
 // get product NFT on XRPL
 
-exports.getNFTCertificate = asyncHandler(async(req,res,next)=>{
-  const standby_wallet = Wallet.fromSeed(process.env.COLD_SECRET)
-  await client.connect()
-  const nfts = await client.request({
-    method: "account_nfts",
-    account: standby_wallet.classicAddress
-  });
-  res.json(nfts)//------------------------------------------------------- Report results
-  
-  
-  client.disconnect()
+exports.getNFTCertificate = asyncHandler(async (req, res, next) => {
+  try {
+    const standby_wallet = Wallet.fromSeed(process.env.HOT_SECRET);
+    await client.connect();
+    const nfts = await client.request({
+      method: "account_nfts",
+      account: standby_wallet.classicAddress,
+    });
+    res.json(nfts);
+  } catch (error) {
+    next(new ErrorResponse(`Error: ${error}`, 500));
+  } finally {
+    client.disconnect();
+  }
+});
 
-
-})
 
 exports.burnNFTCertificate = asyncHandler(async(req,res,next)=>{
   const standby_wallet = Wallet.fromSeed(process.env.COLD_SECRET)
@@ -496,73 +632,73 @@ exports.burnNFTCertificate = asyncHandler(async(req,res,next)=>{
 })
 
 
-exports.createNFTSellOffer = asyncHandler(async(req,res,next)=>{
-  const standby_wallet = Wallet.fromSeed(process.env.HOT_SECRET)
-  const operational_wallet = Wallet.fromSeed(process.env.COLD_SECRET)
-  const client = new Client(process.env.CLIENT)
-  const { nfttokenid,amount,flags } = req.body;
-  await client.connect()
-    // Prepare transaction -------------------------------------------------------
-    let transactionBlob = {
-      "TransactionType": "NFTokenCreateOffer",
-      "Account":operational_wallet.classicAddress,
-      "NFTokenID": nfttokenid,
-      "Amount":amount,
-      "Flags": parseInt(flags),
-  }
+exports.createNFTSellOffer = asyncHandler(async (req, res, next) => {
+ 
 
+  const { nfttokenid, amount, flags } = req.body;
+  await client.connect();
+  const standby_wallet = Wallet.fromSeed(process.env.HOT_SECRET);
+  const operational_wallet = Wallet.fromSeed(process.env.COLD_SECRET);
+  console.log(operational_wallet.classicAddress)
+  // Prepare transaction -------------------------------------------------------
+  const transactionBlob = {
+    "TransactionType": "NFTokenCreateOffer",
+    "Account": operational_wallet.classicAddress,
+    "Owner":standby_wallet.address,
+    "NFTokenID": nfttokenid,
+    "Amount": amount,
+    "Flags": null,
+  };
 
   // Submit transaction --------------------------------------------------------
+  const txn_prepared = await client.autofill(transactionBlob)
+  const txn_signed = standby_wallet.sign(txn_prepared)
+  const tx = await client.submitAndWait(txn_signed.tx_blob);
 
-  const tx = await client.submitAndWait(transactionBlob,{wallet:operational_wallet})
-
-  let nftSellOffers
+  let nftSellOffers;
   try {
     nftSellOffers = await client.request({
       method: "nft_sell_offers",
-      nft_id: nfttokenid  
-    })
+      nft_id: nfttokenid,
+    });
   } catch (error) {
-    nftSellOffers = "No sell offers."
-    next(new ErrorResponse(`Error While looking nft sell offers `,{error}``,500))
+    nftSellOffers = "No sell offers.";
+    next(new ErrorResponse(`Error While looking nft sell offers: ${error}`, 500));
+    return; // Return early to avoid further execution
   }
- 
-  let nftBuyOffers
+
+  let nftBuyOffers;
   try {
     nftBuyOffers = await client.request({
       method: "nft_buy_offers",
-      nft_id: nfttokenid
-    })
-   
+      nft_id: nfttokenid,
+    });
   } catch (error) {
-    nftBuyOffers = "No buy offers."
-    next(new ErrorResponse(`No buy offers `,{error}``,500))
+    nftBuyOffers = "No buy offers.";
+    next(new ErrorResponse(`No buy offers: ${error}`, 500));
+    return; // Return early to avoid further execution
   }
 
   // Check transaction results -------------------------------------------------
-  results += '\n\nTransaction result:\n' + 
-    JSON.stringify(tx.result.meta.TransactionResult, null, 2)
-  results += '\n\nBalance changes:\n' + 
-    JSON.stringify(xrpl.getBalanceChanges(tx.result.meta), null, 2)
-    console.log(results)
+  let results = '\n\nTransaction result:\n' +
+    JSON.stringify(tx.result.meta.TransactionResult, null, 2);
+  results += '\n\nBalance changes:\n' +
+    JSON.stringify(xrpl.getBalanceChanges(tx.result.meta), null, 2);
+  console.log(results);
 
-  const results = {
-    standby_wallet_balance:await client.getXrpBalance(operational_wallet.address),
-    operational_wallet_balance:await client.getXrpBalance(standby_wallet.address),
-    nftBuyOffers:nftBuyOffers,
-    nftSellOffers:nftSellOffers,
-    txnResult:tx.result.meta.TransactionResult,
-  }
+  const response = {
+    standby_wallet_balance: await client.getXrpBalance(operational_wallet.address),
+    operational_wallet_balance: await client.getXrpBalance(standby_wallet.address),
+    nftBuyOffers: nftBuyOffers,
+    nftSellOffers: nftSellOffers,
+    txnResult: tx.result.meta.TransactionResult,
+  };
 
-  res.json(results)
-  
+  res.json(response);
 
-  
-  
-  client.disconnect()
+  client.disconnect();
+});
 
-
-})
 
 exports.createNFTBuyOffer = asyncHandler(async(req,res,next)=>{
   const standby_wallet = Wallet.fromSeed(process.env.HOT_SECRET)
@@ -690,13 +826,12 @@ res.json(response)
 // *******************************************************
 
 exports.getOffers = asyncHandler(async(req,res,next)=>{
- const standby_wallet = xrpl.Wallet.fromSeed(process.env.HOT_SECRET)
-  
-  const client = new xrpl.Client(process.env.CLIENT)
+
+
   const {nfttokenid} = req.body
 
   await client.connect()
-
+  const standby_wallet = xrpl.Wallet.fromSeed(process.env.HOT_SECRET)
 
   let nftSellOffers
   try {
@@ -707,9 +842,7 @@ exports.getOffers = asyncHandler(async(req,res,next)=>{
   } catch (err) {
     nftSellOffers = 'No sell offers.'
   }
-  results += JSON.stringify(nftSellOffers,null,2)
 
-  results += '\n\n***Buy Offers***\n'
   let nftBuyOffers
   try {
     nftBuyOffers = await client.request({
@@ -719,12 +852,12 @@ exports.getOffers = asyncHandler(async(req,res,next)=>{
   } catch (err) {
     nftBuyOffers =  'No buy offers.'
   }
-  const results = {
-    operational_wallet_balance:await client.getXrpBalance(standby_wallet.address),
+
+  const result = [{
     nftBuyOffers:nftBuyOffers,
     nftSellOffers:nftSellOffers,
-  }
-  res.json(results)
+  }]
+  res.json(result)
 
   client.disconnect()
 })
@@ -807,3 +940,48 @@ exports.acceptBuyOffer =asyncHandler(async(req,res,next)=>{
   res.json(response)
   client.disconnect()
 })// End of acceptBuyOffer()
+
+
+exports.autoBridging = asyncHandler(async(req,res,next)=>{
+await client.connect()
+const senderWallet = Wallet.fromSeed(process.env.HOT_SECRET);
+const receiverWallet = Wallet.fromSeed(process.env.COLD_SECRET);
+const trustSetTransaction = {
+  TransactionType: 'TrustSet',
+  Account: senderWallet.address,
+  LimitAmount: {
+    currency: 'USD', // Replace with the currency you want to trust.
+    issuer: receiverWallet.address,
+    value: '1000000', // The amount you are willing to trust.
+  },
+};
+
+// Sign and submit the trust set transaction.
+const trust_prepared = await client.autofill(trustSetTransaction)
+const trust_signed = senderWallet.sign(trust_prepared)
+const trustSetResult =   await client.submitAndWait(trust_signed.tx_blob);
+const paymentTransaction = {
+  "TransactionType": 'Payment',
+  "Account": senderWallet.address,
+  "Destination": receiverWallet.address,
+  "Amount": {
+    "currency": 'USD', // Destination asset.
+    "issuer": receiverWallet.address,
+    "value": '11', // Amount to send.
+  },
+
+};
+
+// Sign and submit the payment transaction.
+const payment_prepared = await client.autofill(paymentTransaction)
+console.log("Creating trust line from hot address to issuer...")
+const payment_signed = senderWallet.sign(payment_prepared)
+const paymentResult =  await client.submitAndWait(payment_signed.tx_blob);
+
+console.log('Auto-bridging result:', paymentResult.result.meta.TransactionResult);
+res.json({trustSetResult:trustSetResult,
+paymentResult:paymentResult})
+client.disconnect()
+
+
+})
