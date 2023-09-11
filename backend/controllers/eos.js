@@ -7,6 +7,11 @@ const CryptoJS = require('crypto-js');
 dotenv.config({path:'../config/config.env'})
 const{Web3}=require("web3")
 
+const eosjs = require('eosjs');
+const { Api, JsonRpc, RpcError } = eosjs;
+const fetch = require('node-fetch');
+const { TextEncoder, TextDecoder } = require('util');
+
 
 
 
@@ -95,10 +100,6 @@ const decryptedJsonData = JSON.parse(decryptedData);
 
 
 
-const eosjs = require('eosjs');
-const { Api, JsonRpc, RpcError } = eosjs;
-const fetch = require('node-fetch');
-const { TextEncoder, TextDecoder } = require('util');
 
 
 //const privateKey = process.env.PRIVATE_KEY; // Replace with your EOS private key
