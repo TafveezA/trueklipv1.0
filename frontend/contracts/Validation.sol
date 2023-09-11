@@ -4,6 +4,7 @@ contract Validation{
 
 mapping(string =>mapping(bytes32=>bool)) public validateHashByTruklipId;
 mapping(string =>bytes32) hashByKlipId;
+mapping(string=>bool) public validatByTruklipProduct;
 function hashData( string memory _truKlipId,string memory _batchNumber,uint256 _mfgDate, uint256 _expiryDate,uint256 _warranty,string memory _description ) public  returns  (bytes32)
 {
     bytes32 _hash=keccak256(abi.encodePacked(_batchNumber,_mfgDate,_expiryDate,_warranty,_description));
@@ -14,6 +15,20 @@ function hashData( string memory _truKlipId,string memory _batchNumber,uint256 _
 
 mapping(uint256=>string) public certificationHash;
 mapping(uint256=>string) public productHash;
+
+function addProduct( string memory _truKlipId) public {
+    validatByTruklipProduct[_truKlipId] = true;
+}
+
+mapping(string=>string) productEncryptedData;
+function addProductEncryptedData(string memory _truKlipId,string memory _encData) public {
+ productEncryptedData[_truKlipId] = _encData;
+}
+
+function getProductEncryptedData(string memory _truKlipId ) public view returns (string memory){
+return productEncryptedData[_truKlipId];
+}
+
 function hashProductData(uint256 _truKlipId,string memory _hash) public{
     productHash[_truKlipId]=_hash;
 }
@@ -46,6 +61,10 @@ function validateProduct(uint256 _truKlipId ,string calldata _productHash) publi
      }
      return result;
 
+}
+
+function validationResult(string  memory _truKlipId) public view returns (bool){
+    return validatByTruklipProduct[_truKlipId];
 }
 
 function validate(string  memory _truKlipId) public view returns (bool){
