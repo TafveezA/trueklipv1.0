@@ -534,7 +534,7 @@ client.disconnect()
 
 // mint product NFT on XRPL
 
-  exports.mintCertificate = asyncHandler(async (req, res, next) => {
+exports.mintCertificate = asyncHandler(async (req, res, next) => {
    
 
       const { tokenUrl, flags, transferFee } = req.body;
@@ -544,9 +544,9 @@ client.disconnect()
       const convertedTransferFee = parseInt(transferFee);
   
   
-      const standby_wallet = xrpl.Wallet.fromSeed(process.env.COLD_SECRET);
+     
       await client.connect();
-   
+      const standby_wallet = xrpl.Wallet.fromSeed(process.env.COLD_SECRET);
       const transactionBlob = {
         TransactionType: "NFTokenMint",
         Account: standby_wallet.address,
@@ -588,8 +588,9 @@ client.disconnect()
 
 exports.getNFTCertificate = asyncHandler(async (req, res, next) => {
   try {
-    const standby_wallet = Wallet.fromSeed(process.env.HOT_SECRET);
+   
     await client.connect();
+    const standby_wallet = Wallet.fromSeed(process.env.HOT_SECRET);
     const nfts = await client.request({
       method: "account_nfts",
       account: standby_wallet.classicAddress,
@@ -767,13 +768,11 @@ exports.createNFTBuyOffer = asyncHandler(async(req,res,next)=>{
 
 exports.cancleOffer = asyncHandler(async(req,res,next)=>{
 
-  const wallet = xrpl.Wallet.fromSeed(process.env.HOT_SECRET)
-  const client = new Client(process.env.CLIENT)
+
+
 
   await client.connect()
-  results +=  "\nConnected. Cancelling offer..."
-  operationalResultField.value = results
-
+  const wallet = xrpl.Wallet.fromSeed(process.env.HOT_SECRET)
   const {nfttokenid,tokenofferIds} = req.body
 
   // Prepare transaction -------------------------------------------------------
@@ -831,7 +830,7 @@ exports.getOffers = asyncHandler(async(req,res,next)=>{
   const {nfttokenid} = req.body
 
   await client.connect()
-  const standby_wallet = xrpl.Wallet.fromSeed(process.env.HOT_SECRET)
+  // const standby_wallet = xrpl.Wallet.fromSeed(process.env.HOT_SECRET)
 
   let nftSellOffers
   try {
@@ -868,14 +867,14 @@ exports.getOffers = asyncHandler(async(req,res,next)=>{
 // @desc  accept Buy Offer
 // @route POST /api/v1/xrp/acceptselloffer
 exports.acceptSellOffer = asyncHandler(async(req,res,next)=>{
-  const standby_wallet = xrpl.Wallet.fromSeed(process.env.COLD_SECRET)
-  const operational_wallet = xrpl.Wallet.fromSeed(process.env.HOT_SECRET)
+  
 
-  const client = new  Client(process.env.CLIENT)
+  
   const {nfttokenselloffer} = req.body
 
   await client.connect()
-
+  const standby_wallet = xrpl.Wallet.fromSeed(process.env.COLD_SECRET)
+  const operational_wallet = xrpl.Wallet.fromSeed(process.env.HOT_SECRET)
 
   // Prepare transaction -------------------------------------------------------
   const transactionBlob = {
@@ -889,7 +888,6 @@ exports.acceptSellOffer = asyncHandler(async(req,res,next)=>{
     method: "account_nfts",
     account: nfttokenselloffer
   })
-
   const response = {txnresult:tx.result.meta.TransactionResult,banlancechanges:xrpl.getBalanceChanges(tx.result.meta)}
   res.json(response)
   client.disconnect()
@@ -944,33 +942,26 @@ exports.acceptBuyOffer =asyncHandler(async(req,res,next)=>{
 
 exports.autoBridging = asyncHandler(async(req,res,next)=>{
 await client.connect()
-const senderWallet = Wallet.fromSeed(process.env.HOT_SECRET);
-const receiverWallet = Wallet.fromSeed(process.env.COLD_SECRET);
-const trustSetTransaction = {
-  TransactionType: 'TrustSet',
-  Account: senderWallet.address,
-  LimitAmount: {
-    currency: 'USD', // Replace with the currency you want to trust.
-    issuer: receiverWallet.address,
-    value: '1000000', // The amount you are willing to trust.
-  },
-};
+const user_wallet =  Wallet.fromSeed(process.env.NEW_COLD_SECRET)
+const issuer_wallet_aed = Wallet.fromSeed(process.env.HOT_SECRET);
+const issuer_wallet_usd = Wallet.fromSeed(process.env.COLD_SECRET);
 
-// Sign and submit the trust set transaction.
-const trust_prepared = await client.autofill(trustSetTransaction)
-const trust_signed = senderWallet.sign(trust_prepared)
-const trustSetResult =   await client.submitAndWait(trust_signed.tx_blob);
 const paymentTransaction = {
-  "TransactionType": 'Payment',
-  "Account": senderWallet.address,
-  "Destination": receiverWallet.address,
-  "Amount": {
-    "currency": 'USD', // Destination asset.
-    "issuer": receiverWallet.address,
-    "value": '11', // Amount to send.
+  TransactionType: "Payment",
+  Account: user_wallet.classicAddress,
+  Destination: issuer_wallet_aed.classicAddress,
+  DestinationTag: 12345,
+  Amount: {
+      issuer: issuer_wallet_usd.classicAddress,
+      currency: 'USD',
+      value: "1000"
   },
-
-};
+  SendMax: {
+      issuer: issuer_wallet_usd.classicAddress,
+      currency: 'AED',
+      value: "96"
+  }
+}
 
 // Sign and submit the payment transaction.
 const payment_prepared = await client.autofill(paymentTransaction)
@@ -983,5 +974,41 @@ res.json({trustSetResult:trustSetResult,
 paymentResult:paymentResult})
 client.disconnect()
 
+
+})
+
+exports.escrow =asyncHandler(async(req,res,next)=>{
+  const {amount,cancelafter,finishafter,prevtransactionid,condition} = req.body
+  await client.connect(process.env.CLIENT)
+  const escrow_wallet = Wallet.fromSeed(process.env.NEW_COLD_SECRET)
+  const destination_wallet = Wallet.fromSeed(process.env.COLD_SECRET)
+  const escrow_transaction = {
+    "TransactionType": "EscrowCreate",
+    "Account": escrow_wallet.address,
+    "Amount":amount, // Amount in drops (10,000 XRP)
+    "CancelAfter": cancelafter,
+    "Condition": condition,
+    "Destination": destination_wallet.address,
+    "DestinationTag": 23480,
+    "FinishAfter": finishafter,
+    "Flags": 0,
+    "OwnerNode": "0000000000000000",
+    "DestinationNode": "0000000000000000",
+    "PreviousTxnID": prevtransactionid,
+    "PreviousTxnLgrSeq": 28991004,
+    "SourceTag": 11747,
+  };
+  
+
+  const escrow_prepared = await client.autofill(escrow_transaction)
+  const escrow_signed = escrow_wallet.sign(escrow_prepared)
+  const escrow_result = await client.submitAndWait(escrow_signed.tx_blob)
+  if(escrow_result.result.meta.TransactionResult == "tesSUCCESS"){
+    res.json({success:escrow_result.result.meta.TransactionResult,txnURL: `https://testnet.xrpl.org/transactions/${escrow_signed.hash}`})
+  }else{
+    next(new ErrorResponse(`Error sending transaction:${escrow_result.result.meta.TransactionResult}`))
+  }
+
+  client.disconnect()
 
 })

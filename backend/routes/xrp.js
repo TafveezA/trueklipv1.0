@@ -1,7 +1,7 @@
 const express = require('express')
 const {connectToXRPL, configColdAddress, configHotAddress, createTrustLine, sendToken, confirmBalance, tradeProduct,
      placeOffer, mintCertificate, getNFTCertificate, burnNFTCertificate, createNFTSellOffer, createNFTBuyOffer, 
-     cancleOffer, getOffers, acceptSellOffer, acceptBuyOffer, issueToken, autoBridging} = require('../controllers/xrp')
+     cancleOffer, getOffers, acceptSellOffer, acceptBuyOffer, issueToken, autoBridging, escrow} = require('../controllers/xrp')
 
 const router = express.Router()
 
@@ -36,5 +36,7 @@ router.route('/canceloffer').post(cancleOffer)
  router.route('/acceptselloffer').post(acceptSellOffer)
  //acceptbuyoffer -check
  router.route('/acceptbuyoffer').post(acceptBuyOffer)
+ //created escrow 
+ router.route('/createescrow').post(escrow)
 
 module.exports = router;
