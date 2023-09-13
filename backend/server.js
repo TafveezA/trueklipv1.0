@@ -74,7 +74,7 @@ const eos = require('./routes/eos')
 app.use('/api/eos/v1/validate',eos)
 
 const ethereum = require('./routes/ethereum')
-app.use('/api/eth/v1/validate',ethereum)
+app.use('/ethapi/v1/validate',ethereum)
 
 const xrp = require('./routes/xrp')
 app.use('/api/v1/xrp/',xrp)

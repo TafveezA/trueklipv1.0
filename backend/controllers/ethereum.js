@@ -3,6 +3,7 @@ const ErrorResponse = require('../utils/errorResponse')
 const dotenv = require('dotenv')
 
 dotenv.config({path:'../config/config.env'})
+const CryptoJS = require('crypto-js');
 
 const{Web3}=require("web3")
 const ABI= require("../config/validationABI.json")
