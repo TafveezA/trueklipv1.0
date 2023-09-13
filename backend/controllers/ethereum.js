@@ -15,6 +15,7 @@ const CONTRACT_VALIDATION_ADDRESS=process.env.CONTRACT_ADDRESS_VALIDATION
 
 const web3 =new Web3(ALCHEMY_RPC_URL_SEPOLIA)
 const contract = new web3.eth.Contract(ABI,CONTRACT_VALIDATION_ADDRESS)
+const privateKey=process.env.PRIVATE_KEY;
 
 
 // @desc  get  validation of product
@@ -38,7 +39,7 @@ exports.validateProduct = asyncHandler(async(req,res,next)=>{
     
 })
 
-exports.addProduct = asyncHandler(async(req,res,next)=>{
+exports.addProductDetails = asyncHandler(async(req,res,next)=>{
     
     const jsonData = req.body
     const truklipid=jsonData._truklipid;
