@@ -9,15 +9,15 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-black ">
-      <div className=" border-green-600 border-2 max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="background-gradient2">
+      <div className=" max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <div className="flex-shrink-0">
           <a href="/" className="text-white font-bold text-[30px]">
          <img src={logo} alt="Logo" className="h-11 w-11" /></a>
           </div>
           <div className="md:hidden">
-            <button onClick={toggleMobileMenu} className="text-black-400 hover:text-black focus:outline-none focus:text-green">
+            <button onClick={toggleMobileMenu} className="text-green-400 hover:text-black focus:outline-none focus:text-green">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isMobileMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

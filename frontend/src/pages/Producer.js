@@ -161,14 +161,45 @@ console.log(response.toJSON())
        <br></br> 
     <div>
    
-    <button type="submit" onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    <button type="submit" onClick={handleSubmit} className="special-button2">
      AddProduct
     </button>
-    <button type="submit" onClick={handleSubmitForUrl} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    <button type="submit" onClick={handleSubmitForUrl} className="special-button">
      AddProductOnEOS
     </button>
     </div>
 
+    
+  <div class="w-96 h-96 pl-60 pr-72 py-28 bg-white justify-start items-center inline-flex">
+  <div class="w-96 h-96 relative">
+    <div class="w-12 h-12 left-0 top-0 absolute">
+      <div class="w-12 h-12 left-0 top-0 absolute bg-blue-700 rounded-3xl"></div>
+      <div class="left-[14px] top-[12px] absolute text-white text-xl font-semibold font-['Inter'] leading-relaxed">01</div>
+    </div>
+    <div class="w-12 h-12 left-0 top-[180px] absolute">
+      <div class="w-12 h-12 left-0 top-0 absolute bg-violet-50 rounded-3xl border border-neutral-200"></div>
+      <div class="left-[12px] top-[12px] absolute text-gray-800 text-xl font-semibold font-['Inter'] leading-relaxed">02</div>
+    </div>
+    <div class="w-12 h-12 left-0 top-[360px] absolute">
+      <div class="w-12 h-12 left-0 top-0 absolute bg-violet-50 rounded-3xl border border-neutral-200"></div>
+      <div class="left-[12px] top-[12px] absolute text-gray-800 text-xl font-semibold font-['Inter'] leading-relaxed">03</div>
+    </div>
+    <div class="w-96 h-20 left-[85px] top-0 absolute">
+      <div class="left-0 top-0 absolute text-gray-800 text-2xl font-semibold font-['Inter'] leading-loose">Step one title</div>
+      <div class="w-96 left-0 top-[40px] absolute text-gray-500 text-base font-medium font-['Inter'] leading-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at sagittis sapien, eget sodales arcu. Aenean arcu velit, tincidunt ut enim vitae, scelerisque tempus lorem.</div>
+    </div>
+    <div class="w-96 h-20 left-[85px] top-[180px] absolute">
+      <div class="left-0 top-0 absolute text-gray-800 text-2xl font-semibold font-['Inter'] leading-loose">Step two title</div>
+      <div class="w-96 left-0 top-[40px] absolute text-gray-500 text-base font-medium font-['Inter'] leading-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at sagittis sapien, eget sodales arcu. Aenean arcu velit, tincidunt ut enim vitae, scelerisque tempus lorem.</div>
+    </div>
+    <div class="w-96 h-20 left-[85px] top-[360px] absolute">
+      <div class="left-0 top-0 absolute text-gray-800 text-2xl font-semibold font-['Inter'] leading-loose">Step three title</div>
+      <div class="w-96 left-0 top-[40px] absolute text-gray-500 text-base font-medium font-['Inter'] leading-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at sagittis sapien, eget sodales arcu. Aenean arcu velit, tincidunt ut enim vitae, scelerisque tempus lorem.</div>
+    </div>
+    <div class="w-24 h-px left-[24px] top-[65px] absolute origin-top-left rotate-90 border-2 border-blue-700"></div>
+    <div class="w-24 h-px left-[25px] top-[245px] absolute origin-top-left rotate-90 border-2 border-neutral-200"></div>
+  </div>
+</div>
 
    
  </div>

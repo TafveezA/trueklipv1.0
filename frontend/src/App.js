@@ -15,6 +15,8 @@ import NFTMinting from './pages/NFTMinting';
 import Distributor from "./pages/Distributor";
 import Retailer from "./pages/Retailer";
 import Home from "./pages/Home";
+import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 
 
 
@@ -53,8 +55,10 @@ function App() {
     {/* <Route path="/admin" element={<Admin/>}/> */}
     </Routes>
     </BrowserRouter>
-
+    {/* <div><Footer/></div> */}
   </div>
+
+
   );
 }
 

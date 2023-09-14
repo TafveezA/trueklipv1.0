@@ -4,7 +4,6 @@ import { Web3Provider } from "@ethersproject/providers";
 import {Html5QrcodeScanner} from "html5-qrcode"
 import { Link } from "react-router-dom";
 import logo from '../logo.svg';
-import '../App.css'
 import { abiValidation, contractAddressValidation } from "../constants";
 // import { useNavigate } from "react-router-dom";
 // const navigateTo=useNavigate
