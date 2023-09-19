@@ -16,6 +16,7 @@ import Distributor from "./pages/Distributor";
 import Retailer from "./pages/Retailer";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
+import { Navbar } from "./components";
 // import Footer from "./components/Footer";
 
 
@@ -55,7 +56,7 @@ function App() {
     {/* <Route path="/admin" element={<Admin/>}/> */}
     </Routes>
     </BrowserRouter>
-    {/* <div><Footer/></div> */}
+    {/* <div><Navbar/></div> */}
   </div>
 
 

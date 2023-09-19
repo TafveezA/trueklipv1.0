@@ -3,10 +3,13 @@ import logo1 from '../assets/careem.jpg'
 import logo2 from '../assets/lv.jpg'
 import logo3 from '../assets/noon.png'
 import { Link } from 'react-router-dom';
-import './Home.css'
+
 import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
 const Home = () => {
   return (
+ 
+    <section>
     <div className="bg-gray-100 min-h-screen">
       {/* Navbar */}
       <nav className="bg-white shadow-md">
@@ -46,9 +49,10 @@ const Home = () => {
           
         </div>
       </div>
+      </div>
+    </section>
 
-   
-    </div>
+  
      
   );
 };
