@@ -16,6 +16,10 @@ import agents from '../assets/agents.png'
 import tickets from '../assets/tickets.png'
 import search from '../assets/search.png'
 import header from '../assets/header.png'
+import icon from '../assets/icon.png';
+import sheet from '../assets/sheet.png'
+import graph from '../assets/graph.png'
+import ygraph from '../assets/ygraph.png'
 
 import { abiValidation, 
   contractAddressValidation,
@@ -163,46 +167,178 @@ console.log(response.toJSON())
   
  <div className="w-96 h-96 relative bg-zinc-700">
   
+  <div className="w-96 h-96 relative">
+ 
+  <div className="w-[1122px] h-[546px] left-[418px] top-[280px] absolute justify-center items-center inline-flex">
+  <div className="w-[1122px] h-[546px] bg-white rounded-lg border border-zinc-300" />
+  <div className="w-96 left-[32px] top-[34px] absolute text-gray-800 text-lg font-bold font-['Mulish'] tracking-wide">Today’s trends</div>
+  <div className="w-96 h-4 left-[32px] top-[64px] absolute text-gray-400 text-xs font-normal font-['Mulish'] leading-none tracking-tight">as of 25 May 2019, 09:41 PM</div>
+  </div>
+  
+  
+  <div className="w-44 h-4 left-[900px] top-[64px] absolute">
+    <div className="w-14 h-4 left-0 top-60 absolute">
+      <div className="w-4 h-px left-0 top-[8px] absolute flex-col justify-start items-start inline-flex" />
+      <div className="w-9 h-4 left-[24px] top-0 absolute text-gray-400 text-xs font-semibold font-['Mulish'] tracking-tight">Today</div>
+    </div>
+    <div className="w-20 h-4 left-[91px] top-60 absolute">
+      <div className="w-4 h-px left-0 top-[8px] absolute flex-col justify-start items-start inline-flex" />
+      <div className="w-14 h-4 left-[24px] top-0 absolute text-gray-400 text-xs font-semibold font-['Mulish'] tracking-tight">Yesterday</div>
+    </div>
+  </div>
+  <div className="w-96 h-96 left-[480px] top-[384px] absolute">
+    <div className="w-96 h-80 left-[300px] top-[19px] absolute">
+      <div className="w-96 h-px left-0 top-[336px] absolute justify-center items-center inline-flex" />
+      <div className="w-96 h-[5px] left-0 top-[280px] absolute justify-center items-center inline-flex" />
+      <div className="w-96 h-[6px] left-0 top-[224px] absolute justify-center items-center inline-flex" />
+      <div className="w-96 h-px left-0 top-[168px] absolute justify-center items-center inline-flex" />
+      <div className="w-96 h-px left-0 top-[112px] absolute justify-center items-center inline-flex" />
+      <div className="w-96 h-px left-0 top-[56px] absolute justify-center items-center inline-flex" />
+      <div className="w-96 h-px left-0 top-0 absolute justify-center items-center inline-flex" />
+    </div>
+    
+    <div className="w-px h-56 left-[414px] top-[134px] absolute" />
+    <div className="h-3 left-[-28.5px] top-[367px] absolute justify-center items-start gap-5 inline-flex">
+      <div className="w-1.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">0</div>
+      <div className="w-1.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">1</div>
+      <div className="w-1.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">2</div>
+      <div className="w-1.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">3</div>
+      <div className="w-1.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">4</div>
+      <div className="w-1.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">5</div>
+      <div className="w-1.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">6</div>
+      <div className="w-1.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">7</div>
+      <div className="w-1.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">8</div>
+      <div className="w-1.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">9</div>
+      <div className="w-3.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">10</div>
+      <div className="w-3.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">11</div>
+      <div className="w-3.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">12</div>
+      <div className="w-3.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">13</div>
+      <div className="w-3.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">14</div>
+      <div className="w-3.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">15</div>
+      <div className="w-3.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">16</div>
+      <div className="w-3.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">17</div>
+      <div className="w-3.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">18</div>
+      <div className="w-3.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">19</div>
+      <div className="w-3.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">20</div>
+      <div className="w-3.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">21</div>
+      <div className="w-3.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">22</div>
+      <div className="w-3.5 text-center text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">23</div>
+    </div>
+    <div className="left-[673px] top-0 absolute">
+      <div className="left-[7px] top-[336px] absolute text-right text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">0</div>
+      <div className="left-0 top-[280px] absolute text-right text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">10</div>
+      <div className="left-0 top-[224px] absolute text-right text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">20</div>
+      <div className="left-0 top-[168px] absolute text-right text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">30</div>
+      <div className="left-0 top-[112px] absolute text-right text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">40</div>
+      <div className="left-0 top-[56px] absolute text-right text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">50</div>
+      <div className="left-0 top-0 absolute text-right text-gray-400 text-xs font-normal font-['Mulish'] tracking-tight">60</div>
+    </div>
+    <div className="w-96 h-80 left-0 top-[19px] absolute">
+      <div className="w-96 h-80 left-0 top-0 absolute bg-stone-200" >
+      
+      {/* <img src={ygraph} alt="ygraph"/> */}
+      </div>
+      <div className="w-96 h-80 left-[-9.13px] top-[51.58px] absolute">
+        <div className="w-96 h-80 left-0 top-0 absolute"/>
+        <div>
+        <img src={graph} alt="graph"/>
+        </div>
+        <div className="top-0">
+        <img src={ygraph} alt="ygraph"/>
+        </div>
+        <div className="w-16 h-20 left-[300px] top-[1.42px] absolute">
+          <div className="w-6 h-6 left-[21px] top-[50px] absolute opacity-20 rounded-full border-2 border-blue-600" />
+          <div className="w-3.5 h-3.5 left-[26px] top-[55px] absolute bg-white rounded-full shadow border-4 border-blue-600" />
+          <div className="w-16 h-9 left-0 top-0 absolute">
+            <img className="w-16 h-9 left-[1px] top-[1px] absolute shadow border border-zinc-200" src={sheet} />
+            <div className="w-10 h-4 left-[10px] top-[5px] absolute text-center text-gray-800 text-sm font-semibold font-['Mulish'] leading-tight tracking-tight">38</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <div className="w-96 h-32 left-[285px] top-[128px] absolute justify-center items-start gap-7 inline-flex">
+  <div className="w-80 h-96 left-[1220px] top-[280px] absolute ">
+  <div className="border-l border-r border-gray-300 border-opacity-50 h-[546px] absolute right-70 top-0"></div>
+ 
+    <div className="w-72 left-[32px] top-[32px] absolute text-center text-gray-400 text-base font-semibold font-['Mulish'] leading-snug tracking-tight">Resolved</div>
+    <div className="w-72 left-[32px] top-[60px] absolute text-center text-gray-800 text-2xl font-bold font-['Mulish'] tracking-tight">449</div>
+    <div className="w-px h-96 left-0 top-0 absolute flex-col justify-center items-center inline-flex " />
+    <div className="w-80 h-px left-0 top-[114px] absolute justify-center items-center inline-flex" />
+    
+    <div className="w-72 left-[32px] top-[138px] absolute text-center text-gray-400 text-base font-semibold font-['Mulish'] leading-snug tracking-tight">Received</div>
+    <div className="w-72 left-[32px] top-[166px] absolute text-center text-gray-800 text-2xl font-bold font-['Mulish'] tracking-tight">426</div>
+    <div className="w-80 h-px left-0 top-[220px] absolute justify-center items-center inline-flex" />
+    <div>
+      {/* Use the hr element with Tailwind CSS classes */}
+      <hr className="border-t-2 border-gray-300 my-[100px]" />
+    </div>
+    <div className="w-72 left-[32px] top-[244px] absolute text-center text-gray-400 text-base font-semibold font-['Mulish'] leading-snug tracking-tight">Average first response time</div>
+    <div className="w-72 left-[32px] top-[272px] absolute text-center text-gray-800 text-2xl font-bold font-['Mulish'] tracking-tight">33m</div>
+    <div className="w-80 h-px left-0 top-[326px] absolute justify-center items-center inline-flex" />
+    <div>
+      {/* Use the hr element with Tailwind CSS classes */}
+      <hr className="border-t-2 border-gray-300 my-[100px]" />
+    </div>
+    <div className="w-72 left-[32px] top-[350px] absolute text-center text-gray-400 text-base font-semibold font-['Mulish'] leading-snug tracking-tight">Average response time</div>
+    <div className="w-72 left-[32px] top-[378px] absolute text-center text-gray-800 text-2xl font-bold font-['Mulish'] tracking-tight">3h 8m</div>
+    <div>
+      {/* Use the hr element with Tailwind CSS classes */}
+      <hr className="border-t-2 border-gray-300 my-[110px]" />
+    </div>
+    <div className="w-72 left-[32px] top-[456px] absolute text-center text-gray-400 text-base font-semibold font-['Mulish'] leading-snug tracking-tight">Resolution within SLA</div>
+    <div className="w-72 left-[32px] top-[484px] absolute text-center text-gray-800 text-2xl font-bold font-['Mulish'] tracking-tight">94%</div>
+    <div>
+      {/* Use the hr element with Tailwind CSS classes */}
+      <hr className="border-t-2 border-gray-300 my-[110px]" />
+    </div>
+    <div className="w-80 h-px left-0 top-[432px] absolute justify-center items-center inline-flex" />
+  
+  </div>
+</div>
+
+
+  <div className="w-96 h-32 left-[285px] top-[128px] absolute justify-start items-start gap-7 inline-flex">
     <div className="w-64 h-32 relative">
-      <div className="w-64 h-32 left-0 top-0 absolute justify-center items-center inline-flex">
+      <div className="w-64 h-32 left-[135px] top-0 absolute justify-center items-center inline-flex">
         <div className="w-64 h-32 bg-white rounded-lg border border-zinc-200" />
       </div>
-      <div className="w-48 left-[32px] top-[24px] absolute text-center text-gray-400 text-lg font-bold font-['Mulish'] tracking-wide">Unresolved</div>
-      <div className="w-48 left-[32px] top-[60px] absolute text-center text-gray-800 text-4xl font-bold font-['Mulish'] tracking-wide">60</div>
+      <div className="w-48 left-[170px] top-[24px] absolute text-center text-gray-400 text-lg font-bold font-['Mulish'] tracking-wide">Unresolved</div>
+      <div className="w-48 left-[170px] top-[60px] absolute text-center text-gray-800 text-4xl font-bold font-['Mulish'] tracking-wide">60</div>
     </div>
     <div className="w-64 h-32 relative">
-      <div className="w-64 h-32 left-0 top-0 absolute">
+      <div className="w-64 h-32 left-80 top-0 absolute">
         <div className="w-64 h-32 left-0 top-0 absolute rounded-lg border-2 border-indigo-100" />
         <div className="w-64 h-32 left-0 top-0 absolute bg-white rounded-lg border border-blue-600" />
       </div>
-      <div className="w-48 left-[32px] top-[24px] absolute text-center text-blue-600 text-lg font-bold font-['Mulish'] tracking-wide">Overdue</div>
-      <div className="w-48 left-[32px] top-[60px] absolute text-center text-blue-600 text-4xl font-bold font-['Mulish'] tracking-wide">16</div>
+      <div className="w-48 left-[340px] top-[24px] absolute text-center text-blue-600 text-lg font-bold font-['Mulish'] tracking-wide">Overdue</div>
+      <div className="w-48 left-[345px] top-[60px] absolute text-center text-blue-600 text-4xl font-bold font-['Mulish'] tracking-wide">16</div>
       <div className="w-4 h-4 left-[210px] top-[102px] absolute">
         <div className="w-3.5 h-4 left-[1px] top-[0.35px] absolute">
         </div>
       </div>
     </div>
     <div className="w-64 h-32 relative">
-      <div className="w-64 h-32 left-0 top-0 absolute justify-center items-center inline-flex">
+      <div className="w-64 h-32 left-[500px] top-0 absolute justify-center items-center inline-flex">
         <div className="w-64 h-32 bg-white rounded-lg border border-zinc-200" />
       </div>
-      <div className="w-48 left-[32px] top-[24px] absolute text-center text-gray-400 text-lg font-bold font-['Mulish'] tracking-wide">Open</div>
-      <div className="w-48 left-[32px] top-[60px] absolute text-center text-gray-800 text-4xl font-bold font-['Mulish'] tracking-wide">43</div>
+      <div className="w-48 left-[540px] top-[24px] absolute text-center text-gray-400 text-lg font-bold font-['Mulish'] tracking-wide">Open</div>
+      <div className="w-48 left-[540px] top-[60px] absolute text-center text-gray-800 text-4xl font-bold font-['Mulish'] tracking-wide">43</div>
     </div>
     <div className="w-64 h-32 relative">
-      <div className="w-64 h-32 left-0 top-0 absolute justify-center items-center inline-flex">
+      <div className="w-64 h-32 left-[690px] top-0 absolute justify-center items-center inline-flex">
         <div className="w-64 h-32 bg-white rounded-lg border border-zinc-200" />
       </div>
-      <div className="w-48 left-[32px] top-[24px] absolute text-center text-gray-400 text-lg font-bold font-['Mulish'] tracking-wide">On hold</div>
-      <div className="w-48 left-[32px] top-[60px] absolute text-center text-gray-800 text-4xl font-bold font-['Mulish'] tracking-wide">64</div>
+      <div className="w-48 left-[720px] top-[24px] absolute text-center text-gray-400 text-lg font-bold font-['Mulish'] tracking-wide">On hold</div>
+      <div className="w-48 left-[720px] top-[60px] absolute text-center text-gray-800 text-4xl font-bold font-['Mulish'] tracking-wide">64</div>
     </div>
   </div>
+
+
   <div className="w-96 h-11 left-[420px] top-[25px] absolute">
     <div className="w-11 h-11 left-[1078px] top-0 absolute">
       <div className="w-10 h-10 left-[1px] top-[2px] absolute">
-        <div className="w-10 h-10 right-45 top-0 absolute bg-stone-300 rounded-full" />
+        <div className="w-10 h-10 right-[77.8px] top-0 absolute bg-stone-300 rounded-full" />
         <img className="w-16 h-11 right-[77.8px] top-[-1.67px] absolute" src={header} />
       </div>
       <div className="w-11 h-11 right-20 top-0 absolute rounded-full border border-zinc-200" />
@@ -210,19 +346,21 @@ console.log(response.toJSON())
     <div className="w-28 h-4 left-[840px] top-[13px] absolute text-right text-gray-800 text-sm font-semibold font-['Mulish'] leading-tight tracking-tight">Jones Ferdinand</div>
     <div className="w-px h-8 left-[710px] top-[10px] absolute" />
     <div className="w-4 h-4 left-[720px] top-[10px] absolute">
-      <div className="w-1.5 h-1.5 left-[10px] top-[-1px] absolute bg-blue-600 rounded-full border border-slate-50" />
+      <div className="w-1.5 h-1.5 left-[12px] top-[-1px] absolute bg-blue-600 rounded-full border border-slate-50" >
+      <img src ={icon}/>
+      </div>
     </div>
     <div className="w-4 h-4 left-[735px] top-[10px] absolute">
       <div className="w-3.5 h-3.5 left-0 top-0 absolute">
         <div className="w-3 h-3 left-0 top-0 absolute rounded-full border border-neutral-300" >
-         
+         <img src={search}></img>
           </div>
       </div>
     </div>
     <div className="w-96 h-8 left-0 top-[6px] absolute text-gray-800 text-2xl font-bold font-['Mulish'] tracking-tight">Overview</div>
   </div>
 
-  <div className="w-64 h-96 left-0 top-0 absolute bg-zinc-700">
+  <div className="w-[394px] h-screen left-0 top-0 absolute bg-zinc-700">
   <div className="left-[76px] top-[41px] absolute opacity-70 text-gray-400 text-lg font-bold font-['Mulish'] tracking-wide">Dashboard</div>
   <div className="w-64 h-14 left-0 top-[128px] absolute">
     <div className="w-0.5 h-14 left-0 top-0 absolute bg-indigo-100" />
