@@ -9,7 +9,7 @@ import Navbar from '../components/Navbar';
 const Home = () => {
   return (
  
-    <section>
+
     <div className="bg-gray-100 min-h-screen">
       {/* Navbar */}
       <nav className="bg-white shadow-md">
@@ -50,7 +50,7 @@ const Home = () => {
         </div>
       </div>
       </div>
-    </section>
+  
 
   
      

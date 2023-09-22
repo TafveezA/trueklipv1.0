@@ -5,7 +5,7 @@ import{useEffect, useState} from "react";
 import { Web3Provider } from "@ethersproject/providers";
 import { JsonRpcProvider } from "ethers";
 // import { Link } from "react-router-dom";
-import logo from '../assets/logo.png';
+//import logo from '../assets/logo.svg';
 import overview from '../assets/overview.png'
 import settings from '../assets/settings.png'
 import articles from '../assets/articles.png'
@@ -25,8 +25,7 @@ import { abiValidation,
   contractAddressValidation,
 contractAddressSupplyChain,
 abiSupplyChain } from "../constants";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
+
 
 
 
@@ -415,7 +414,7 @@ console.log(response.toJSON())
   <div className="w-64 h-px left-0 top-[480px] absolute opacity-5" />
   <div className="w-8 h-8 left-[32px] top-[37px] absolute">
     <div className="w-8 h-8 left-0 top-0 absolute bg-blue-600 rounded-full" >
-    <img src={logo} alt ="logo"/> 
+    <img src="/logo.svg" alt ="logo"/> 
   </div>
   
 
