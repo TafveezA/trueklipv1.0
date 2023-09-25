@@ -532,6 +532,7 @@ client.disconnect()
 // error in the above fixes are require.
 
 
+//Marketplace APIs v1.0
 // mint product NFT on XRPL
 
 exports.mintCertificate = asyncHandler(async (req, res, next) => {
@@ -939,6 +940,7 @@ exports.acceptBuyOffer =asyncHandler(async(req,res,next)=>{
   client.disconnect()
 })// End of acceptBuyOffer()
 
+//@desc 
 
 exports.autoBridging = asyncHandler(async(req,res,next)=>{
 await client.connect()

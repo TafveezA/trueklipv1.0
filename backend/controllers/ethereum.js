@@ -47,33 +47,40 @@ exports.addProductDetails = asyncHandler(async(req,res,next)=>{
     const jsonString = JSON.stringify(jsonData);
     const secretKey = "mySecretKey12345";
     const encryptedData = CryptoJS.AES.encrypt(jsonString, secretKey).toString();
+    console.log("Private Key",privateKey)
 
 console.log('Encrypted Data:', encryptedData);
-let response = await contract.methods
-            .addProductEncryptedData(truklipid,encryptedData)
-            .send({ from: address, gas: 1000000 });
-console.log(response)
-// Sign the transaction
-Web3.eth.accounts.signTransaction(response, privateKey)
-  .then((signedTx) => {
-    // Send the signed transaction
-    Web3.eth.sendSignedTransaction(signedTx.rawTransaction)
-      .on('transactionHash', (txHash) => {
-        console.log('Transaction Hash:', txHash);
-      })
-      .on('receipt', (receipt) => {
-        console.log('Transaction Receipt:', receipt);
-      })
-      .on('error', (error) => {
-        console.error('Error sending transaction:', error);
-      });
-  })
-  .catch((error) => {
-    console.error('Error signing transaction:', error);
-  });
+
+
+  const encodedData = contract.methods.addProductEncryptedData(truklipid, encryptedData).encodeABI();
+
+  // Sign the transaction
+  web3.eth.accounts.signTransaction(
+    {
+      to: contractAddress,
+      data: encodedData,
+      gas: '100000', // You may need to adjust the gas limit
+    },
+    privateKey
+  )
+    .then((signedTx) => {
+      // Send the signed transaction
+      web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+        .on('receipt', (receipt) => {
+          console.log('Transaction receipt:', receipt);
+          // Transaction has been mined
+        })
+        .on('error', (error) => {
+          console.error('Transaction error:', error);
+        });
+    })
+    .catch((error) => {
+      console.error('Transaction signing error:', error);
+    });
+
 // Decrypt the encrypted data back to a JSON string
 console.log('Decrypted JSON:', decryptedJsonData);
-const encryptedDataFromBlockchain = await eosSupplyChainContract.methods.getProductEncrytedData(truklipid).call()
+const encryptedDataFromBlockchain = await contract.methods.getProductEncrytedData(truklipid).call()
 const bytes = CryptoJS.AES.decrypt(encryptedDataFromBlockchain, secretKey);
 const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
 
@@ -82,11 +89,7 @@ console.log('Decrypted Data:', decryptedData);
 // Parse the JSON string back to a JSON object
 const decryptedJsonData = JSON.parse(decryptedData);
 
-
-
-
- 
-    res.status(200).json({
+ res.status(200).json({
         success:true,
         valid:result,
         dataretrived:decryptedJsonData
