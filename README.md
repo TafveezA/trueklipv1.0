@@ -7,7 +7,10 @@ Try running some of the following tasks:
 
 In the project directory, you can run:
 
-### `npm run dev`
+```bash
+cd backend
+npm run dev
+```
 
 ## useful links:
 * https://nchaulet.github.io/node-geocoder/
