@@ -76,6 +76,9 @@ app.use('/api/eos/v1/validate',eos)
 const ethereum = require('./routes/ethereum')
 app.use('/ethapi/v1/validate',ethereum)
 
+const polygon = require('./routes/polygon')
+app.use('/polygonapi/v1/',polygon)
+
 const xrp = require('./routes/xrp')
 app.use('/api/v1/xrp/',xrp)
 
@@ -84,6 +87,8 @@ app.use('api/v1/generateqr',qrgenerator)
 
 const certificate = require('./routes/certificate')
 app.use('/api/v1/certificate',certificate)
+
+
 
 
 

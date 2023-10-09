@@ -1,5 +1,5 @@
 const express = require('express')
-const {validateProduct, addProduct, addProductDetails, addProductDetail} = require('../controllers/ethereum')
+const {addProductDetail} = require('../controllers/polygon')
 const router = express.Router()
 // router.route('/').get(validateProduct)
 //router.route('/product').post(addProductDetails)
