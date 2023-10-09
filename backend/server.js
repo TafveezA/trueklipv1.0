@@ -71,7 +71,7 @@ const auth = require('./routes/auth')
 app.use('/api/v1/auth',auth)
 
 const eos = require('./routes/eos')
-app.use('/api/eos/v1/validate',eos)
+app.use('/eosapi/v1/validate',eos)
 
 const ethereum = require('./routes/ethereum')
 app.use('/ethapi/v1/validate',ethereum)

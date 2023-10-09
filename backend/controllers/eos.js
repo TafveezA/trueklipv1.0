@@ -5,7 +5,7 @@ const dotenv = require('dotenv')
 const CryptoJS = require('crypto-js');
 
 dotenv.config({path:'../config/config.env'})
-const{Web3}=require("web3")
+
 
 const eosjs = require('eosjs');
 const { Api, JsonRpc, RpcError } = eosjs;
@@ -15,17 +15,31 @@ const { TextEncoder, TextDecoder } = require('util');
 
 
 
-const privateKey = process.env.PRIVATE_KEY; 
-const supplychainABI = require("../config/validationABI.json")
-const Product = require('../models/productModel.js')
+//const privateKey = process.env.PRIVATE_KEY; 
+//const supplychainABI = require("../config/validationABI.json")
 const EOS_RPC_URL=process.env.EOS_RPC_URL;
-const EOS_PROVIDER = new Web3(EOS_RPC_URL)
-const abiSupplyChain =supplychainABI
+//const abiSupplyChain =supplychainABI
 const eoscontractAddress = process.env.EOS_SUPPLYCHAIN_CONTRACT_ADDRESS
 
+const ethers = require('ethers')
+const { BigNumber } = require('bignumber.js');
 
-console.log(privateKey)
-const eosSupplyChainContract = new EOS_PROVIDER.eth.Contract(abiSupplyChain,eoscontractAddress);
+
+const ABI= require("../config/validationABI.json")
+
+
+
+const ALCHEMY_RPC_URL_SEPOLIA=EOS_RPC_URL
+const PRIVATE_KEY=process.env.PRIVATE_KEY;
+const CONTRACT_VALIDATION_ADDRESS='0x52667A019f91831139D22a5F3C80af42dbA0228C'
+
+const provider = new ethers.providers.JsonRpcProvider(ALCHEMY_RPC_URL_SEPOLIA);
+const signer = new ethers.Wallet(PRIVATE_KEY, provider);
+const contractInstance = new ethers.Contract(CONTRACT_VALIDATION_ADDRESS, ABI, signer);
+
+
+
+//const eosSupplyChainContract = new EOS_PROVIDER.eth.Contract(abiSupplyChain,eoscontractAddress);
 
 
 
@@ -37,65 +51,24 @@ const eosSupplyChainContract = new EOS_PROVIDER.eth.Contract(abiSupplyChain,eosc
 
 exports.validateProductOnEOS = asyncHandler(async(req,res,next)=>{
     const {truklipid} = req.body
-    const result = await eosSupplyChainContract.methods.validationResult(truklipid).call()
-    console.log(result)
+    const tx = await contractInstance.validationResult(truklipid)
+  
+    console.log(tx)
     res.status(200).json({
         success:true,
-        valid:result,
+        valid:tx,
     })
 })
 
 exports.addProductOnEOS = asyncHandler(async(req,res,next)=>{
-    
-    const jsonData = req.body
-    const truklipid=jsonData._truklipid;
-    const jsonString = JSON.stringify(jsonData);
-    const secretKey = "mySecretKey12345";
-    const encryptedData = CryptoJS.AES.encrypt(jsonString, secretKey).toString();
+  
+  const tx = await contractInstance.addProduct('b');
+  await tx.wait();
 
-console.log('Encrypted Data:', encryptedData);
-let response = await eosSupplyChainContract.methods
-            .addProductEncryptedData(truklipid,encryptedData)
-            .send({ from: address, gas: 1000000 });
-console.log(response)
-// Sign the transaction
-Web3.eth.accounts.signTransaction(response, privateKey)
-  .then((signedTx) => {
-    // Send the signed transaction
-    Web3.eth.sendSignedTransaction(signedTx.rawTransaction)
-      .on('transactionHash', (txHash) => {
-        console.log('Transaction Hash:', txHash);
-      })
-      .on('receipt', (receipt) => {
-        console.log('Transaction Receipt:', receipt);
-      })
-      .on('error', (error) => {
-        console.error('Error sending transaction:', error);
-      });
-  })
-  .catch((error) => {
-    console.error('Error signing transaction:', error);
+  res.status(200).json({
+     success: true,
+     transaction: tx
   });
-// Decrypt the encrypted data back to a JSON string
-console.log('Decrypted JSON:', decryptedJsonData);
-const encryptedDataFromBlockchain = await eosSupplyChainContract.methods.getProductEncrytedData(truklipid).call()
-const bytes = CryptoJS.AES.decrypt(encryptedDataFromBlockchain, secretKey);
-const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
-
-console.log('Decrypted Data:', decryptedData);
-
-// Parse the JSON string back to a JSON object
-const decryptedJsonData = JSON.parse(decryptedData);
-
-
-
-
- 
-    res.status(200).json({
-        success:true,
-        valid:result,
-        dataretrived:decryptedJsonData
-    })
 })
 
 
@@ -106,7 +79,7 @@ const decryptedJsonData = JSON.parse(decryptedData);
 const rpc = new JsonRpc(process.env.EOS_RPC_URL, { fetch });
 
 // Create an instance of the EOS contract
-const SupplyChainContract = process.env.EOS_SUPPLYCHAIN_CONTRACT_ADDRESS; // Replace with your contract account name
+// const SupplyChainContract = process.env.EOS_SUPPLYCHAIN_CONTRACT_ADDRESS; 
 
 exports.addProduct = async (req, res, next) => {
   try {
