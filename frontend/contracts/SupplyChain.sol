@@ -25,6 +25,7 @@ contract Tracking {
 
  
     mapping(uint256=>Status) public trackShippingStatus;
+    event statusChange(uint256 _truKlipId ,Status _status);
 
 
     function getStatus(uint256 _truKlipId) public view returns (Status) {
@@ -38,6 +39,7 @@ contract Tracking {
 
     function setStatus(uint256 _truKlipId,Status _shippingStatus)onlyFactory(_truKlipId) public {
         trackShippingStatus[_truKlipId] = _shippingStatus;
+        emit statusChange(_truKlipId, _shippingStatus);
     }
 
      function setStation(uint256 _truKlipId,Station _productStation) public {
@@ -98,7 +100,7 @@ function registerDestributor(uint256 _distributorId,address _destributorAddress)
 }
 
 
-
+event productManufactured(uint256 _truklipId,address _byManufacturer  );
 
 struct Product{
     string certificate;
@@ -162,9 +164,13 @@ bool _isConsumable
 
     })
     });
+emit productManufactured(_truklipId, msg.sender);
 truklipId++;
 
+
 }
+
+event productDistributed(uint256 _truklipId,address _toDistributor);
 
 struct Distributor{
 uint256 truklipId;
@@ -182,11 +188,11 @@ productsMapping[_truklip].distributorDetails= Distributor({
     hssCode:_hssCode,
     barcode:_barcode
 });
+emit productDistributed(_truklip,msg.sender);
 
 }
 
-
-
+event productRetailed(uint256 _truklip,address _toRetailer);
 struct Retailer{
     uint256 truklipId;
     uint256 recieveDate;
@@ -210,6 +216,7 @@ productsMapping[_truklipId].retailerDetail = Retailer({
     orderNumber:_orderNumber,
     retailerAddress:msg.sender
 });
+emit productRetailed(_truklipId, msg.sender);
 }
 
 
@@ -244,7 +251,7 @@ mapping(uint256=>Customer) customersDetails;
 }
 
    modifier onlyProducer(uint256 _producerId){
-    require(true == registeredProducer[_producerId][msg.sender],"only admin can register a PRODUCER");
+    require(true == registeredProducer[_producerId][msg.sender],"only producer can add a Product");
     _;
 }
 

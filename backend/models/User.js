@@ -18,7 +18,7 @@ const userSchema =mongoose.Schema({
     },
     role:{
         type: String,
-        enum :['user','producer','admin'],
+        enum :['user','producer','admin','customer','retailer','distributor'],
         default:'user'
     },
     password:{

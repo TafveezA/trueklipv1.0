@@ -9,14 +9,12 @@ const {getNet} = require('../utils/getNet')
 const { response } = require('../server')
 const { BigNumber } = require('bignumber.js');
 
-// ...
 
-// Example usage:
 const value1 = new BigNumber('123.456789');
 const value2 = new BigNumber('987.654321');
 
 const sum = value1.plus(value2);
-console.log(sum.toString()); // Output: 1111.11111
+console.log(sum.toString()); 
 
 
 
@@ -821,9 +819,7 @@ res.json(response)
   client.disconnect()
 })// End of cancelOffer()
 
-// *******************************************************
-// **************** Operational Get Offers ***************
-// *******************************************************
+
 
 exports.getOffers = asyncHandler(async(req,res,next)=>{
 
@@ -896,9 +892,7 @@ exports.acceptSellOffer = asyncHandler(async(req,res,next)=>{
 
 // End of acceptSellOffer()
 
-// *******************************************************
-// ********* Operational Accept Buy Offer ****************
-// *******************************************************
+
 
 
 // @desc  accept Buy Offer
