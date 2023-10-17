@@ -5,11 +5,19 @@ Try running some of the following tasks:
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory, to start backend:
 
 ```bash
 cd backend
+npm i
 npm run dev
+```
+In the project directory, to start frontend:
+
+```bash
+cd frontend
+npm i
+npm start
 ```
 
 ## useful links:
