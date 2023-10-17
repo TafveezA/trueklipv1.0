@@ -33,7 +33,7 @@ function NFTMarketplace(){
     <div className="bg-gray-100 min-h-screen">
       <header className="bg-white shadow-md">
         <div className="container mx-auto py-4 px-8">
-          <h1 className="text-2xl font-bold text-gray-800">Ownership NFT</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Ownership NFT</h1>
         </div>
       </header>
       <main className="container mx-auto py-8 px-8">

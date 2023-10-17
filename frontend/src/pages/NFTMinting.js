@@ -75,8 +75,8 @@ function NFTMinting(){
      
       try {
         const provider = new Web3Provider(window.ethereum)
-        const signer = await provider.getSigner()
-        const address=await signer.getAddress()
+        const signer =  provider.getSigner()
+        const address= await signer.getAddress()
         console.log(await signer.getAddress())
         const contract = new ethers.Contract(CONTRACT_ADDRESS, CERTIFICATION_ABI,signer)
       const metadata= {
@@ -112,9 +112,9 @@ function NFTMinting(){
 
 
     return(
-      <div className="p-8 bg-white shadow-md rounded-lg">
-      <h1 className="text-2xl font-semibold mb-4">Mint an NFT Certificate</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="p-4 sm:p-6 md:p-8 bg-white shadow-md rounded-lg">
+      <h1 className="text-xl md:text-2xl font-semibold mb-4">Mint an NFT Certificate</h1>
+      <form onSubmit={handleSubmit} className="space-y-2">
         <div className="mb-4">
           <label htmlFor="productname" className="block text-gray-700 font-medium mb-2">
             Product Name
@@ -125,8 +125,7 @@ function NFTMinting(){
             name="productname"
             value={productName}
             onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
-            
+            className="border border-gray-300 rounded-lg px-2 md:px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
           />
         </div>
         <div className="mb-4">
@@ -139,11 +138,9 @@ function NFTMinting(){
             name="trueklipid"
             value={truklipId}
             onChange={handleIdChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
-            
+            className="border border-gray-300 rounded-lg px-2 md:px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
           />
         </div>
-      
         <div className="mb-4">
           <label htmlFor="description" className="block text-gray-700 font-medium mb-2">
             Description
@@ -153,9 +150,8 @@ function NFTMinting(){
             name="description"
             value={description}
             onChange={handleDescriptionChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 w-full resize-none focus:outline-none focus:ring focus:border-blue-300"
+            className="border border-gray-300 rounded-lg px-2 md:px-4 py-2 w-full resize-none focus:outline-none focus:ring focus:border-blue-300"
             rows="4"
-            
           />
         </div>
         <div className="mb-4">
@@ -167,7 +163,7 @@ function NFTMinting(){
             id="image"
             name="image"
             onChange={handleImageChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
+            className="border border-gray-300 rounded-lg px-2 md:px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
             accept="image/*"
             required
           />
@@ -180,6 +176,7 @@ function NFTMinting(){
         </button>
       </form>
     </div>
+    
     )
 }
 
