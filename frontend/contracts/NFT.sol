@@ -1013,7 +1013,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, Ownable {
         address from,
         address to,
         uint256 tokenId
-    ) public virtual override onlyOperator {
+    ) public virtual override {
         //solhint-disable-next-line max-line-length
         require(
             _isApprovedOrOwner(_msgSender(), tokenId),
@@ -1172,7 +1172,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, Ownable {
         address from,
         address to,
         uint256 tokenId
-    ) internal virtual onlyOperator {
+    ) internal virtual {
         require(
             ERC721.ownerOf(tokenId) == from,
             "ERC721: transfer from incorrect owner"
@@ -1310,7 +1310,7 @@ abstract contract ERC721Burnable is Context, ERC721 {
 pragma solidity ^0.8.9;
 
 // import "@openzeppelin/contracts@4.8.1/token/ERC721/extensions/ERC721URIStorage.sol";
-// TRUklip NFT version V1.0
+
 contract NFT is ERC721, ERC721Burnable {
     uint256 public totalSupply;
     uint256 public mintCount;
