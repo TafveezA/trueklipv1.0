@@ -5,6 +5,47 @@ import { abiCertification, contractAddressCertification } from "./constants";
 const CERTIFICATION_ABI = abiCertification;
 const CONTRACT_ADDRESS = contractAddressCertification;
 
+const ethers = require('ethers')
+
+
+const loadAccount = async(provider, dispatch) => {
+    
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
+    const account = ethers.utils.getAddress(accounts[0])
+    dispatch({ type: 'ACCOUNT_LOADED', account })
+
+    let balance = await provider.getBalance(account)
+    balance = ethers.utils.formatEther(balance)
+    dispatch({ type: 'ETHER_BALANCE_LOADED', balance})
+
+    return account
+}
+
+const loadProvider = (dispatch) => {
+    
+    const connection = new ethers.providers.Web3Provider(window.ethereum)
+    
+    dispatch({ type: 'PROVIDER_LOADED', connection })
+    return connection
+}
+const loadNetwork = async(provider, dispatch) => {
+    
+    const { chainId } = await provider.getNetwork()
+    
+    dispatch({ type: 'NETWORK_LOADED', chainId })
+    return chainId
+}
+
+
+
+
+
+
+
+
+
+
+
 const connect = async () => {
   try {
     if (typeof window.ethereum !== "undefined") {
@@ -43,4 +84,4 @@ const mintNFT = async (productName, truklipId, description, image, imageUrl) => 
   }
 };
 
-export { mintNFT, connect };
+export { loadAccount,loadProvider,loadNetwork, mintNFT, connect };

@@ -1310,7 +1310,7 @@ abstract contract ERC721Burnable is Context, ERC721 {
 pragma solidity ^0.8.9;
 
 // import "@openzeppelin/contracts@4.8.1/token/ERC721/extensions/ERC721URIStorage.sol";
-
+// TRUklip NFT version V1.0
 contract NFT is ERC721, ERC721Burnable {
     uint256 public totalSupply;
     uint256 public mintCount;

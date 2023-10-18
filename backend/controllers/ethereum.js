@@ -7,6 +7,7 @@ const ethers = require('ethers')
 const { BigNumber } = require('bignumber.js');
 const CryptoJS = require('crypto-js');
 const ABI= require("../config/validationABI.json")
+const NFT_ABI = require("../config/nftCertificateABI.json")
 
 
 
@@ -17,6 +18,7 @@ const CONTRACT_VALIDATION_ADDRESS=process.env.CONTRACT_ADDRESS_VALIDATION
 const provider = new ethers.providers.JsonRpcProvider(ALCHEMY_RPC_URL_SEPOLIA);
 const signer = new ethers.Wallet(PRIVATE_KEY, provider);
 const contractInstance = new ethers.Contract(CONTRACT_VALIDATION_ADDRESS, ABI, signer);
+const nftContractInstance  = new ethers.Contract("0x6e5f09ff3817af68BfAd093f21Ce7f912b7F1839",NFT_ABI,signer)
 console.log(ALCHEMY_RPC_URL_SEPOLIA)
 // INFURA_RPC_PROVIDER='https://sepolia.infura.io/v3/12d8279bb5a04bbabc47862d11820722'
 
@@ -96,4 +98,37 @@ exports.addProductDetails = asyncHandler(async(req,res,next)=>{
     data:decryptedJsonData
   });
   
+})
+
+
+//nft will be minted at pos during purchase 
+exports.mintNFT = asyncHandler(async(req,res,next)=>{
+  const {address,tokenId,truklipid} = req.body;
+  console.log(address,tokenId,truklipid)
+  const result = await nftContractInstance.safeMint("https://ipfs.truklip.com",signer.getAddress());
+  await result.wait()
+  res.status(200).json({
+    trueklipid:truklipid,
+    success:true,
+    result:result
+  })
+})
+
+// trkuklip certificate tranfer
+//mostly this will be from the frontend
+exports.transferCertificate = asyncHandler(async(req,res,next)=>{
+  const {toaddress,tokenid,truklipid} = req.body;
+  console.log(toaddress,tokenid,truklipid)
+  const approve = await nftContractInstance.approve("0x78586e9017cda27E062A21F1589aFda018D7674F",tokenid)
+  await approve.wait()
+  const result = await nftContractInstance.transferFrom(signer.getAddress(),"0x78586e9017cda27E062A21F1589aFda018D7674F",tokenid)
+  await result.wait()
+ res.status(200).json({
+  truklipid:truklipid,
+  toaddress:toaddress,
+  result:result
+ })
+
+  
+
 })
