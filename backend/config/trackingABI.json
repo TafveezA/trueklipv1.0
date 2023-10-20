@@ -145,6 +145,68 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_truklipId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_toDistributor",
+				"type": "address"
+			}
+		],
+		"name": "productDistributed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_truklipId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_byManufacturer",
+				"type": "address"
+			}
+		],
+		"name": "productManufactured",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_truklip",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_toRetailer",
+				"type": "address"
+			}
+		],
+		"name": "productRetailed",
+		"type": "event"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -261,9 +323,23 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_truKlipId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "enum Tracking.Status",
+				"name": "_status",
+				"type": "uint8"
+			}
+		],
+		"name": "statusChange",
+		"type": "event"
 	},
 	{
 		"inputs": [],
