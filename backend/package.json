@@ -33,6 +33,7 @@
     "mongodb": "^5.7.0",
     "mongoose": "^7.3.2",
     "morgan": "^1.10.0",
+    "nanoid": "^5.0.2",
     "node-geocoder": "^4.2.0",
     "parcel-bundler": "^1.12.5",
     "puppeteer": "^21.1.0",

@@ -126,7 +126,7 @@ exports.addProductManufacturer = asyncHandler(async(req,res,next)=>{
   const { productdetails,truklipid } = req.body
 
 
-  const manufacturerResponse = await trackingContractInstance.setStation(truklipid,0)
+  const manufacturerResponse = await trackingContractInstance.setStation(truklipid,1)
   await manufacturerResponse.wait()
   //const manufacturerResponse = await contractInstance.getProductEncryptedData(truklipid);
  const manufactured =true;
@@ -144,7 +144,7 @@ exports.addProductDistributor = asyncHandler(async(req,res,next)=>{
   console.log(productdetails,truklipid)
 
 
-  const distributorResponse = await trackingContractInstance.setStation(truklipid,1)
+  const distributorResponse = await trackingContractInstance.setStation(truklipid,2)
   await distributorResponse.wait()
   //const manufacturerResponse = await contractInstance.getProductEncryptedData(truklipid);
  const distributed =true;
@@ -161,7 +161,7 @@ exports.addProductRetailer = asyncHandler(async(req,res,next)=>{
   const { productdetails,truklipid } = req.body
   console.log(productdetails,truklipid)
 
-  const retailerResponse = await trackingContractInstance.setStation(truklipid,2)
+  const retailerResponse = await trackingContractInstance.setStation(truklipid,3)
   await retailerResponse.wait()
   //const manufacturerResponse = await contractInstance.getProductEncryptedData(truklipid);
  const retailed =true;
@@ -174,17 +174,40 @@ exports.addProductRetailer = asyncHandler(async(req,res,next)=>{
   
 })
 
+
+exports.addProductCustomer = asyncHandler(async(req,res,next)=>{
+  const { productdetails,truklipid } = req.body
+  console.log(productdetails,truklipid)
+
+  const customerResponse = await trackingContractInstance.setStation(truklipid,3)
+  await customerResponse.wait()
+  //const manufacturerResponse = await contractInstance.getProductEncryptedData(truklipid);
+ const reachedCustomer =true;
+  
+  res.status(200).json({
+    success: true,
+    data:customerResponse,
+    productwithcustomer:reachedCustomer,
+  });
+  
+})
+
 exports.getStation = asyncHandler(async(req,res,next)=>{
   const {truklipid} = req.body
+  console.log(truklipid)
   const station = await trackingContractInstance.getStation(truklipid)
   let stationStatus =" "
   if(station === 0){
-   stationStatus="Manufactured"
-  }else if(station === 1){
+   stationStatus="Not yet Manufactured or Not a truklip product"
+  }
+  else if(station === 1){
+    stationStatus ="Manufactured"
+  } 
+  else if(station === 2){
     stationStatus ="Distributed"
-  } else if (station ===2){
+  } else if (station ===3){
     stationStatus = "Retailed"
-  } else if(station ===3 ){
+  } else if(station ===4 ){
     stationStatus = "withCustomer"
   }
   res.status(200).json({station,stationStatus})
