@@ -1,6 +1,6 @@
-
 import React from 'react';
-import logo from '../logo.svg';
+// Assuming the logo is in the same directory as your component
+import logo from '../logo.svg';  // Adjust the path accordingly
 
 const Footer = () => {
   return (
@@ -13,6 +13,7 @@ const Footer = () => {
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;
+

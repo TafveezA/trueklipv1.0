@@ -15,9 +15,9 @@ import NFTMinting from './pages/NFTMinting';
 import Distributor from "./pages/Distributor";
 import Retailer from "./pages/Retailer";
 import Home from "./pages/Home";
-import Footer from "./components/Footer";
-import { Navbar } from "./components";
-// import Footer from "./components/Footer";
+import Temp from "./pages/Temp";
+
+
 
 
 
@@ -45,6 +45,8 @@ function App() {
     <Route path = '/manufacturer' element ={<Producer/>}/>
     <Route path = '/distributor' element ={<Distributor/>}/>
     <Route path = '/retailer' element ={<Retailer/>}/>
+    <Route path = '/ocr' element ={<Temp/>}/>
+
     {/* <Route path = '/forex' element ={<ForexApp/>}/> */}
     
     
