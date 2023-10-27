@@ -1,5 +1,5 @@
 # MVP Trueklip Project
-![validation page](./logo.svg)
+![validation page](./FrontFront.png)
 
 Try running some of the following tasks:
 
