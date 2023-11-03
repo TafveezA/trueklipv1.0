@@ -1,6 +1,7 @@
 import React from "react";
 // import * as IPFS from 'ipfs-core';
 import { abiCertification,contractAddressCertification,IPFS_INFURAPROJECT_ID,IPFS_PRIVATE_KEY } from "../constants";
+import { loadNetwork,loadAccount,loadProvider } from "../utils/interact";
 import { useState } from "react";
 //import { ethers } from "ethers";
 import { Web3Provider } from "@ethersproject/providers";

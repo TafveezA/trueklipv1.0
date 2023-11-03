@@ -1,11 +1,8 @@
 import{useEffect, useState} from "react";
 
-//import env from "react-dotenv";
-
 import { Web3Provider } from "@ethersproject/providers";
 import { JsonRpcProvider } from "ethers";
-// import { Link } from "react-router-dom";
-//import logo from '../assets/logo.svg';
+
 import overview from '../assets/overview.png'
 import settings from '../assets/settings.png'
 import articles from '../assets/articles.png'
@@ -50,12 +47,6 @@ console.log("decrypted data",decrypted.toString(CryptoJS.enc.Utf8))
 console.log("decrypted JSON data ",JSON.parse(decrypted.toString(CryptoJS.enc.Utf8)))
 
 
-
-// const bytes = new decrypted; // Example bytes
-// const decoder = new TextDecoder();
-// const text = decoder.decode(bytes);
-
-// console.log("Stringify data",text);
 
 
 
