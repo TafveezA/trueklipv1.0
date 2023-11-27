@@ -1,3 +1,6 @@
+//kindly skip this it's sample for the testing of smart contracts.
+
+
 const {
   time,
   loadFixture,

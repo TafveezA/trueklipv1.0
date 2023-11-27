@@ -151,5 +151,22 @@
         "createdAt": "2023-08-31T09:17:24.476Z",
         "updatedAt": "2023-08-31T09:17:24.476Z",
         "__v": 0
+    },
+    {
+        "truklipid": "T516I93",
+        "brandName": "Althair",
+        "producedBy": "Parfums de Marly Paris",
+        "manufacturedDate": "28-Oct-2022",
+        "currentRetailerLocation": "DXB MALL-STORE",
+        "bestBefore": "28-Nov-2026",
+        "productType": "NonConsumable",
+        "batchNo": "LOT 3213094",
+        "lotCount": 1,
+        "serialNo": "#NPM2900PV",
+        "imei": "#23456789876543",
+        "_id": "65644b45e1f27c811caba766",
+        "createdAt": "2023-11-27T07:54:45.845Z",
+        "updatedAt": "2023-11-27T07:54:45.845Z",
+        "__v": 0
     }
 ]
