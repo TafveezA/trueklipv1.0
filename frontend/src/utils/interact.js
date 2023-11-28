@@ -1,11 +1,10 @@
 import { Web3Provider } from "@ethersproject/providers";
-import { ethers } from "ethers";
-import { abiCertification, contractAddressCertification } from "./constants";
-
+//import { ethers } from "ethers";
+import { abiCertification, contractAddressCertification } from "../constants";
+const ethers = require('ethers')
 const CERTIFICATION_ABI = abiCertification;
 const CONTRACT_ADDRESS = contractAddressCertification;
 
-const ethers = require('ethers')
 
 
 export const loadAccount = async(provider, dispatch) => {
@@ -84,4 +83,4 @@ const mintNFT = async (productName, truklipId, description, image, imageUrl) => 
   }
 };
 
-export { loadAccount,loadProvider,loadNetwork, mintNFT, connect };
+//export {loadAccount,loadProvider,loadNetwork, mintNFT, connect };
