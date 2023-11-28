@@ -55,11 +55,11 @@ exports.getProduct = asyncHandler(async(req,res,next)=>{
 // @route POST /api/v1/products
 // @access Private
 exports.createProduct = asyncHandler(async(req,res,next)=>{
-                   // Add user to req,body
+              
                    console.log(req.user.id)
                     req.body.user = req.user.id
                    
-                  //check for produced product
+                 
                   const producedProduct = await Product.findOne({user:req.user.id})
                   if(producedProduct && req.user.role !== 'admin'){
                   return next(

@@ -1,9 +1,5 @@
 
-
-// import {Html5QrcodeScanner} from "html5-qrcode"
-//import{useEffect, useState} from "react";
-//import axios from 'axios'
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Producer from './pages/Producer';
 import Validation from './pages/Validation';
@@ -25,7 +21,6 @@ import Temp from "./pages/Temp";
 
 
 
-//console.log(process.env)
 
 function App() {
 

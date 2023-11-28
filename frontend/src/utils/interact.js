@@ -8,7 +8,7 @@ const CONTRACT_ADDRESS = contractAddressCertification;
 const ethers = require('ethers')
 
 
-const loadAccount = async(provider, dispatch) => {
+export const loadAccount = async(provider, dispatch) => {
     
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
     const account = ethers.utils.getAddress(accounts[0])
@@ -21,14 +21,14 @@ const loadAccount = async(provider, dispatch) => {
     return account
 }
 
-const loadProvider = (dispatch) => {
+export const loadProvider = (dispatch) => {
     
     const connection = new ethers.providers.Web3Provider(window.ethereum)
     
     dispatch({ type: 'PROVIDER_LOADED', connection })
     return connection
 }
-const loadNetwork = async(provider, dispatch) => {
+export const loadNetwork = async(provider, dispatch) => {
     
     const { chainId } = await provider.getNetwork()
     
